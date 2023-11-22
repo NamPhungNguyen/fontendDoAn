@@ -1,16 +1,21 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-
     var storedUserInformation = localStorage.getItem('userInfo');
-
-    // Chuyển đổi chuỗi JSON thành đối tượng JavaScript
     var parsedUserInformation = JSON.parse(storedUserInformation);
 
-    // Truy cập giá trị của token từ đối tượng
     var token = parsedUserInformation.token;
+    var roleId = parsedUserInformation.roleId;
 
-    if (!token) {
+    if (!token || roleId !== 4) {
         window.location.href = "home.html";
     } else {
+        var username = parsedUserInformation.username; // Giả sử thông tin username được lưu trong userInfo
+
+        var userInfoElement = document.createElement('span');
+        userInfoElement.textContent = 'Welcome, ' + username; // Thông tin về người dùng
+
+        var userInfoContainer = document.getElementById('user-info');
+        userInfoContainer.appendChild(userInfoElement);
+
         fetch('https://localhost:7156/api/Login/Check', {
             method: 'GET',
             headers: {
@@ -19,15 +24,13 @@
                 //Thêm các header khác nếu cần
             },
         })
-            .then(response => {
-                if (response.ok!=true ) {
-                    window.location.href = "home.html";
-                }
-            })
-            .then(data => {
-            })
-            .catch(error => {
-                console.error("There was a problem with the fetch operation:", error);
-            });
+        .then(response => {
+            if (response.ok !== true) {
+                window.location.href = "home.html";
+            }
+        })
+        .catch(error => {
+            console.error("There was a problem with the fetch operation:", error);
+        });
     }
 });
