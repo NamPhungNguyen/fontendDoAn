@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Navigation</title>
+        <link rel="stylesheet" href="navCSS1.css">
+</head>
+<body>
+
+<header>
+    <h1>My Website</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+         <li class="dropdown">
+            <a>SignUp</a>
+            <div class="dropdown-content">
+                <a href="signup_driver.html">Signup Driver</a>
+                <a href="signup_customer.html">Signup Customer</a>
+            </div>
+        </li>
+        <li><a href="login.html">Login</a></li>
+    </ul>
+</nav>
+
+<!-- Your page content goes here -->
+<div align="center">
+    <div>
+        <div class="login-container col-4">
+            <h1 class="title-login">Đăng nhập</h1>
+            <form id="loginForm" method="post">
+                <input class="input" type="text" id="email" placeholder="Email hoặc email...">
+                <div class="input-2">
+                    <input class="input" type="password" id="password" placeholder="Password..." />
+                </div>
+                <a href="#" class="forgot-password">
+                    Quên mật khẩu?
+                </a>
+                <input type="button" value="Đăng nhập" onclick="login()" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function login() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+
+        // Gửi yêu cầu đăng nhập đến API
+        fetch('https://localhost:7156/api/Login/Loggingin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Lưu token vào localStorage hoặc sessionStorage
+                localStorage.setItem('userInfo', JSON.stringify(data));
+
+                // Xử lý dữ liệu trả về từ API sau khi đăng nhập thành công
+                console.log(data);
+
+                // Chuyển hướng hoặc thực hiện các thao tác khác sau khi đăng nhập thành công
+                if(data.roleId==3)
+                    window.location.href = 'driver_home.html';
+                else if (data.roleId == 4)
+                    window.location.href = 'customer_home.html';
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+</script>
+
+                
+</body>
+</html>

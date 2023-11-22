@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Navigation</title>
+    <link rel="stylesheet" href="navCSS1.css">
+</head>
+<body>
+
+    <!-- header-->
+    <script src="check_token.js"></script>
+    <header>
+        <h1>DRIVER</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="driver_home.html">Home</a></li>
+            <li><a href="driver_work.html">Work</a></li>
+            <li class="dropdown">
+                <a>Infor</a>
+                <div class="dropdown-content">
+                    <a href="driver_infor_view.html">Personal Infor</a>
+                    <a href="driver_vehicle_view.html">Vehicle</a>
+                </div>
+            </li>
+            <li><a href="logout.html">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Your page content goes here -->
+
+    <div align="center">
+        <form method="post">
+            <h1>Tìm kiếm đơn hàng</h1>
+            <table>
+                <tr>
+
+                    <td>Địa điểm đi : </td>
+                    <td>
+                        <select id="city">
+                            <option value="" selected>Chọn tỉnh thành</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="district">
+                            <option value="" selected>Chọn quận huyện</option>
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>Địa điểm đến : </td>
+                    <td>
+                        <select id="cityCome">
+                            <option value="" selected>Chọn tỉnh thành</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="districtCome">
+                            <option value="" selected>Chọn quận huyện</option>
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>Chọn xe : </td>
+                    <td>
+                        <select id="dynamicSelect">
+                            <option value="" selected>Chọn xe</option>
+                        </select>
+
+                    </td>
+
+
+                </tr>
+            </table>
+            <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px" />
+        </form>
+
+
+        <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
+        </div>
+    </div>
+    
+
+
+
+
+
+
+<script>
+        // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
+        function submitAndDisplay() {
+            // Lấy giá trị từ trường select
+            var selectedOviId = document.getElementById("dynamicSelect").value;
+            var selectedProGo = document.getElementById("city").value;
+            var selectedDisGo = document.getElementById("district").value;
+            var selectedProCome = document.getElementById("cityCome").value;
+            var selectedDisCome = document.getElementById("districtCome").value;
+
+            // Gửi dữ liệu lên API
+            fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    oviId: selectedOviId,
+                    disGo: selectedDisGo,
+                    proGo: selectedProGo,
+                    disCome: selectedDisCome,
+                    proCome: selectedProCome,
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    // Hiển thị kết quả trong div lớn
+                    displayResults(data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    // Xử lý lỗi nếu cần
+                });
+        }
+
+        // Hàm để hiển thị kết quả trong div lớn
+        function displayResults(results) {
+            // Lấy phần tử div lớn để chứa các div con
+            var resultContainer = document.getElementById("resultContainer");
+
+            // Xóa nội dung cũ của div lớn
+            resultContainer.innerHTML = "";
+
+            // Thêm dữ liệu mới từ kết quả API vào div lớn
+            results.forEach(result => {
+                var resultDiv = document.createElement("div");
+                resultDiv.classList.add("result-item");
+
+                // Thêm nội dung của mỗi item vào div con
+                resultDiv.innerHTML = `
+                <h3 align="center" style="color:white; background-color:gray">${result.orderName}</h3>
+                <p><strong>Ngày đi:</strong> ${result.orderedDate}</p>
+                <p><strong>Ngày đến:</strong> ${result.arrivedDate}</p>
+                <p><strong>Điểm đi:</strong> ${result.wardGo} - ${result.detailPositionGo}</p>
+                <p><strong>Điểm đến:</strong> ${result.wardCome} - ${result.detailPositionCome}</p>
+                <p><strong>Giá:</strong> ${result.totalAmount}</p>
+                <button>Xem chi tiết</button>
+            `;
+
+                //resultDiv.style.backgroundColor = "gray";
+                resultDiv.style.boxShadow = "5px 5px 10px rgba(0, 0, 0, 0.4)";
+                resultDiv.style.paddingLeft = "10px";
+                resultDiv.style.paddingRight = "10px";
+                resultDiv.style.paddingBottom = "15px";
+                resultDiv.align = "center";
+                // Thêm thuộc tính data-attribute với giá trị là oviId
+                resultDiv.setAttribute("data-oviId", result.oviId);
+                // Thêm div con vào div lớn
+                resultContainer.appendChild(resultDiv);
+            });
+        }
+
+        // Gọi hàm để tải tùy chọn khi trang được tải
+        document.addEventListener("DOMContentLoaded", function () {
+            populateSelect();
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        // Hàm để gọi API và cập nhật trường select
+        function populateSelect() {
+            // Thực hiện yêu cầu GET đến API để lấy danh sách tùy chọn
+            fetch("https://localhost:7156/api/Driver/GetVehicleList?driverId=" + JSON.parse(localStorage.getItem('userInfo')).id)
+                .then(response => response.json())
+                .then(data => {
+                    // Lấy phần tử select
+                    var selectElement = document.getElementById("dynamicSelect");
+
+                    // Xóa các tùy chọn hiện tại
+                    selectElement.innerHTML = "";
+
+                    // Thêm tùy chọn mới từ dữ liệu nhận được từ API
+                    data.forEach(vehicle => {
+                        var optionElement = document.createElement("option");
+                        optionElement.value = vehicle.oviId;
+                        optionElement.textContent = vehicle.description;
+                        selectElement.appendChild(optionElement);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    // Xử lý lỗi nếu cần
+                });
+        }
+
+        // Gọi hàm để tải tùy chọn khi trang được tải
+        document.addEventListener("DOMContentLoaded", function () {
+            populateSelect();
+        });
+    </script>
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        const host = "https://provinces.open-api.vn/api/";
+
+        var callAPI = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data, "city");
+                });
+        }
+
+        var callAPICome = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data, "cityCome");
+                });
+        }
+
+        callAPI('https://provinces.open-api.vn/api/?depth=1');
+
+        callAPICome('https://provinces.open-api.vn/api/?depth=1');
+
+        var callApiDistrict = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.districts, "district");
+                });
+        }
+
+        var callApiDistrictCome = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.districts, "districtCome");
+                });
+        }
+
+        var renderData = (array, select) => {
+            let row = ' <option disable value="">Chọn</option>';
+            array.forEach(element => {
+                row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+            });
+            document.querySelector("#" + select).innerHTML = row
+        }
+
+        var renderDataCome = (array, select) => {
+            let row = ' <option disable value="">Chọn</option>';
+            array.forEach(element => {
+                row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+            });
+            document.querySelector("#" + select).innerHTML = row
+        }
+
+        $("#city").change(() => {
+            callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+            printResult();
+        });
+
+        $("#cityCome").change(() => {
+            callApiDistrictCome(host + "p/" + $("#cityCome").find(':selected').data('id') + "?depth=2");
+            printResult();
+        });
+
+        $("#district").change(() => {
+            printResult();
+        })
+
+        $("#districtCome").change(() => {
+            printResult();
+        })
+    </script>
+
+
+
+
+
+
+</body>
+</html>

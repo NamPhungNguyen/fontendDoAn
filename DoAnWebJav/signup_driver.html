@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Navigation</title>
+        <link rel="stylesheet" href="navCSS1.css">
+</head>
+<body>
+
+<header>
+    <h1>My Website</h1>
+</header>
+
+<nav>
+    <ul>
+    <li><a href="home.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+     <li class="dropdown">
+        <a>SignUp</a>
+        <div class="dropdown-content">
+                <a href="signup_driver.html">Signup Driver</a>
+                <a href="signup_customer.html">Signup Customer</a>
+        </div>
+    </li>
+    <li><a href="login.html">Login</a></li>
+</ul>
+</nav>
+
+<!-- Your page content goes here -->
+    <div align="center">
+        <h1>Đăng ký tài xế</h1>
+
+        <main>
+            <form method="post" id="signupForm">
+                <table>
+                    <tr>
+                        <td>Họ và Tên</td>
+                        <td><input type="text" name="fullName" id="fullName" placeholder="Ví dụ: Nguyễn Văn A" /></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="email" name="email" id="email" placeholder="Ví dụ: abcd@example.com" autocomplete="on"/></td>
+                    </tr>
+                    <tr>
+                        <td>Số điện thoại</td>
+                        <td><input type="tel" name="phoneNumber" id="phoneNumber" placeholder="Ví dụ: 0912345678" /></td>
+                    </tr>
+                    <tr>
+                        <td>Ngày sinh</td>
+                        <td><input type="date" name="date_of_birth" id="birthday" /></td>
+                    </tr>
+                    <tr>
+                        <td>Giới tính</td>
+                        <td>
+                            <input type="radio" name="gender" id="gender1" value='true'>
+                            Nam
+                            <input type="radio" name="gender" id="gender2" value='false'>
+                            Nữ
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mật khẩu</td>
+                        <td><input type="password" name="password" id="password" placeholder="Mật khẩu phải có ít nhất 8 ký tự" /></td>
+                    </tr>
+                    <tr>
+                        <td>Xác nhận mật khẩu</td>
+                        <td><input type="password" name="confirm_password" id="confirm_password" placeholder="Xác nhận lại mật khẩu" /></td>
+                    </tr>
+                </table>
+
+                <div>
+                    <input type="button" value="Đăng ký" onclick="signup()" />
+                </div>
+            </form>
+        </main>
+    </div>
+
+
+
+<script>
+        function signup() 
+        {
+            // Lấy giá trị từ các trường form
+            var fullName = document.getElementById("fullName").value;
+            var email = document.getElementById("email").value;
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            var dateOfBirth = document.getElementById("birthday").value;
+            var gender = document.getElementsByName("gender").value;
+            var password = document.getElementById("password").value;
+            var timestampInMilliseconds = Date.UTC();
+
+            // Thực hiện yêu cầu POST sử dụng fetch
+            fetch("https://localhost:7156/api/SignIn/driver", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    fullName: fullName,
+                    birthday: dateOfBirth,
+                    gender: gender,
+                    phoneNumber: phoneNumber,
+                    status: true,
+                    able: true,
+                    roleId: 3,
+                    dateCreatedAccount: timestampInMilliseconds,
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Xử lý phản hồi từ server nếu cần
+                    console.log(data);
+                    window.location.href = 'login.html';
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    // Xử lý lỗi nếu cần
+                });
+        }
+    </script>
+    
+
+
+</body>
+</html>
