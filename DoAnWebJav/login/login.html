@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="login.css">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="header">
+
+                <p>Log In to Website</p>
+            </div>
+            <div class="input-box">
+                <label for="email">E-Mail</label>
+                <input type="email" class="input-field" id="email" required>
+                <i class="bx bx-envelope"></i>
+                <span id="emailError" class="error"></span>
+            </div>
+            <div class="input-box">
+                <label for="pass">Password</label>
+                <input type="password" class="input-field" id="password" required>
+                <i class="bx bx-lock"></i>
+                <span id="passwordError" class="error"></span> <!-- Error message for password -->
+                <span id="loginError" class="error"></span>
+            </div>
+
+            <div class="input-box">
+                <input type="submit" class="input-submit" value="SIGN IN" onclick="validateLogin()">
+            </div>
+            <div class="bottom">
+                <span><a href="/DoAnWebJav/SignUp/signup.html">Sign Up</a></span>
+                <span><a href="#">Forgot Password?</a></span>
+            </div>
+        </div>
+        <div class="wrapper"></div>
+    </div>
+    <script>
+
+        function validateLogin() {
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var emailError = document.getElementById('emailError');
+            var passwordError = document.getElementById('passwordError');
+            var loginError = document.getElementById('loginError');
+            var valid = true;
+
+            //reseset lại lỗi
+            emailError.textContent = '';
+            passwordError.textContent = '';
+
+            // kiểm tra nếu email trống
+            if (!email) {
+                emailError.textContent = 'Vui lòng nhập email!';
+                valid = false;
+            } else {
+                // check email đúng định dạng
+                if (!validateEmail(email)) {
+                    emailError.textContent = 'Email không đúng định dạng';
+                    valid = false;
+                }
+            }
+
+            // check pass
+            if (!password) {
+                passwordError.textContent = 'Vui lòng nhập mật khẩu!';
+                valid = false;
+            }
+
+            // nếu đầy đủ thì thực hiện login
+            if (valid) {
+                login();
+            }
+        }
+
+        function validateEmail(email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        }
+        function login() {
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            // Gửi yêu cầu đăng nhập đến API
+            fetch('https://localhost:7156/api/Login/Loggingin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Kiểm tra message từ server
+                    if (data && data.message === '0') {
+                        // Hiển thị thông báo lỗi
+                        var errorBox = document.getElementById('loginError');
+                        errorBox.textContent = 'Tài khoản hoặc mật khẩu không chính xác';
+                    } else {
+                        // Lưu token vào localStorage hoặc sessionStorage và xử lý đăng nhập thành công
+                        localStorage.setItem('userInfo', JSON.stringify(data));
+
+                        // Xử lý dữ liệu trả về từ API sau khi đăng nhập thành công và chuyển hướng trang
+                        if (data.roleId === 3) {
+                            window.location.href = '/DoAnWebJav/pageDriver/Home_Driver.html';
+                        } else if (data.roleId === 4) {
+                            window.location.href = '/DoAnWebJav/pageCustomer/Home_Customer.html';
+                        }
+                    }
+                })
+                .catch(error => {
+                    // Xử lý lỗi khi không kết nối được với API hoặc lỗi khác
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
