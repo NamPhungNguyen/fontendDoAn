@@ -5,9 +5,7 @@
     var token = parsedUserInformation.token;
     var roleId = parsedUserInformation.roleId;
 
-    if (!token || roleId !== 4) {
-        window.location.href = "index.html";
-    } else {
+   
         var username = parsedUserInformation.username; // Giả sử thông tin username được lưu trong userInfo
 
         var userInfoElement = document.createElement('span');
@@ -32,5 +30,5 @@
         .catch(error => {
             console.error("There was a problem with the fetch operation:", error);
         });
-    }
+    
 });
