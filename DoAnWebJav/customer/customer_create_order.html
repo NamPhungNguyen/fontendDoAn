@@ -4,28 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Navigation</title>
-    <link rel="stylesheet" href="../CSS/navCSS1.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8.2.0/dist/polyfill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="./customer_home.css">
+    <title>Trang chủ khách hàng</title>
+    <style>
+        /* CSS cho nút đăng xuất */
+        #logoutButton {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button#logoutButton {
+            margin-left: 10px;
+        }
+
+        /* Hover effect */
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
 
 <body>
-
-    <!-- header-->
     <script src="../javaScript/check_token.js"></script>
+    <section id="header">
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
 
-    <header>
-        <h1>DRIVER</h1>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="customer_home.html">Home</a></li>
-            <li><a href="customer_create_order.html">Create Order</a></li>
-            <li><a href="customer_infor_view.html">Personal Infor</a></li>
-            <li><a href="../html_chung/../html_chung/logout.html">Logout</a></li>
-        </ul>
-    </nav>
+        <div>
+            <ul id="navbar">
+                <li><a href="customer_home.html">Trang chủ</a></li>
+                <li><a class="active" href="customer_create_order.html">Tạo đơn</a></li>
+                <li><a href="about.html">Các đơn</a></li>
+                <li><a href="customer_infor.html">Thông tin</a></li>
+                <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
+            </ul>
+        </div>
+    </section>
 
     <!-- Your page content goes here -->
 
@@ -122,7 +143,36 @@
 
     </div>
 
+    <!-- dùng để hiện username và logout -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var storedUserInformation = localStorage.getItem('userInfo');
+            var parsedUserInformation = JSON.parse(storedUserInformation);
 
+            var userInfoContainer = document.getElementById('user-info');
+
+            if (parsedUserInformation) {
+                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+                var userInfoElement = document.createElement('span');
+                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+                userInfoContainer.appendChild(userInfoElement);
+
+
+                logoutButton.addEventListener('click', function () {
+                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                    localStorage.removeItem('userInfo');
+                    window.location.href = "../public/login.html";
+                });
+
+                userInfoContainer.appendChild(logoutButton);
+            } else {
+                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+                window.location.href = "../public/login.html";
+            }
+        });
+    </script>
 </body>
 
 </html>
@@ -226,13 +276,14 @@
                             'Authorization': 'Bearer ' + token,
                             'Content-Type': 'application/json',
                         },
-                    }).then(response => response.json()).then(data => { console.log('Success:', data); }).catch((error) => { console.error('Error:', error); });
-                    window.location.href = 'customer_home.html';
+                    }).then(response => response.json()).then(data => { console.log('Success:', data); window.location.href = 'customer_home.html'; }).catch((error) => { console.error('Error:', error); });
+
 
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
+
         }
         catch (error) {
             window.location.href = '../public/home.html';

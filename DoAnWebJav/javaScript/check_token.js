@@ -10,7 +10,7 @@
         var token = parsedUserInformation.token;
 
         if (!token) {
-            window.location.href = '../public/home.html';
+            window.location.href = '../public/index.html';
         } else {
             fetch('https://localhost:7156/api/Login/Check', {
                 method: 'GET',
@@ -22,7 +22,7 @@
             })
                 .then(response => {
                     if (response.ok != true) {
-                        window.location.href = '../public/home.html';
+                        window.location.href = '../public/index.html';
                     }
                 })
                 .then(data => {
@@ -34,6 +34,6 @@
     }
 
     catch (error) {
-        window.location.href = '../public/home.html';
+        window.location.href = '../public/index.html';
     }
 });
