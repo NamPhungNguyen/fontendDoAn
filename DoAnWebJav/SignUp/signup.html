@@ -5,9 +5,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Đăng ký</title>
+        <link rel="stylesheet" href="./signup.css">
 </head>
 
 <body>
+        
         <div class="tab-form">
                 <div class="tab-header">
                         <div class="active">Đăng ký khách hàng</div>
@@ -17,12 +19,29 @@
                         <div class="signup active">
                                 <h2>Create an account</h2>
                                 <div class="form-input">
-                                        <label for="">Username</label>
-                                        <input type="text" placeholder="Enter username" name="" id="">
+                                        <label for="">Họ và Tên</label>
+                                        <input type="text" placeholder="Nhập họ tên" name="" id="">
                                 </div>
                                 <div class="form-input">
                                         <label for="">Email</label>
-                                        <input type="email" placeholder="Enter email" name="" id="">
+                                        <input type="email" placeholder="Nhập email" name="" id="">
+                                </div>
+                                <div class="form-input">
+                                        <label for="">Số điện thoại</label>
+                                        <input type="text" placeholder="Nhập số điện thoại" name="" id="">
+                                </div>
+                                <div class="form-input">
+                                        <label for="">Ngày sinh</label>
+                                        <input type="date" placeholder="Nhập ngày sinh" name="" id="">
+                                </div>
+                                <div class="form-input">
+                                        <label for="">Giới tính</label>
+                                        <td>
+                                                <input type="radio" name="gender" id="gender1" value='true'>
+                                                Nam
+                                                <input type="radio" name="gender" id="gender2" value='false'>
+                                                Nữ
+                                        </td>
                                 </div>
                                 <div class="form-input">
                                         <label for="">Password</label>
@@ -54,6 +73,23 @@
                 </div>
                 </ul>
         </nav> -->
+
+        <script>
+                let tab = document.querySelector(".tab-form");
+                let tabHeader = tab.querySelector(".tab-header");
+                let tabHeaderElements = tab.querySelectorAll(".tab-header > div");
+                let tabBody = tab.querySelector(".tab-body");
+                let tabBodyElements = tab.querySelectorAll(".tab-body > div");
+
+                for(let i = 0; i < tabHeaderElements.length; i++){
+                        tabHeaderElements[i].addEventListener("click", function(){
+                                tabHeader.querySelector(".active").classList.remove("active");
+                                tabHeaderElements[i].classList.add("active");
+                                tabBody.querySelector(".active").classList.remove("active");
+                                tabBodyElements[i].classList.add("active");
+                        });
+                }
+        </script>
 </body>
 
 </html>
