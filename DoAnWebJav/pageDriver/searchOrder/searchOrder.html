@@ -1,35 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Navigation</title>
-    <link rel="stylesheet" href="navCSS1.css">
+    <link rel="stylesheet" href="./searchOrder.css">
+    <style>
+        /* CSS cho nút đăng xuất */
+        #logoutButton {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button#logoutButton {
+            margin-left: 10px;
+        }
+
+        /* Hover effect */
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
+
 <body>
 
-    <!-- header-->
-    <script src="check_token.js"></script>
-    <header>
-        <h1>DRIVER</h1>
-    </header>
+    <section id="header">
+        <a href="#"><img src="/DoAnWebJav/images/fast-delivery1.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="#">Trang chủ</a></li>
+                <li><a class="active" href="/DoAnWebJav/pageDriver/searchOrder/searchOrder.html">Tìm kiếm</a></li>
+                <li><a href="inforDriver.html">Thông tin</a></li>
+                <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
+            </ul>
+        </div>
+    </section>
 
-    <nav>
-        <ul>
-            <li><a href="driver_home.html">Home</a></li>
-            <li><a href="driver_work.html">Work</a></li>
-            <li class="dropdown">
-                <a>Infor</a>
-                <div class="dropdown-content">
-                    <a href="driver_infor_view.html">Personal Infor</a>
-                    <a href="driver_vehicle_view.html">Vehicle</a>
-            <li id="user-info"></li> <!-- Thẻ mới để chứa thông tin người dùng -->
-
-                </div>
-            </li>
-            <li><a href="logout.html">Logout</a></li>
-        </ul>
-    </nav>
 
     <!-- Your page content goes here -->
 
@@ -87,14 +100,14 @@
         <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
         </div>
     </div>
-    
 
 
 
 
 
 
-<script>
+
+    <script>
         // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
@@ -230,7 +243,8 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>
         const host = "https://provinces.open-api.vn/api/";
@@ -303,9 +317,38 @@
     </script>
 
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var storedUserInformation = localStorage.getItem('userInfo');
+            var parsedUserInformation = JSON.parse(storedUserInformation);
 
+            var userInfoContainer = document.getElementById('user-info');
+
+            if (parsedUserInformation) {
+                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+                var userInfoElement = document.createElement('span');
+                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+                userInfoContainer.appendChild(userInfoElement);
+
+
+                logoutButton.addEventListener('click', function () {
+                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                    localStorage.removeItem('userInfo');
+                    window.location.href = "/DoAnWebJav/login/login.html";
+                });
+
+                userInfoContainer.appendChild(logoutButton);
+            } else {
+                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+                window.location.href = "/DoAnWebJav/login/login.html";
+            }
+        });
+    </script>
 
 
 
 </body>
+
 </html>
