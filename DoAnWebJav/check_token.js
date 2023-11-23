@@ -6,7 +6,7 @@
     var roleId = parsedUserInformation.roleId;
 
     if (!token || roleId !== 4) {
-        window.location.href = "home.html";
+        window.location.href = "index.html";
     } else {
         var username = parsedUserInformation.username; // Giả sử thông tin username được lưu trong userInfo
 
@@ -26,7 +26,7 @@
         })
         .then(response => {
             if (response.ok !== true) {
-                window.location.href = "home.html";
+                window.location.href = "/DoAnWebJav/driver_home.html";
             }
         })
         .catch(error => {
