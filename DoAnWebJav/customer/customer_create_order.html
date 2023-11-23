@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Navigation</title>
     <link rel="stylesheet" href="../CSS/navCSS1.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
 
     <!-- header-->
-    <script src="check_token.js"></script>
+    <script src="../javaScript/check_token.js"></script>
+
     <header>
         <h1>DRIVER</h1>
     </header>
@@ -28,8 +30,95 @@
     <!-- Your page content goes here -->
 
     <div align="center">
+        <main>
+            <h1>Tạo đơn hàng</h1>
+            <table id="Order">
+                <tr>
+                    <td>Tên đơn hàng</td>
+                    <td><input type="text" name="orderName" id="orderName" placeholder="Ví dụ: Hoa quả đi Hà Nội" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ngày đi</td>
+                    <td><input type="date" name="startDate" id="startDate" /></td>
+                </tr>
+                <tr>
+                    <td>Ngày đến</td>
+                    <td><input type="date" name="endDate" id="endDate" /></td>
+                </tr>
+                <tr>
 
+                    <td>Địa điểm đi</td>
+                    <td>
+                        <select id="city">
+                            <option value="" selected>Chọn tỉnh thành</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="district">
+                            <option value="" selected>Chọn quận huyện</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="ward">
+                            <option value="" selected>Chọn xã</option>
+                        </select>
+                    </td>
+                    <td><input type="text" id="detailPositionGo" placeholder="địa chỉ cụ thể" /></td>
 
+                </tr>
+                <tr>
+
+                    <td>Địa điểm đến</td>
+                    <td>
+                        <select id="cityCome">
+                            <option value="" selected>Chọn tỉnh thành</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="districtCome">
+                            <option value="" selected>Chọn quận huyện</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="wardCome">
+                            <option value="" selected>Chọn xã</option>
+                        </select>
+                    </td>
+                    <td><input type="text" id="detailPositionCome" placeholder="địa chỉ cụ thể" /></td>
+
+                </tr>
+            </table>
+
+        </main>
+
+        <main1>
+            <h1>Thêm mặt hàng</h1>
+            <table id="OrderItem" border="1">
+                <tr>
+                    <th>Tên mặt hàng</th>
+                    <th>Số lượng</th>
+                    <th>Khối lượng riêng</th>
+                    <th>Trọng lượng riêng</th>
+                    <th>Giá trị riêng</th>
+                    <th>Ghi chú</th>
+                    <th>Thao tác</th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="input11" placeholder="tên mặt hàng"></td>
+                    <td><input type="number" id="input12" placeholder="số lượng"></td>
+                    <td><input type="number" step="0.01" id="input13" placeholder="khối lượng riêng (m)"></td>
+                    <td><input type="number" step="0.01" id="input14" placeholder="trọng lượng riêng (kg)"></td>
+                    <td><input type="number" step="0.01" id="input15" placeholder="giá trị riêng (USD)"></td>
+                    <td><input type="text" id="input16" placeholder="ghi chú"></td>
+                </tr>
+            </table>
+            <button onclick="addRow()">Add Row</button>
+
+        </main1>
+        <div>
+            <button onclick="createOrder()">Create Order</button>
+        </div>
 
     </div>
 
@@ -37,3 +126,364 @@
 </body>
 
 </html>
+
+
+
+
+<script>
+    function createOrder() {
+        // Lấy giá trị từ các ô input
+        var orderName = document.getElementById("orderName").value;
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+        var cityGo = document.getElementById("city").value;
+        var districtGo = document.getElementById("district").value;
+        var wardGo = document.getElementById("ward").value;
+        var detailPositionGo = document.getElementById("detailPositionGo").value;
+        var cityCome = document.getElementById("cityCome").value;
+        var districtCome = document.getElementById("districtCome").value;
+        var wardCome = document.getElementById("wardCome").value;
+        var detailPositionCome = document.getElementById("detailPositionCome").value;
+
+        // Kiểm tra xem các trường có giá trị không
+        if (!orderName || !startDate || !endDate || !cityGo || !districtGo || !wardGo || !detailPositionGo ||
+            !cityCome || !districtCome || !wardCome || !detailPositionCome) {
+            alert("Vui lòng điền đầy đủ thông tin đơn hàng.");
+            return;
+        }
+
+        var storedUserInformation = localStorage.getItem('userInfo');
+        var parsedUserInformation = JSON.parse(storedUserInformation);
+        try {
+            var token = parsedUserInformation.token;
+            var userId = parsedUserInformation.id;
+            fetch('https://localhost:7156/api/Customer/initOrder', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderName: orderName,
+                    customerId: userId,
+                    orderedDate: startDate,
+                    arrivedDate: endDate,
+                    provinceGo: cityGo,
+                    districtGo: districtGo,
+                    wardGo: wardGo,
+                    detailPositionGo: detailPositionGo,
+                    provinceCome: cityCome,
+                    districtCome: districtCome,
+                    wardCome: wardCome,
+                    detailPositionCome: detailPositionCome,
+                    status: true,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    var table = document.getElementById("OrderItem");
+                    var rows = table.getElementsByTagName("tr");
+
+                    for (var i = 1; i <= rows.length - 1; i++) {
+                        //var cells = rows[i].getElementsByTagName("td");
+
+                        // Lấy giá trị từ từng ô trong hàng
+                        var itemName = document.getElementById("input" + i + "1").value;
+                        var quantity = document.getElementById("input" + i + "2").value;
+                        var massPerUnit = document.getElementById("input" + i + "3").value;
+                        var weightPerUnit = document.getElementById("input" + i + "4").value;
+                        var pricePerUnit = document.getElementById("input" + i + "5").value;
+                        var itemDescription = document.getElementById("input" + i + "6").value;
+                        var orderId = data;
+                        fetch('https://localhost:7156/api/Customer/AddOrderItem', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                itemName: itemName,
+                                quantity: quantity,
+                                massPerUnit: massPerUnit,
+                                weightPerUnit: weightPerUnit,
+                                pricePerUnit: pricePerUnit,
+                                itemDescription: itemDescription,
+                                orderId: orderId,
+                                status: true,
+                            }),
+                        })
+                            .then(response => response.json())
+                            .then(data => { console.log('Success:', data); })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+                    };
+                    var api = 'https://localhost:7156/api/Customer/OnListOrder/' + orderId;
+                    fetch(api, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response => response.json()).then(data => { console.log('Success:', data); }).catch((error) => { console.error('Error:', error); });
+                    window.location.href = 'customer_home.html';
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        catch (error) {
+            window.location.href = '../public/home.html';
+        }
+    }
+</script>
+
+
+
+
+<script>
+    function addRow() {
+        var table = document.getElementById("OrderItem");
+
+        // Kiểm tra xem tất cả các ô input trong cột có giá trị không
+        var lastRow = table.rows[table.rows.length - 1];
+        for (var i = 0; i < 5; i++) {
+            var lastRowInput = lastRow.cells[i].querySelector("input");
+            if (!lastRowInput || lastRowInput.value.trim() === "") {
+                alert("Fill in all columns before adding a new row.");
+                return;
+            }
+        }
+        var rowcount = table.getElementsByTagName("tr").length;
+        var newRow = table.insertRow(table.rows.length); // Chèn vào hàng cuối cùng trước hàng input
+
+        // Thêm ô input vào mỗi cột
+        var input0 = document.createElement("input");
+        input0.type = "text";
+        input0.id = "input" + rowcount + "1";
+        input0.placeholder = "tên mặt hàng";
+        newRow.insertCell(0).appendChild(input0);
+
+        var input1 = document.createElement("input");
+        input1.type = "number";
+        input1.id = "input" + rowcount + "2";
+        input1.placeholder = "số lượng";
+        newRow.insertCell(1).appendChild(input1);
+
+        var input2 = document.createElement("input");
+        input2.type = "number";
+        input2.id = "input" + rowcount + "3";
+        input2.step = "0.01";
+        input2.placeholder = "khối lượng riêng (m)";
+        newRow.insertCell(2).appendChild(input2);
+
+        var input3 = document.createElement("input");
+        input3.type = "number";
+        input3.id = "input" + rowcount + "4";
+        input3.step = "0.01";
+        input3.placeholder = "trọng lượng riêng (kg)";
+        newRow.insertCell(3).appendChild(input3);
+
+        var input4 = document.createElement("input");
+        input4.type = "number";
+        input4.id = "input" + rowcount + "5";
+        input4.step = "0.01";
+        input4.placeholder = "giá trị riêng (USD)";
+        newRow.insertCell(4).appendChild(input4);
+
+        var input5 = document.createElement("input");
+        input5.type = "text";
+        input5.id = "input" + rowcount + "6";
+        input5.placeholder = "ghi chú";
+        newRow.insertCell(5).appendChild(input5);
+
+        var lastRow = table.rows[table.rows.length - 2];
+        for (var i = 0; i < 6; i++) {
+            var lastRowCell = lastRow.cells[i];
+            var lastRowInput = lastRowCell.querySelector("input");
+            if (lastRowInput) {
+                lastRowInput.readOnly = true;
+            }
+        }
+        var actionCell = lastRow.insertCell(table.rows[0].cells.length - 1);
+        var editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.onclick = function () { editRow(this); };
+        actionCell.appendChild(editButton);
+
+        var deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = function () { deleteRow(this); };
+        actionCell.appendChild(deleteButton);
+    }
+
+    function deleteRow(button) {
+        var row = button.parentNode.parentNode;
+        var confirmation = confirm("Are you sure you want to delete this row?");
+        if (confirmation) {
+            row.parentNode.removeChild(row);
+        }
+    }
+
+    function editRow(button) {
+        var row = button.parentNode.parentNode;
+        var inputs = row.querySelectorAll("input");
+
+        // Tạo một đối tượng để chứa các trường đầu vào trong form
+        var formFields = {};
+        var isValid = true;
+
+        inputs.forEach(function (input, index) {
+            var placeholder = input.placeholder;
+
+            // Kiểm tra nếu giá trị của input là trống
+            if (input.value.trim() === "" && placeholder !== "ghi chú") {
+                isValid = false;
+            }
+
+            // Kiểm tra nếu là input number và giá trị không phải là số
+            if (input.type === "number" && isNaN(input.value) && placeholder !== "ghi chú") {
+                isValid = false;
+            }
+
+            formFields[placeholder] = input.value;
+        });
+
+        if (!isValid) {
+            alert("Please fill in all non-empty, valid input fields before updating.");
+            return;
+        }
+
+        // Hiển thị SweetAlert2 với form tùy chỉnh
+        Swal.fire({
+            title: 'Edit Row',
+            html:
+                `<input id="swal-input1" class="swal2-input" placeholder="Tên mặt hàng" value="${formFields['tên mặt hàng']}">` +
+                `<input type="number" id="swal-input2" class="swal2-input" placeholder="Số lượng" value="${formFields['số lượng']}">` +
+                `<input type="number" id="swal-input3" class="swal2-input" placeholder="Khối lượng riêng (m)" value="${formFields['khối lượng riêng (m)']}">` +
+                `<input type="number" id="swal-input4" class="swal2-input" placeholder="Trọng lượng riêng (kg)" value="${formFields['trọng lượng riêng (kg)']}">` +
+                `<input type="number" id="swal-input5" class="swal2-input" placeholder="Giá trị riêng (USD)" value="${formFields['giá trị riêng (USD)']}">` +
+                `<input id="swal-input6" class="swal2-input" placeholder="Ghi chú" value="${formFields['ghi chú']}">`,
+            focusConfirm: false,
+            showCancelButton: true,
+            preConfirm: () => {
+                if (!((!document.getElementById("swal-input1") || document.getElementById("swal-input1").value.trim() === "")
+                    || (!document.getElementById("swal-input2") || document.getElementById("swal-input2").value.trim() === "")
+                    || (!document.getElementById("swal-input3") || document.getElementById("swal-input3").value.trim() === "")
+                    || (!document.getElementById("swal-input4") || document.getElementById("swal-input4").value.trim() === "")
+                    || (!document.getElementById("swal-input5") || document.getElementById("swal-input5").value.trim() === "")
+                )) {
+                    // Lấy giá trị từ các trường nhập và cập nhật vào hàng
+                    row.cells[0].querySelector("input").value = document.getElementById("swal-input1").value;
+                    row.cells[1].querySelector("input").value = document.getElementById("swal-input2").value;
+                    row.cells[2].querySelector("input").value = document.getElementById("swal-input3").value;
+                    row.cells[3].querySelector("input").value = document.getElementById("swal-input4").value;
+                    row.cells[4].querySelector("input").value = document.getElementById("swal-input5").value;
+                    row.cells[5].querySelector("input").value = document.getElementById("swal-input6").value;
+
+                    // Hiển thị thông báo khi tất cả các ô đã được sửa
+                    Swal.fire("Values updated", '', 'success');
+                }
+                else { alert("Update failed") }
+            }
+        });
+    }
+
+</script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    const host = "https://provinces.open-api.vn/api/";
+
+    var callAPI = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data, "city");
+            });
+    }
+
+    var callAPICome = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data, "cityCome");
+            });
+    }
+
+    callAPI('https://provinces.open-api.vn/api/?depth=1');
+
+    callAPICome('https://provinces.open-api.vn/api/?depth=1');
+
+    var callApiDistrict = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.districts, "district");
+            });
+    }
+
+    var callApiDistrictCome = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.districts, "districtCome");
+            });
+    }
+
+    var callApiWard = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.wards, "ward");
+            });
+    }
+
+    var callApiWardCome = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.wards, "wardCome");
+            });
+    }
+
+    var renderData = (array, select) => {
+        let row = ' <option disable value="">Chọn</option>';
+        array.forEach(element => {
+            row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+        });
+        document.querySelector("#" + select).innerHTML = row
+    }
+
+
+
+    $("#city").change(() => {
+        callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+
+    });
+
+    $("#district").change(() => {
+        callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
+
+    });
+
+    $("#ward").change(() => {
+
+    })
+
+
+
+    $("#cityCome").change(() => {
+        callApiDistrictCome(host + "p/" + $("#cityCome").find(':selected').data('id') + "?depth=2");
+
+    });
+
+    $("#districtCome").change(() => {
+        callApiWardCome(host + "d/" + $("#districtCome").find(':selected').data('id') + "?depth=2");
+
+    });
+
+    $("#wardCome").change(() => {
+
+    })
+</script>

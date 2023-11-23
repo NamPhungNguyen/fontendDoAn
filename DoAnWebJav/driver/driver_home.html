@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Navigation</title>
     <link rel="stylesheet" href="../CSS/navCSS1.css">
 </head>
+
 <body>
 
     <!-- header-->
-    <script src="check_token.js"></script>
+    <script src="../javaScript/check_token.js"></script>
     <header>
         <h1>DRIVER</h1>
     </header>
@@ -85,14 +87,14 @@
         <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
         </div>
     </div>
-    
 
 
 
 
 
 
-<script>
+
+    <script>
         // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
@@ -228,7 +230,8 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>
         const host = "https://provinces.open-api.vn/api/";
@@ -283,20 +286,16 @@
 
         $("#city").change(() => {
             callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
-            printResult();
         });
 
         $("#cityCome").change(() => {
             callApiDistrictCome(host + "p/" + $("#cityCome").find(':selected').data('id') + "?depth=2");
-            printResult();
         });
 
         $("#district").change(() => {
-            printResult();
         })
 
         $("#districtCome").change(() => {
-            printResult();
         })
     </script>
 
@@ -306,4 +305,5 @@
 
 
 </body>
+
 </html>
