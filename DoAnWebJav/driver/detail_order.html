@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin người dùng</title>
+    <link rel="stylesheet" href="driver_infor.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* CSS cho nút đăng xuất */
+        #logoutButton {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button#logoutButton {
+            margin-left: 10px;
+        }
+
+        /* Hover effect */
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="../javaScript/check_token.js"></script>
+    <section id="header">
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="driver_home.html">Trang chủ</a></li>
+                <li><a href="driver_search.html">Tìm kiếm</a></li>
+                <li><a class="active" href="driver_infor.html">Thông tin</a></li>
+                <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <div align="center">
+        <div style="display: flex;">
+            <div style="float: left;">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d7860777.144213524!2d101.80536068141087!3d15.842395703888247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2zSOG7kyBDaMOtIE1pbmgsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!3m2!1d10.8230989!2d106.62966379999999!4m5!1s0x3135ab9bd9861ca1%3A0xe7887f7b72ca17a9!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!3m2!1d21.0277644!2d105.8341598!5e0!3m2!1svi!2s!4v1700824498463!5m2!1svi!2s"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            
+            <div style="float: right;" id="orderInforRight"> 
+            </div>
+        </div>
+        <div>
+            <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Ứng tuyển">
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get("orderId");
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+
+
+        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                console.log("success:", data);
+                var resultContainer = document.getElementById("orderInforRight");
+                var resultDiv = document.createElement("div");
+                resultDiv.innerHTML = `
+                <table>
+                    <tr>
+                        <td><strong>Tên đơn hàng:</strong></td>
+                        <td>${data.order.orderName}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Khách hàng (xem chi tiết):</strong></td>
+                        <td>${data.order.customer.fullName}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ngày đi:</strong></td>
+                        <td>${data.order.orderedDate}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ngày đến:</strong></td>
+                        <td>${data.order.arrivedDate}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Điểm đi:</strong></td>
+                        <td>${data.order.provinceGo} - ${data.order.districtGo} - ${data.order.wardGo} - ${data.order.detailPositionGo}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Điểm đến:</strong></td>
+                        <td>${data.order.provinceCome} - ${data.order.districtCome} - ${data.order.wardCome} - ${data.order.detailPositionCome}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tổng trọng lượng:</strong></td>
+                        <td>${data.order.totalWeight} (kilogram)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tổng khối lượng:</strong></td>
+                        <td>${data.order.totalMass} (mét khối)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiền công:</strong></td>
+                        <td>${data.order.totalAmount}</td>
+                    </tr>
+                </table>
+                `;
+                resultContainer.appendChild(resultDiv);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Items", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                displayResults(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
+
+
+    })
+</script>
+
+
+<script>
+
+    function displayResults(results) {
+        // Lấy phần tử div lớn để chứa các div con
+        var resultContainer = document.getElementById("resultContainer");
+
+        // Xóa nội dung cũ của div lớn
+        resultContainer.innerHTML = "";
+
+        // Thêm dữ liệu mới từ kết quả API vào div lớn
+        results.forEach(result => {
+            var resultDiv = document.createElement("div");
+            resultDiv.classList.add("result-item");
+
+            // Thêm nội dung của mỗi item vào div con
+            resultDiv.innerHTML = `
+            <h3 align="center" style="color:white; background-color:gray">${result.itemName}</h3>
+            <p><strong>Tổng khối lượng:</strong> ${result.massPerUnit * result.quantity}</p>
+            <p><strong>Tổng trọng lượng:</strong> ${result.weightPerUnit * result.quantity}</p>
+            <p><strong>Tổng giá trị:</strong> ${result.pricePerUnit * result.quantity}</p>
+            <p><strong>Mô tả:</strong> ${result.itemDescription}</p>
+        `;
+
+            //resultDiv.style.backgroundColor = "gray";
+            resultDiv.style.boxShadow = "5px 5px 10px rgba(0, 0, 0, 0.4)";
+            resultDiv.style.paddingLeft = "10px";
+            resultDiv.style.paddingRight = "10px";
+            resultDiv.style.paddingBottom = "15px";
+            resultDiv.align = "center";
+            // Thêm div con vào div lớn
+            resultContainer.appendChild(resultDiv);
+        });
+    }
+
+</script>
