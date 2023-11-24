@@ -62,13 +62,13 @@
                 logoutButton.addEventListener('click', function () {
                     // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
                     localStorage.removeItem('userInfo');
-                    window.location.href = "../public/login.html";
+                    window.location.href = "/DoAnWebJav/public/login.html";
                 });
 
                 userInfoContainer.appendChild(logoutButton);
             } else {
                 // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
-                window.location.href = "../public/login.html";
+                window.location.href = "/DoAnWebJav/public/login.html";
             }
         });
     </script>
