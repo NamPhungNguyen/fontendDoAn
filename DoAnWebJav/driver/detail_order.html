@@ -261,7 +261,7 @@
                 })
                 .then(data => {
                     console.log("success:", data);
-                    window.location.href = 'driver_search.html';
+                    window.location.href = 'detail_order.html?orderId=' + orderId + '&oVIId=' + oVIId;
                 })
                 .catch(error => {
                     alert("Có lỗi xảy ra khi ứng tuyển.");
