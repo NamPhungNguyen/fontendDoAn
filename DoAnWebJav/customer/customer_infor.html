@@ -23,7 +23,7 @@
             margin-left: 10px;
         }
 
-        
+
         #logoutButton:hover {
             background-color: #d32f2f;
         }
@@ -32,17 +32,17 @@
 
 <body>
     <section id="header">
-        <a href="#"><img src="/DoAnWebJav/images/fast-delivery1.png" class="logo" /></a>
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo" /></a>
 
         <div>
             <ul id="navbar">
                 <li>
-                    <a href="/DoAnWebJav/pageCustomer/Home_Customer.html">Trang chủ</a>
+                    <a href="../customer/customer_home.html">Trang chủ</a>
                 </li>
                 <li><a href="about.html">Tạo đơn</a></li>
                 <li><a href="about.html">Các đơn</a></li>
                 <li>
-                    <a class="active" href="/DoAnWebJav/pageCustomer/inforCustomer.html">Thông tin</a>
+                    <a class="active" href="../customer/customer_infor.html">Thông tin</a>
                 </li>
                 <li>
                     <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
@@ -169,6 +169,7 @@
 
             var userInfoContainer = document.getElementById("user-info");
 
+        
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
                 var customer_id = parsedUserInformation.id;
