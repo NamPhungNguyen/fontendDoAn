@@ -112,6 +112,7 @@
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
             var selectedOviId = document.getElementById("dynamicSelect").value;
+
             var selectedProGo = document.getElementById("city").value;
             var selectedDisGo = document.getElementById("district").value;
             var selectedProCome = document.getElementById("cityCome").value;
@@ -162,15 +163,25 @@
                 resultDiv.classList.add("result-item");
 
                 // Thêm nội dung của mỗi item vào div con
+                var oVVId = document.getElementById("dynamicSelect").value;
                 resultDiv.innerHTML = `
-                <h3 align="center" style="color:white; background-color:gray">${result.orderName}</h3>
-                <p><strong>Ngày đi:</strong> ${result.orderedDate}</p>
-                <p><strong>Ngày đến:</strong> ${result.arrivedDate}</p>
-                <p><strong>Điểm đi:</strong> ${result.wardGo} - ${result.detailPositionGo}</p>
-                <p><strong>Điểm đến:</strong> ${result.wardCome} - ${result.detailPositionCome}</p>
-                <p><strong>Giá:</strong> ${result.totalAmount}</p>
-                <a target="_blank" href='detail_order.html?orderId=${result.orderId}' ><button>Xem chi tiết</button></a>
+                <h3 align="center" style="color:white; background-color:gray">${result.order.orderName}</h3>
+                <p><strong>Ngày đi:</strong> ${result.order.orderedDate}</p>
+                <p><strong>Ngày đến:</strong> ${result.order.arrivedDate}</p>
+                <p><strong>Điểm đi:</strong> ${result.order.wardGo} - ${result.order.detailPositionGo}</p>
+                <p><strong>Điểm đến:</strong> ${result.order.wardCome} - ${result.order.detailPositionCome}</p>
+                <p><strong>Tiền công:</strong> ${result.order.totalAmount} USD</p>
             `;
+                if (result.checkWAL == true) {
+                    var XemChiTiet = document.createElement("div");
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button>Xem chi tiết<font color="red"> *Đã ứng tuyển</font></button></a>`;
+                    resultDiv.appendChild(XemChiTiet);
+                }
+                else {
+                    var XemChiTiet = document.createElement("div");
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button>Xem chi tiết</button></a>`;
+                    resultDiv.appendChild(XemChiTiet);
+                }
 
                 //resultDiv.style.backgroundColor = "gray";
                 resultDiv.style.boxShadow = "5px 5px 10px rgba(0, 0, 0, 0.4)";
