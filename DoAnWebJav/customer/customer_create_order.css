@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Spartan', sans-serif;
+}
+.container{
+    position: relative;
+    width: 1000 px;
+}
+.background{
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+}
+.create{
+    z-index: 0;
+    height: 100%;
+    width: 100%;   
+    color: #fff; 
+}
+.create1 {
+   
+    
+}
+.create1 tr {
+     
+}
+.create1 td {
+    padding: 10px;
+   
+}
+.select1{
+    width: 170px;
+    
+}
+.button1 {
+    
+    color: #fff; padding: 10px 20px;background-color: blue ;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
