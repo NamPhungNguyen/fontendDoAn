@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ tài xế</title>
-    <link rel="stylesheet" href="homeDriver.css">
+    <link rel="stylesheet" href="./driver_home.css">
     <style>
         /* CSS cho nút đăng xuất */
         #logoutButton {
@@ -32,13 +32,13 @@
 <body>
 
     <section id="header">
-        <a href="#"><img src="/DoAnWebJav/images/fast-delivery1.png" class="logo"></a>
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
 
         <div>
             <ul id="navbar">
                 <li><a class="active" href="driver_home">Trang chủ</a></li>
                 <li><a href="search.html">Tìm kiếm</a></li>
-                <li><a href="inforDriver.html">Thông tin</a></li>
+                <li><a href="../driver/driver_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
             </ul>
         </div>
@@ -62,13 +62,13 @@
                 logoutButton.addEventListener('click', function () {
                     // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
                     localStorage.removeItem('userInfo');
-                    window.location.href = "/DoAnWebJav/public/login.html";
+                    window.location.href = "../public/login.html";
                 });
 
                 userInfoContainer.appendChild(logoutButton);
             } else {
                 // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
-                window.location.href = "/DoAnWebJav/public/login.html";
+                window.location.href = "../public/login.html";
             }
         });
     </script>

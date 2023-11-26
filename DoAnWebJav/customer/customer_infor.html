@@ -169,7 +169,7 @@
 
             var userInfoContainer = document.getElementById("user-info");
 
-        
+
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
                 var customer_id = parsedUserInformation.id;
@@ -182,13 +182,13 @@
                 logoutButton.addEventListener("click", function () {
                     // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
                     localStorage.removeItem("userInfo");
-                    window.location.href = "/DoAnWebJav/public/login.html";
+                    window.location.href = "../public/login.html";
                 });
 
                 userInfoContainer.appendChild(logoutButton);
             } else {
                 // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
-                window.location.href = "/DoAnWebJav/login/login.html";
+                window.location.href = "../public/login.html";
             }
             // Lấy thông tin khách hàng
 
@@ -223,6 +223,34 @@
                     imagecustomer.src = data.avatarImageLink
                         ? data.avatarImageLink
                         : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
+
+
+                    var storedUserInformation = localStorage.getItem("userInfo");
+                    var parsedUserInformation = JSON.parse(storedUserInformation);
+
+                    if (parsedUserInformation) {
+                        parsedUserInformation.username = data.fullName; // Cập nhật lại tên người dùng trong localStorage
+                        localStorage.setItem("userInfo", JSON.stringify(parsedUserInformation));
+
+                        // Tạo một container để chứa cả thông tin người dùng và nút đăng xuất
+                        var userInfoContainer = document.getElementById("user-info");
+
+                        var userGreeting = document.createElement("span");
+                        userGreeting.textContent = "Chào, " + data.fullName; // Thông tin về người dùng
+
+                        var logoutButton = document.createElement("button");
+                        logoutButton.id = "logoutButton";
+                        logoutButton.textContent = "Đăng xuất";
+                        logoutButton.addEventListener("click", function () {
+                            // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                            localStorage.removeItem("userInfo");
+                            window.location.href = "../public/login.html";
+                        });
+
+                        userInfoContainer.innerHTML = ''; // Xóa nội dung hiện tại của userInfoContainer
+                        userInfoContainer.appendChild(userGreeting);
+                        userInfoContainer.appendChild(logoutButton);
+                    }
                 })
                 .catch((error) => {
                     // Xử lý lỗi ở đây
@@ -246,6 +274,9 @@
                     email: emailCustomer,
                     address: addressCustomer,
                     phoneNumber: phoneCustomer,
+                    roleId: 4,
+                    able: true,
+                    status: true,
                 };
                 console.log(updatedData);
                 fetch(apiUpdateCustomer, {
@@ -264,6 +295,7 @@
                     .then((data) => {
                         // Xử lý phản hồi từ server (nếu cần)
                         console.log("Dữ liệu sau khi cập nhật:", data);
+                        window.location.reload();
                     })
                     .catch((error) => {
                         // Xử lý lỗi ở đây

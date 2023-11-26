@@ -23,12 +23,6 @@ if (parsedUserInformation) {
 }
 
 
-
-
-
-
-
-// Địa chỉ URL của API
 // api lấy thông tin driver
 const apiInforDriver = `https://localhost:7156/api/Driver/DriverInfor?driverId=${driver_id}`;
 
@@ -92,14 +86,42 @@ fetch(apiInforDriver)
     } else {
       status_verhicle_false.checked = true;
     }
+
+
+    var storedUserInformation = localStorage.getItem("userInfo");
+    var parsedUserInformation = JSON.parse(storedUserInformation);
+
+    if (parsedUserInformation) {
+        parsedUserInformation.username = dataDriver.fullName;
+         // Cập nhật lại tên người dùng trong localStorage
+        localStorage.setItem("userInfo", JSON.stringify(parsedUserInformation));
+
+        // Tạo một container để chứa cả thông tin người dùng và nút đăng xuất
+        var userInfoContainer = document.getElementById("user-info");
+
+        var userGreeting = document.createElement("span");
+        userGreeting.textContent = "Chào, " +     dataDriver.fullName;
+        ; // Thông tin về người dùng
+
+        var logoutButton = document.createElement("button");
+        logoutButton.id = "logoutButton";
+        logoutButton.textContent = "Đăng xuất";
+        logoutButton.addEventListener("click", function () {
+            // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+            localStorage.removeItem("userInfo");
+            window.location.href = "../public/login.html";
+        });
+
+        userInfoContainer.innerHTML = ''; // Xóa nội dung hiện tại của userInfoContainer
+        userInfoContainer.appendChild(userGreeting);
+        userInfoContainer.appendChild(logoutButton);
+    }
     // lấy thông tin xe
   })
   .catch((error) => {
     // Xử lý lỗi ở đây
     console.error("Đã xảy ra lỗi:", error);
   });
-
-
 
 // chỉnh sửa thông tin driver
 const form = document.querySelector(".form-user");
@@ -117,6 +139,9 @@ form.addEventListener("submit", function (event) {
     email: email,
     address: address,
     phoneNumber: phone,
+    roleId: 3,
+    able: true,
+    status: true,
   };
   console.log(updatedData);
   fetch(apiUpdateDriver, {
@@ -135,6 +160,7 @@ form.addEventListener("submit", function (event) {
     .then((data) => {
       // Xử lý phản hồi từ server (nếu cần)
       console.log("Dữ liệu sau khi cập nhật:", data);
+      window.location.reload();
     })
     .catch((error) => {
       // Xử lý lỗi ở đây
@@ -208,107 +234,104 @@ fetch(apiGetNumberVehicle)
     console.error("Lỗi khi lấy danh sách xe:", error);
   });
 
-  function handleDeleteVehicle(oviId) {
-    const deleteApiUrl = `https://localhost:7156/api/Driver/DeleteVehicle?id=${oviId}`;
-  
-    // Gửi yêu cầu xóa xe đến API
-    fetch(deleteApiUrl, {
-      method: "PUT",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Lỗi mạng: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((result) => {
-        // Xóa hàng liên quan từ bảng sau khi xóa thành công từ API
-        const table = document.getElementById("table-user");
-        const rowIndex = findRowIndexByoviId(table, oviId);
-        if (rowIndex !== -1) {
-          table.deleteRow(rowIndex);
-        } else {
-          console.error("Không tìm thấy hàng để xóa.");
-        }
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Lỗi khi xóa xe:", error);
-      });
-  }
-  
-  function findRowIndexByoviId(table, oviId) {
-    // Tìm vị trí của hàng có chứa thông tin xe với ID tương ứng
-    for (let i = 1; i < table.rows.length; i++) {
-      const idCell = table.rows[i].cells[0]; // Giả sử ID của xe ở cột đầu tiên
-      if (idCell.textContent === oviId.toString()) {
-        return i;
+function handleDeleteVehicle(oviId) {
+  const deleteApiUrl = `https://localhost:7156/api/Driver/DeleteVehicle?id=${oviId}`;
+
+  // Gửi yêu cầu xóa xe đến API
+  fetch(deleteApiUrl, {
+    method: "PUT",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Lỗi mạng: ${response.status}`);
       }
+      return response.json();
+    })
+    .then((result) => {
+      // Xóa hàng liên quan từ bảng sau khi xóa thành công từ API
+      const table = document.getElementById("table-user");
+      const rowIndex = findRowIndexByoviId(table, oviId);
+      if (rowIndex !== -1) {
+        table.deleteRow(rowIndex);
+      } else {
+        console.error("Không tìm thấy hàng để xóa.");
+      }
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error("Lỗi khi xóa xe:", error);
+    });
+}
+
+function findRowIndexByoviId(table, oviId) {
+  // Tìm vị trí của hàng có chứa thông tin xe với ID tương ứng
+  for (let i = 1; i < table.rows.length; i++) {
+    const idCell = table.rows[i].cells[0]; // Giả sử ID của xe ở cột đầu tiên
+    if (idCell.textContent === oviId.toString()) {
+      return i;
     }
-    return -1; // Trả về -1 nếu không tìm thấy
   }
-
-
-
-
+  return -1; // Trả về -1 nếu không tìm thấy
+}
 
 
 
 
 
 //   console.log(driver_id);
-  // thêm vehicle
-  const btnaddvehicle = document.querySelector(".btn-add-vehicle");
-  const formVehicle = document.querySelector(".form-create-vehicle");
-  formVehicle.addEventListener("submit", (e) => {
-      // Lấy dữ liệu từ các trường nhập liệu trong modal thêm xe
-    e.preventDefault();
-    // const nameVehicle = document.querySelector(".name-vehicle").value;
-    const descriptionVehicle = document.querySelector(
-        ".description-vehicle"
-        ).value;
-        const cargoVehicle = parseFloat(document.querySelector(".cargo-vehicle").value);
-        const fuelEfficiencyVehicle = parseFloat(document.querySelector(".fuelEfficiency-vehicle").value);
+// thêm vehicle
+const btnaddvehicle = document.querySelector(".btn-add-vehicle");
+const formVehicle = document.querySelector(".form-create-vehicle");
+formVehicle.addEventListener("submit", (e) => {
+  // Lấy dữ liệu từ các trường nhập liệu trong modal thêm xe
+  e.preventDefault();
+  // const nameVehicle = document.querySelector(".name-vehicle").value;
+  const descriptionVehicle = document.querySelector(
+    ".description-vehicle"
+  ).value;
+  const cargoVehicle = parseFloat(document.querySelector(".cargo-vehicle").value);
+  const fuelEfficiencyVehicle = parseFloat(document.querySelector(".fuelEfficiency-vehicle").value);
 
-        const statusVehicle = document.querySelector(".status-vehicle").checked;
-    // Tạo đối tượng chứa dữ liệu để gửi lên API
-    const newVehicle = {
-      oviId: 19,
-      driverId: driver_id,
-      vihcleId: 0,
-      description: descriptionVehicle,
-      cargo: cargoVehicle,
-      fuelEfficiency: fuelEfficiencyVehicle,
-      status: statusVehicle,
-    };
-    console.log(newVehicle);
-    // Gửi dữ liệu lên API để thêm mới xe
-    fetch(apiAddVehicle, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newVehicle),
+  const statusVehicle = document.querySelector(".status-vehicle").checked;
+  // Tạo đối tượng chứa dữ liệu để gửi lên API
+  const newVehicle = {
+    oviId: 25,
+    driverId: driver_id,
+    vihcleId: 0,
+    description: descriptionVehicle,
+    cargo: cargoVehicle,
+    fuelEfficiency: fuelEfficiencyVehicle,
+    status: statusVehicle,
+  };
+  console.log(newVehicle);
+  // Gửi dữ liệu lên API để thêm mới xe
+  fetch(apiAddVehicle, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newVehicle),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Lỗi mạng: ${response.status}`);
+      }
+      return response.json();
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Lỗi mạng: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Xe đã được thêm mới:", data);
-        window.location.reload();
-        // Thực hiện các hành động tương ứng sau khi thêm mới xe thành công
-        // Ví dụ: cập nhật bảng hoặc hiển thị thông báo
-      })
-      .catch((error) => {
-        console.error("Đã xảy ra lỗi khi thêm mới xe:", error);
-      });
-  });
-  
+    .then((data) => {
+      console.log("Xe đã được thêm mới:", data);
 
-  
+      window.location.reload();
+      // Thực hiện các hành động tương ứng sau khi thêm mới xe thành công
+      // Ví dụ: cập nhật bảng hoặc hiển thị thông báo
+    })
+    .catch((error) => {
+      console.error("Đã xảy ra lỗi khi thêm mới xe:", error);
+    });
+});
+
+
+
 
 // xoá vehicle
 // const listBtnDelete = document.querySelectorAll(".btnDelete");
