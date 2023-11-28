@@ -45,22 +45,34 @@
     </section>
 
     <!-- Your page content goes here -->
-
-    <div align="center">
+    <div align="center" class="container">
+        <div class="background">
+            <svg width="100%" height="100%" viewBox="0 0 1561 1223" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 20C0 8.95433 8.9543 0 20 0H1541C1552.05 0 1561 8.9543 1561 20V1023C1561 1133.46 1471.46 1223 1361 1223H20C8.95433 1223 0 1214.05 0 1203V20Z" fill="url(#paint0_linear_16_96)"/>
+                <defs>
+                <linearGradient id="paint0_linear_16_96" x1="0" y1="0" x2="1187.47" y2="1515.65" gradientUnits="userSpaceOnUse">
+                <stop offset="0.438541" stop-color="#57F3DF" stop-opacity="0.84"/>
+                <stop offset="0.9998" stop-color="#AFBBD7" stop-opacity="0.52"/>
+                <stop offset="0.9999" stop-color="#4C83FF"/>
+                </linearGradient>
+                </defs>
+            </svg> 
+        </div>
+        <br><br><br>
         <form method="post">
-            <h1>Tìm kiếm đơn hàng</h1>
-            <table>
+            <h1 style="color: #ffff;">Tìm kiếm đơn hàng</h1>
+            <br><br><br>
+            <table class="create1">
                 <tr>
-
                     <td>Địa điểm đi : </td>
                     <td>
-                        <select id="city">
-                            <option value="" selected>Chọn tỉnh thành</option>
+                        <select id="city" class="select1">
+                            <option value="" selected >Chọn tỉnh thành</option>
                         </select>
                     </td>
                     <td>
-                        <select id="district">
-                            <option value="" selected>Chọn quận huyện</option>
+                        <select id="district" class="select1">
+                            <option value="" selected >Chọn quận huyện</option>
                         </select>
                     </td>
 
@@ -69,13 +81,13 @@
 
                     <td>Địa điểm đến : </td>
                     <td>
-                        <select id="cityCome">
-                            <option value="" selected>Chọn tỉnh thành</option>
+                        <select id="cityCome" class="select1">
+                            <option value="" selected >Chọn tỉnh thành</option>
                         </select>
                     </td>
                     <td>
-                        <select id="districtCome">
-                            <option value="" selected>Chọn quận huyện</option>
+                        <select id="districtCome" class="select1">
+                            <option value="" selected >Chọn quận huyện</option>
                         </select>
                     </td>
 
@@ -84,7 +96,7 @@
 
                     <td>Chọn xe : </td>
                     <td>
-                        <select id="dynamicSelect">
+                        <select id="dynamicSelect" class="select1">
                             <option value="" selected>Chọn xe</option>
                         </select>
 
@@ -93,7 +105,8 @@
 
                 </tr>
             </table>
-            <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px" />
+            <br><br><br>
+            <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px" class="button1"/>
         </form>
 
 

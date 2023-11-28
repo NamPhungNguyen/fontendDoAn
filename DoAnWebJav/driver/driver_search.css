@@ -88,3 +88,31 @@ body {
     bottom: -4px;
     left: 20px;
 }
+.container{
+    position: relative;
+    width: 1000 px;
+}
+.background{
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+}
+.select1{
+    width: 170px;
+}
+.button1{
+    color: #fff; padding: 10px 20px;background-color: blue ;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.create1 td {
+    padding: 10px;
+   
+}
