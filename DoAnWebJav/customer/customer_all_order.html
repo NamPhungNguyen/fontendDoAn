@@ -7,6 +7,24 @@
     <link rel="stylesheet" href="./customer_home.css">
     <title>Trang chủ khách hàng</title>
     <style>
+        select {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 10px rgba(102, 175, 233, 0.6);
+        }
+
         table {
             padding: 0;
             padding: 0;
@@ -112,24 +130,28 @@
                 </div>
             </div>
 
-            <div id="page2">
-                <div align="center" style="padding-top: 20px;">
+            <div id="page2" align="center">
+                <div style="padding-top: 20px;">
                     <h3>Danh sách đơn hàng đang chờ xác nhận</h3>
+                </div>
+                <div>
+                    <table id="waitedOrder">
+                    </table>
                 </div>
             </div>
 
 
 
-            <div id="page3">
-                <div align="center" style="padding-top: 20px;">
+            <div id="page3" align="center">
+                <div style="padding-top: 20px;">
                     <h3>Danh sách đơn hàng đang trên đường đến</h3>
                 </div>
             </div>
 
 
 
-            <div id="page4">
-                <div align="center" style="padding-top: 20px;">
+            <div id="page4" align="center">
+                <div style="padding-top: 20px;">
                     <h3>Danh sách đơn hàng đã hoàn thành</h3>
                 </div>
             </div>
