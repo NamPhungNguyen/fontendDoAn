@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8.2.0/dist/polyfill.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="./customer_home.css">
+    <link rel="stylesheet" href="customer_create_order.css">
     <title>Trang chủ khách hàng</title>
     <style>
         /* CSS cho nút đăng xuất */
@@ -33,7 +34,7 @@
 </head>
 
 <body>
-    <script src="../javaScript/check_token.js"></script>
+    
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
 
@@ -50,71 +51,94 @@
 
     <!-- Your page content goes here -->
 
-    <div align="center">
+    <div align="center" class="container">
         <main>
-            <h1>Tạo đơn hàng</h1>
-            <table id="Order">
-                <tr>
-                    <td>Tên đơn hàng</td>
-                    <td><input type="text" name="orderName" id="orderName" placeholder="Ví dụ: Hoa quả đi Hà Nội" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Ngày đi</td>
-                    <td><input type="date" name="startDate" id="startDate" /></td>
-                </tr>
-                <tr>
-                    <td>Ngày đến</td>
-                    <td><input type="date" name="endDate" id="endDate" /></td>
-                </tr>
-                <tr>
+            <div class="background">
+                <svg width="100%" height="100%" viewBox="0 0 1561 1223" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 20C0 8.95433 8.9543 0 20 0H1541C1552.05 0 1561 8.9543 1561 20V1023C1561 1133.46 1471.46 1223 1361 1223H20C8.95433 1223 0 1214.05 0 1203V20Z" fill="url(#paint0_linear_16_96)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear_16_96" x1="0" y1="0" x2="1187.47" y2="1515.65" gradientUnits="userSpaceOnUse">
+                    <stop offset="0.438541" stop-color="#57F3DF" stop-opacity="0.84"/>
+                    <stop offset="0.9998" stop-color="#AFBBD7" stop-opacity="0.52"/>
+                    <stop offset="0.9999" stop-color="#4C83FF"/>
+                    </linearGradient>
+                    </defs>
+                </svg> 
+            </div>    
+            <br><br><br>
+            <div >    
+                <h1 class="create">Tạo đơn hàng</h1>
+                <br><br><br>
+                
+                    <table id="Order" class="create1">
+                        <tr>
+                            <td>Tên đơn hàng:</td>
+                            <td><input type="text" name="orderName" id="orderName" placeholder="Ví dụ: Hoa quả đi Hà Nội" class="select1"/>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>Ngày đi:</td>
+                            <td><input type="date" name="startDate" id="startDate" class="select1"/></td>
+                        </tr>
+                        <tr>
+                            <td>Ngày đến:</td>
+                            <td><input type="date" name="endDate" id="endDate" class="select1" /></td>
+                        </tr>
+                        <tr>
 
-                    <td>Địa điểm đi</td>
-                    <td>
-                        <select id="city">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="district">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="ward">
-                            <option value="" selected>Chọn xã</option>
-                        </select>
-                    </td>
-                    <td><input type="text" id="detailPositionGo" placeholder="địa chỉ cụ thể" /></td>
+                            <td>Địa điểm đi:</td>
+                            <td>
+                                <select id="city" class="select1">
+                                    <option value="" selected >Chọn tỉnh thành</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="district" class="select1">
+                                    <option value="" selected >Chọn quận huyện</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="ward" class="select1">
+                                    <option value="" selected >Chọn xã</option>
+                                </select>
+                            </td>
+                            <td><input type="text" id="detailPositionGo" placeholder="địa chỉ cụ thể" /></td>
 
-                </tr>
-                <tr>
+                        </tr>
+                        <tr>
 
-                    <td>Địa điểm đến</td>
-                    <td>
-                        <select id="cityCome">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="districtCome">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="wardCome">
-                            <option value="" selected>Chọn xã</option>
-                        </select>
-                    </td>
-                    <td><input type="text" id="detailPositionCome" placeholder="địa chỉ cụ thể" /></td>
+                            <td>Địa điểm đến:</td>
+                            <td >
+                                <select id="cityCome" class="select1">
+                                    <option value="" selected >Chọn tỉnh thành</option>
+                                </select>
+                            </td>
+                            <td >
+                                <select id="districtCome" class="select1">
+                                    <option value="" selected >Chọn quận huyện</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="wardCome" class="select1">
+                                    <option value="" selected >Chọn xã</option>
+                                </select>
+                            </td>
+                            <td><input type="text" id="detailPositionCome" placeholder="địa chỉ cụ thể" /></td>
 
-                </tr>
-            </table>
-
+                        </tr>
+                    </table>
+                
+            </div>
+            <br><br><br>
+            <div>
+                <button onclick="createOrder()" class="button1">Create Order</button>
+            </div>
         </main>
-
+        <br><br><br>
         <main1>
-            <h1>Thêm mặt hàng</h1>
+            <h1  class="create">Thêm mặt hàng</h1>
+            <br><br><br>
             <table id="OrderItem" border="1">
                 <tr>
                     <th>Tên mặt hàng</th>
@@ -134,45 +158,17 @@
                     <td><input type="text" id="input16" placeholder="ghi chú"></td>
                 </tr>
             </table>
-            <button onclick="addRow()">Add Row</button>
+            <br><br><br>
+            <button onclick="addRow()" class="button1">Add Row</button>
 
         </main1>
-        <div>
-            <button onclick="createOrder()">Create Order</button>
-        </div>
+    </div>
+        
 
     </div>
 
     <!-- dùng để hiện username và logout -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var storedUserInformation = localStorage.getItem('userInfo');
-            var parsedUserInformation = JSON.parse(storedUserInformation);
-
-            var userInfoContainer = document.getElementById('user-info');
-
-            if (parsedUserInformation) {
-                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
-
-                var userInfoElement = document.createElement('span');
-                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
-
-                userInfoContainer.appendChild(userInfoElement);
-
-
-                logoutButton.addEventListener('click', function () {
-                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
-                    localStorage.removeItem('userInfo');
-                    window.location.href = "../public/login.html";
-                });
-
-                userInfoContainer.appendChild(logoutButton);
-            } else {
-                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
-                window.location.href = "../public/login.html";
-            }
-        });
-    </script>
+    
 </body>
 
 </html>
