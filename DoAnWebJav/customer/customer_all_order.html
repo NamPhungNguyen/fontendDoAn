@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./customer_home.css">
+    <title>Trang chủ khách hàng</title>
+    <style>
+        select {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 10px rgba(102, 175, 233, 0.6);
+        }
+
+        table {
+            padding: 0;
+            padding: 0;
+            border-collapse: collapse;
+            /*width: 100%;*/
+            /* Bảng chiếm toàn bộ chiều rộng của container */
+        }
+
+        /* Định dạng các đường biên của bảng và ô */
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        /* Tô màu nền cho các ô header */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nội dung của các ô */
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* Màu nền cho các ô chẵn */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* CSS cho nút đăng xuất */
+        #logoutButton {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button#logoutButton {
+            padding-left: 10px;
+        }
+
+        /* Hover effect */
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+    <style>
+        /* CSS để ẩn tất cả các phần trừ phần đầu tiên */
+        #content>div:not(:first-child) {
+            display: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <script src="../javaScript/check_token.js"></script>
+    <script src="customer_all_order.js"></script>
+
+    <section id="header">
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="customer_home.html">Trang chủ</a></li>
+                <li><a href="customer_create_order.html">Tạo đơn</a></li>
+                <li><a class="active" href="customer_all_order.html">Các đơn</a></li>
+                <li><a href="customer_infor.html">Thông tin</a></li>
+                <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
+            </ul>
+        </div>
+    </section>
+
+
+    <section style="padding-bottom: 20px;">
+        <div id="navbar2" align="center" style="padding-top: 20px;">
+            <a href="#" data-page="page1"><button>Các đơn mới tạo</button></a>
+            <a href="#" data-page="page2"><button>Chờ xác nhận</button></a>
+            <a href="#" data-page="page3"><button>Đang giao</button></a>
+            <a href="#" data-page="page4"><button>Lịch sử</button></a>
+        </div>
+
+        <div id="content">
+            <!-- Content will be loaded here -->
+            <div id="page1" align="center">
+                <div style="padding-top: 20px;">
+                    <h3>Danh sách đơn hàng đang tìm tài xế</h3>
+                </div>
+                <div>
+                    <table id="initOrder">
+                    </table>
+                </div>
+            </div>
+
+            <div id="page2" align="center">
+                <div style="padding-top: 20px;">
+                    <h3>Danh sách đơn hàng đang chờ xác nhận</h3>
+                </div>
+                <div>
+                    <table id="waitedOrder">
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div id="page3" align="center">
+                <div style="padding-top: 20px;">
+                    <h3>Danh sách đơn hàng đang trên đường đến</h3>
+                </div>
+            </div>
+
+
+
+            <div id="page4" align="center">
+                <div style="padding-top: 20px;">
+                    <h3>Danh sách đơn hàng đã hoàn thành</h3>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var storedUserInformation = localStorage.getItem('userInfo');
+            var parsedUserInformation = JSON.parse(storedUserInformation);
+
+            var userInfoContainer = document.getElementById('user-info');
+
+            if (parsedUserInformation) {
+                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+                var userInfoElement = document.createElement('span');
+                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+                userInfoContainer.appendChild(userInfoElement);
+
+
+                logoutButton.addEventListener('click', function () {
+                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                    localStorage.removeItem('userInfo');
+                    window.location.href = "../public/login.html";
+                });
+
+                userInfoContainer.appendChild(logoutButton);
+            } else {
+                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+                window.location.href = "../public/login.html";
+            }
+        });
+    </script>
+
+</body>
+
+</html>
