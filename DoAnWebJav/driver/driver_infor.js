@@ -188,7 +188,7 @@ form.addEventListener("submit", function (event) {
 
 
 
-fetch(apiGetNumberVehicle)
+fetch(apiInforDriver)
   .then((response) => {
     if (!response.ok) {
       throw new Error(`Lỗi mạng: ${response.status}`);
@@ -196,10 +196,14 @@ fetch(apiGetNumberVehicle)
     return response.json();
   })
   .then((dataVehicles) => {
+    // console.log(dataVehicles.vehicle);
+    const datas = dataVehicles.vehicle;
     const table = document.getElementById("table-user");
     // console.log(dataVehicles);
     // Lặp qua từng phần tử trong mảng xe
-    dataVehicles.forEach((vehicle) => {
+    
+    datas.forEach((vehicle) => {
+      console.log(vehicle.vehicle.vehicleName);
       // Tạo một hàng mới trong bảng
       const row = table.insertRow(-1);
       // Thêm các ô dữ liệu vào hàng
@@ -211,33 +215,12 @@ fetch(apiGetNumberVehicle)
 
       const fuelEfficiencyCell = row.insertCell(2);
       fuelEfficiencyCell.textContent = vehicle.fuelEfficiency;
-      fetch(apiInforDriver)
-        .then((response) => {
-          // Kiểm tra xem phản hồi có thành công không (status code 200)
-          if (!response.ok) {
-            throw new Error(`Lỗi mạng: ${response.status}`);
-          }
 
-          // Chuyển đổi phản hồi sang đối tượng JSON
-          return response.json();
-        })
-        .then((data) => {
-          var vehicler = data.vehicle;
-          console.log(vehicler);
-          // console.log(dataVehicles);
-          vehicler.forEach(item => {
-            const typeVehicle = row.insertCell(3);
-            typeVehicle.textContent = item.vehicle.vehicleName;
-          })
-          // var dataVehicler = vehicler;
+      const name_verhicle = row.insertCell(3);
+      name_verhicle.textContent = vehicle.vehicle.vehicleName;
+      
 
-        })
-
-
-      // const statusCell = row.insertCell(4);
-      // statusCell.innerHTML = `<span>${vehicle.status}</span>`;
-
-      const actionCell = row.insertCell(3);
+      const actionCell = row.insertCell(4);
 
       //   <button type="button" class="btn btn-primary btn-add" data-toggle="modal"
       //   data-target="#exampleModalCenter">
