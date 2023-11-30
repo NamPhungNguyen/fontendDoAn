@@ -32,7 +32,6 @@
 </head>
 
 <body>
-  <script src="../javaScript/check_token.js"></script>
   <section id="header">
     <a href="#"><img src="../images/fast-delivery1.png" class="logo" /></a>
 
@@ -41,7 +40,7 @@
         <li>
           <a href="../driver/driver_home.html">Trang chủ</a>
         </li>
-        <li><a href="driver_search.html">Tìm kiếm</a></li>
+        <li><a href="about.html">Tìm kiếm</a></li>
         <li><a class="active" href="../driver/driver_infor.html">Thông tin</a></li>
         <li>
           <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
@@ -58,9 +57,7 @@
             <div class="list-group list-group-flush account-settings-links">
               <a class="list-group-item list-group-item-action active" data-toggle="list"
                 href="#account-general">Chung</a>
-              <a class="list-group-item list-group-item-action" data-toggle="list"
-                href="#account-change-password">Xe</a>
-              <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Thông tin xe</a>
             </div>
           </div>
           <div class="col-md-9">
@@ -112,24 +109,7 @@
                 </div>
               </form>
 
-              <div class="tab-pane fade" id="account-change-password">
-                <div class="card-body pb-2">
-                  <div class="form-group">
-                    <label class="form-label">Tên loại xe</label>
-                    <input type="text" class="form-control name_verhicle" />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Số bánh xe</label>
-                    <input type="text" class="form-control number_wheel" />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Trạng thái</label>
-                    <input type="text" hidden class="form-control status_verhicle" />
-                    <input type="radio" name="status_verhicle" class="status_verhicle_true" value="" />Hoạt động
-                    <input type="radio" name="status_verhicle" class="status_verhicle_false" value="" />Dừng kinh doanh
-                  </div>
-                </div>
-              </div>
+
 
               <div class="tab-pane fade  list-vehicle" id="account-info">
                 <div class="container">
@@ -146,7 +126,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLongTitle">
-                            Đăng ký xe
+                            Thông tin xe
                           </h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -154,11 +134,6 @@
                         </div>
                         <div class="modal-body">
                           <form class="form-create-vehicle">
-                            <div class="form-group">
-                              <label>Tên xe</label>
-                              <input type="text" class="form-control name-vehicle" name="fullname"
-                                placeholder="Nhập tên xe" />
-                            </div>
                             <div class="form-group">
                               <label>Mô tả</label>
                               <input type="text" class="form-control description-vehicle" name="phone"
@@ -174,15 +149,13 @@
                                 placeholder="" />
                             </div>
                             <div class="form-group">
-                              <label>Trạng thái</label>
-                              <div class="radio">
-                                <label class="checkbox-inline">
-                                  <input type="radio" name="gender" checked="checked" value="true"
-                                    class="status-vehicle" />Hoạt động</label>
-                                <label class="checkbox-inline">
-                                  <input type="radio" name="gender" value="false" class="status-vehicle" />Ngừng hoạt
-                                  động</label>
-                              </div>
+                              <label>Loại xe</label>
+                              <select name="type_car" id="">
+                                <option value="Container 8 bánh">Container 8 bánh</option>
+                                <option value="Container 6 bánh">Container 6 bánh</option>
+                                <option value="Truck">Truck</option>
+                                <option value="Mini Truck">Mini Truck</option>
+                              </select>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-add-vehicle">
@@ -192,27 +165,68 @@
                       </div>
                     </div>
                   </div>
+
+
+                  <!-- Model Edit -->
+                  <div id="editMyModal" class="modal fade btn-add" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">
+                            Thông tin xe
+                          </h5>
+                          <button type="button" class="close-form-edit" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form class="form-edit-vehicle">
+                            <div class="form-group">
+                              <label>Mô tả</label>
+                              <input type="text" class="form-control descriptionVehicle" name="descriptionVehicle"
+                                placeholder="Nhập mô tả" />
+                            </div>
+                            <div class="form-group">
+                              <label>Cargo</label>
+                              <input type="number" class="form-control cargoVehicle" name="cargoVehicle"
+                                placeholder="" />
+                            </div>
+                            <div class="form-group">
+                              <label>fuelEfficiency</label>
+                              <input type="number" class="form-control fuelEfficiencyVehicle"
+                                name="fuelEfficiencyVehicle" placeholder="" />
+                            </div>
+                            <div class="form-group">
+                              <label>Loại xe</label>
+                              <select class="" name="" id="">
+                                <option value="">Container 8 bánh</option>
+                                <option value="">Container 6 bánh</option>
+                                <option value="">Truck</option>
+                                <option value="">Mini Truck</option>
+                              </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-edit-vehicle">
+                          Save
+                        </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+
                 </div>
+
+                <!-- show du lieu  -->
                 <table id="table-user" class="table table-bordered">
                   <tr>
-                    <th>Tên xe</th>
                     <th>Mô tả</th>
                     <th>Cargo</th>
                     <th>FuelEfficiency</th>
-                    <th>Trạng thái</th>
+                    <th>Loại xe</th>
                     <th>Action</th>
                   </tr>
-                  <!-- <tr>
-                        <td class="name-vehicle"></td>
-                        <td class="des-vehicle"></td>
-                        <td class="Cargo-vehicle"></td>
-                        <td class="FuelEfficiency-vehicle"></td>
-                        <td class="status-vehicle"><span></span></td>
-                        <td>
-                          <a class="btn btn-primary btn-sm"></a> |
-                          <a class="btn btn-danger btn-sm btnDelete"></a>
-                        </td>
-                      </tr> -->
                 </table>
               </div>
             </div>
