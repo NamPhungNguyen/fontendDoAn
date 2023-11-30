@@ -201,9 +201,9 @@ fetch(apiInforDriver)
     const table = document.getElementById("table-user");
     // console.log(dataVehicles);
     // Lặp qua từng phần tử trong mảng xe
-    
+
     datas.forEach((vehicle) => {
-      console.log(vehicle.vehicle.vehicleName);
+      // console.log(vehicle.vehicle.vehicleName);
       // Tạo một hàng mới trong bảng
       const row = table.insertRow(-1);
       // Thêm các ô dữ liệu vào hàng
@@ -218,7 +218,7 @@ fetch(apiInforDriver)
 
       const name_verhicle = row.insertCell(3);
       name_verhicle.textContent = vehicle.vehicle.vehicleName;
-      
+
 
       const actionCell = row.insertCell(4);
 
@@ -250,12 +250,25 @@ fetch(apiInforDriver)
           const descriptionVehicle = document.querySelector('.descriptionVehicle').value;
           const cargoVehicle = document.querySelector('.cargoVehicle').value;
           const fuelEfficiencyVehicle = document.querySelector('.fuelEfficiencyVehicle').value;
-          const statusVehicle = document.querySelector('.statusVehicle').value;
+          // Tạo một đối tượng ánh xạ giữa giá trị option và vihcleId tương ứng
+          const vehicleIdMap = {
+            "Container 8 bánh": 1,
+            "Container 6 bánh": 2,
+            "Truck": 3,
+            "Mini Truck": 4
+          };
+
+          // Lấy giá trị của loại xe được chọn khi thực hiện cập nhật
+          const selectedEditType = document.querySelector('.editTypeCar').value;
+
+          // Sử dụng đối tượng ánh xạ để lấy vihcleId tương ứng với loại xe được chọn
+          const selectedEditVihcleId = vehicleIdMap[selectedEditType];
+
           const updatedDataVehicle = {
             driverId: driver_id,
-            vihcleId: 0,
+            vihcleId: selectedEditVihcleId,
             description: descriptionVehicle,
-            status: JSON.parse(statusVehicle),
+            status: true,
             fuelEfficiency: parseFloat(fuelEfficiencyVehicle),
             cargo: parseFloat(cargoVehicle),
           };
@@ -333,7 +346,6 @@ fetch(apiInforDriver)
 
 
 function handleEditVehicle(oviId) {
-
   const vehicleName = document.querySelector(".vehicleName");
   const descriptionVehicle = document.querySelector('.descriptionVehicle');
   const cargoVehicle = document.querySelector('.cargoVehicle');
@@ -399,16 +411,25 @@ formVehicle.addEventListener("submit", (e) => {
   ).value;
   const cargoVehicle = parseFloat(document.querySelector(".cargo-vehicle").value);
   const fuelEfficiencyVehicle = parseFloat(document.querySelector(".fuelEfficiency-vehicle").value);
+  const vehicleTypeTruck = {
+    "Container 8 bánh": 1,
+    "Container 6 bánh": 2,
+    "Truck": 3,
+    "Mini Truck": 4
+  };
+  const selectedType = document.querySelector('select[name="type_car"]').value;
+  // Sử dụng đối tượng ánh xạ để lấy vihcleId tương ứng với loại xe được chọn
+  const selectedVehicleTypeTruck = vehicleTypeTruck[selectedType];
 
-  const statusVehicle = document.querySelector(".status-vehicle").checked;
+
   // Tạo đối tượng chứa dữ liệu để gửi lên API
   const newVehicle = {
     driverId: driver_id,
-    vihcleId: 0,
+    vihcleId: selectedVehicleTypeTruck,
     description: descriptionVehicle,
     cargo: cargoVehicle,
     fuelEfficiency: fuelEfficiencyVehicle,
-    status: statusVehicle,
+    status: true,
   };
   console.log(newVehicle);
   // Gửi dữ liệu lên API để thêm mới xe
