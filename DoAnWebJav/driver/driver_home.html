@@ -26,12 +26,50 @@
         #logoutButton:hover {
             background-color: #d32f2f;
         }
+
+        table {
+            padding: 0;
+            padding: 0;
+            border-collapse: collapse;
+            /*width: 100%;*/
+            /* Bảng chiếm toàn bộ chiều rộng của container */
+        }
+
+        /* Định dạng các đường biên của bảng và ô */
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        /* Tô màu nền cho các ô header */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nội dung của các ô */
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* Màu nền cho các ô chẵn */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 
 <body>
     <!-- header-->
     <script src="../javaScript/check_token.js"></script>
+    <script src="driver_home.js"></script>
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
         <div>
@@ -44,7 +82,46 @@
         </div>
     </section>
 
+
+
     <!-- Your page content goes here -->
+
+
+    <section id="content">
+
+        <div align="center" id="isNotWorked">
+            <div style="padding-top: 20px;">
+                <h3 style="color: gray;">BẠN ĐANG KHÔNG LÀM VIỆC</h3>
+                <h3 style="color: black;">Danh sách các đơn hàng đã ứng tuyển</h3>
+            </div>
+            <div>
+                <table id="AppliedOrder">
+                </table>
+            </div>
+        </div>
+
+
+
+        <div align="center" id="isWorked">
+            <div style="padding-top: 20px;">
+                <h3 style="color: gray;">BẠN ĐANG VẬN CHUYỂN ĐƠN HÀNG</h3>
+                <h3 style="color: black;">Thông tin đơn hàng bạn đang vận chuyển</h3>
+            </div>
+            <div>
+                <table id="OnWorkedOrder">
+                </table>
+            </div>
+            <div>
+                <table id="OnWorkedOrderStatus">
+                </table>
+            </div>
+            <div>
+                <div id="UpdateStatus"></div>
+            </div>
+        </div>
+
+    </section>
+
 
 
 

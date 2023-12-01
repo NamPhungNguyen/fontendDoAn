@@ -87,9 +87,141 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+    fetch("https://localhost:7156/api/Customer/GetAllOnWorkedOrders/" + customerId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+
+            displayOnWorkedOrder(data);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Xử lý lỗi nếu cần
+        });
+
+
+    fetch("https://localhost:7156/api/Customer/GetAllHistory/" + customerId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+
+            displayAllHistory(data);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Xử lý lỗi nếu cần
+        });
 
 
 });
+
+
+
+
+function displayAllHistory(results) {
+
+    var history = document.getElementById("history");
+    history.innerHTML = "";
+    var th = document.createElement("tr");
+    th.innerHTML = `
+    <th>Mã đơn hàng</th>
+    <th>Tên đơn hàng</th>
+    <th>Tài xế ứng tuyển</th>
+    <th>Tình trạng sau khi kết thúc đơn</th>
+`;
+history.appendChild(th);
+    results.forEach(result => {
+        var resultTr = document.createElement("tr");
+        resultTr.innerHTML = `
+    <td>${result.orderId} </td>
+    <td>${result.orderName} </td>
+    <td>${result.ownedVehicleInfor.driver.fullName} - ${result.ownedVehicleInfor.vehicle.vehicleName} - ${result.ownedVehicleInfor.description}</td>
+    <input type="hidden" id="${result.orderId}" value= "${result.ownedVehicleInfor.oVIId}"/>
+    <td><button onclick="xoaTaiXe(${result.orderId})">Xóa tài xế</button></td>
+`;
+
+history.appendChild(resultTr);
+    });
+
+};
+
+
+
+
+function displayOnWorkedOrder(results) {
+
+    var onWorkedOrder = document.getElementById("onWorkedOrder");
+    onWorkedOrder.innerHTML = "";
+    var th = document.createElement("tr");
+    th.innerHTML = `
+    <th>Mã đơn hàng</th>
+    <th>Tên đơn hàng</th>
+    <th>Tài xế</th>
+    <th>trạng thái đơn hàng hiện tại</th>
+    <th>Thời gian đến dự kiến</th>
+    <th>Xác nhận đơn hàng</th>
+`;
+    onWorkedOrder.appendChild(th);
+    results.forEach(result => {
+        var resultTr = document.createElement("tr");
+        resultTr.innerHTML = `
+    <td>${result.order.orderId} </td>
+    <td>${result.order.orderName} </td>
+    <td>${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</td>
+    <td>${result.status} </td>
+`;
+        var td = document.createElement(td);
+        if (new Date(result.order.arrivedDate) <= new Date()) {
+            td.innerHTML = `<font color="red">${result.order.arrivedDate}</font>`;
+        }
+        else {
+            td.innerHTML = `<font color="green">${result.order.arrivedDate}</font>`;
+        }
+        resultTr.appendChild(td);
+        var button = document.createElement("td");
+        if (result.statusId == 6) {
+            button.innerHTML = `<td><p>Hãy thanh toán để xác nhận lấy hàng</p>
+            <button>Chưa thể nhận</button></td>
+            `;
+        }
+        else if (result.statusId == 14) {
+            button.innerHTML = `<td>Hãy thanh toán để tài xế xác nhận nhập kho</td>
+            `;
+        }
+        else if (result.statusId == 15 || result.statusId == 11) {
+            button.innerHTML = `<td><button>Xác nhận kết thúc đơn hàng</button><td>
+            `;
+        }
+        else {
+            button.innerHTML = `<td></td>
+            `;
+        }
+
+        resultTr.appendChild(button);
+        onWorkedOrder.appendChild(resultTr);
+    });
+
+};
 
 
 
@@ -257,7 +389,7 @@ function xoaTaiXe(orderId) {
     var oVIId = document.getElementById(orderId).value;
     if (confirmation) {
         fetch('https://localhost:7156/api/Customer/DeleteContractedByCustomerOrder/' + orderId, {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -268,7 +400,7 @@ function xoaTaiXe(orderId) {
                 console.log("success:", data);
                 if (data === true) {
                     fetch('https://localhost:7156/api/Customer/DeleteAcceptedOrder/' + orderId, {
-                        method: 'POST',
+                        method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
                         },

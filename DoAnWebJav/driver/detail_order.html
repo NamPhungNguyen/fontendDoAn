@@ -78,6 +78,38 @@
 
 
 <script>
+
+
+
+
+    var storedUserInformation = localStorage.getItem('userInfo');
+    var parsedUserInformation = JSON.parse(storedUserInformation);
+    var driverId = parsedUserInformation.id;
+    var checkWorked = false;
+
+    fetch("https://localhost:7156/api/Driver/DriverInfor?driverId=" + driverId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("success:", data);
+            checkWorked = data.driver.isWorked;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Xử lý lỗi nếu cần
+        });
+
+
+
     const urlParams = new URLSearchParams(window.location.search);
     const orderId = urlParams.get("orderId");
     const oVIId = urlParams.get("oVIId");
@@ -142,19 +174,31 @@
                         <td>${data.order.totalAmount}</td>
                     </tr>
                 `;
-                if (data.checkWAL == true) {
+
+
+
+                if (checkWorked == true) {
                     var XemChiTiet = document.createElement("tr");
                     XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input style="color:red" type="button" onclick="XoaUngTuyen()" value="Xóa ứng tuyển"><div></td>`;
+                        <td><div align="right"> <font color="red">* Không thể ứng tuyển khi đang làm việc</font></div></td>`;
                     resultDiv.appendChild(XemChiTiet);
                 }
                 else {
-                    var XemChiTiet = document.createElement("tr");
-                    XemChiTiet.innerHTML = `<td></td>
+                    if (data.checkWAL == true) {
+                        var XemChiTiet = document.createElement("tr");
+                        XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"><input style="color:red" type="button" onclick="XoaUngTuyen()" value="Xóa ứng tuyển"><div></td>`;
+                        resultDiv.appendChild(XemChiTiet);
+                    }
+                    else {
+                        var XemChiTiet = document.createElement("tr");
+                        XemChiTiet.innerHTML = `<td></td>
                         <td><div align="right"><input type="button" onclick="UngTuyen()" value="Ứng tuyển"><div></td>`;
-                    resultDiv.appendChild(XemChiTiet);
+                        resultDiv.appendChild(XemChiTiet);
+                    }
                 }
                 resultContainer.appendChild(resultDiv);
+
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -205,6 +249,7 @@
     // const orderId2 = urlParams.get("orderId");
     function UngTuyen() {
         // Hiển thị cảnh báo cho người dùng
+
         var confirmation = confirm("Bạn chắc chắn muốn ứng tuyển?");
 
         // Nếu người dùng chọn "Có"
