@@ -115,9 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function displayOnWorkedOrder(results) {
-
+    var orderId = results.order.orderId;
     var OnWorkedOrder = document.getElementById("OnWorkedOrder");
-    OnWorkedOrder.innerHTML = "";
+    OnWorkedOrder.innerHTML = " ";
     OnWorkedOrder.innerHTML = `
                     <tr>
                         <td><strong>Tên đơn hàng:</strong></td>
@@ -178,50 +178,45 @@ function displayOnWorkedOrder(results) {
     switch (results.newStatus) {
         case 3:
             UpdateStatus.innerHTML = `
-            <button onclick="">Chuyển hàng đến khách</button>
+            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
             `;
             break;
         case 4:
             UpdateStatus.innerHTML = `
-            <button onclick="">Chuyển hàng đến khách</button>
+            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
             `;
             break;
         case 5:
             UpdateStatus.innerHTML = `
-            <button onclick="">Hàng đã đến nơi</button>
-            <button onclick="">Đang gặp trục trặc</button>
+            <button onclick="updateStatus(6,${orderId})">Hàng đã đến nơi</button>
+            <button onclick="updateStatus(13,${orderId})">Đang gặp trục trặc</button>
             `;
             break;
         case 6:
             UpdateStatus.innerHTML = `
-            <button onclick="">Xác nhận đã được thanh toán</button>
-            <button onclick="">Chuyển hàng đến kho gần nhất</button>
-            `;
-            break;
-        case 10:
-            UpdateStatus.innerHTML = `
-            <button onclick="">Hoàn thành đơn hàng</button>
+            <button onclick="updateStatus(11,${orderId})">Xác nhận đã được thanh toán</button>
+            <button onclick="updateStatus(9,${orderId})">Chuyển hàng đến kho gần nhất</button>
             `;
             break;
         case 8:
             UpdateStatus.innerHTML = `
-            <button onclick="">Chuyển hàng đến kho gần nhất</button>
+            <button onclick="updateStatus(9,${orderId})">Chuyển hàng đến kho gần nhất</button>
             `;
             break;
         case 9:
             UpdateStatus.innerHTML = `
-            <button onclick="">Hàng đã đến kho</button>
-            <button onclick="">Chuyển hàng đến khách</button>
+            <button onclick="updateStatus(14,${orderId})">Hàng đã đến kho</button>
+            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
             `;
             break;
         case 13:
             UpdateStatus.innerHTML = `
-            <button onclick="">Chuyển hàng đến khách</button>
+            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
             `;
             break;
         case 14:
             UpdateStatus.innerHTML = `
-            <button onclick="">Xác nhận đã được thanh toán</button>
+            <button onclick="updateStatus(11,${orderId})">Xác nhận đã được thanh toán</button>
             `;
             break;
         case 11:
@@ -244,13 +239,58 @@ function displayOnWorkedOrder(results) {
 
 };
 
+function updateStatus(statusId, driverId) {
+    var api = "";
+    switch (statusId) {
+        case 5:
+            api = "https://localhost:7156/api/Driver/DeliveringOrder/";
+            break;
+        case 6:
+            api = "https://localhost:7156/api/Driver/DeliveredOrder/";
+            break;
+        case 9:
+            api = "https://localhost:7156/api/Driver/AlteringOrder/";
+            break;
+        case 11:
+            api = "https://localhost:7156/api/Driver/PayedOrder/";
+            break;
+        case 13:
+            api = "https://localhost:7156/api/Driver/AccidentOrder/";
+            break;
+        case 14:
+            api = "https://localhost:7156/api/Driver/AlteredOrder/";
+            break;
+    }
+
+    fetch(api + driverId, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            window.location.href = "driver_home.html";
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
+
+
 
 
 
 function displayAppliedOrder(results) {
 
     var AppliedOrder = document.getElementById("AppliedOrder");
-    AppliedOrder.innerHTML = "";
+    AppliedOrder.innerHTML = " ";
     var th = document.createElement("tr");
     th.innerHTML = `
     <th>Mã đơn hàng</th>

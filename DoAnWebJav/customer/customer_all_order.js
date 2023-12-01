@@ -147,20 +147,34 @@ function displayAllHistory(results) {
     <th>Mã đơn hàng</th>
     <th>Tên đơn hàng</th>
     <th>Tài xế ứng tuyển</th>
-    <th>Tình trạng sau khi kết thúc đơn</th>
+    <th>Đánh giá</th>
 `;
-history.appendChild(th);
+    history.appendChild(th);
     results.forEach(result => {
         var resultTr = document.createElement("tr");
         resultTr.innerHTML = `
-    <td>${result.orderId} </td>
-    <td>${result.orderName} </td>
-    <td>${result.ownedVehicleInfor.driver.fullName} - ${result.ownedVehicleInfor.vehicle.vehicleName} - ${result.ownedVehicleInfor.description}</td>
-    <input type="hidden" id="${result.orderId}" value= "${result.ownedVehicleInfor.oVIId}"/>
-    <td><button onclick="xoaTaiXe(${result.orderId})">Xóa tài xế</button></td>
+    <td>${result.order.orderId} </td>
+    <td>${result.order.orderName} </td>
+    <td>${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</td>
 `;
 
-history.appendChild(resultTr);
+        var td = document.createElement("td");
+        if (result.statusId == 12)
+            td.innerHTML = `<button onclick="createRate(${result.orderId})">Đánh giá</button>
+        
+        <select >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        </select>
+        
+            <input type="text"/>`;
+        else
+            td.innerHTML = `<p><font>Đã đánh giá</font></p>`;
+        resultTr.appendChild(td);
+        history.appendChild(resultTr);
     });
 
 };
@@ -183,6 +197,7 @@ function displayOnWorkedOrder(results) {
 `;
     onWorkedOrder.appendChild(th);
     results.forEach(result => {
+        var orderId = result.order.orderId;
         var resultTr = document.createElement("tr");
         resultTr.innerHTML = `
     <td>${result.order.orderId} </td>
@@ -201,7 +216,7 @@ function displayOnWorkedOrder(results) {
         var button = document.createElement("td");
         if (result.statusId == 6) {
             button.innerHTML = `<td><p>Hãy thanh toán để xác nhận lấy hàng</p>
-            <button>Chưa thể nhận</button></td>
+            <button onclick="updateStatus(8,${orderId})">Chưa thể nhận</button></td>
             `;
         }
         else if (result.statusId == 14) {
@@ -209,7 +224,7 @@ function displayOnWorkedOrder(results) {
             `;
         }
         else if (result.statusId == 15 || result.statusId == 11) {
-            button.innerHTML = `<td><button>Xác nhận kết thúc đơn hàng</button><td>
+            button.innerHTML = `<td><button onclick="updateStatus(12,${orderId})">Xác nhận kết thúc đơn hàng</button><td>
             `;
         }
         else {
@@ -222,6 +237,41 @@ function displayOnWorkedOrder(results) {
     });
 
 };
+
+
+
+function updateStatus(statusId, driverId) {
+    var api = "";
+    switch (statusId) {
+        case 8:
+            api = "https://localhost:7156/api/Customer/UnTakenOrder/";
+            break;
+        case 12:
+            api = "https://localhost:7156/api/Customer/TakenOrder/";
+            break;
+    }
+
+    fetch(api + driverId, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            window.location.href = "customer_all_order.html?page=3";
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
+
 
 
 
