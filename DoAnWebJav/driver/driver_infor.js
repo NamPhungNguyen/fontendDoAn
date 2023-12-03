@@ -261,7 +261,7 @@ fetch(apiInforDriver)
           const selectedEditType = document.querySelector('select[name="editTypeCar"]').value;
 
           // Sử dụng đối tượng ánh xạ để lấy vihcleId tương ứng với loại xe được chọn
-          const selectedEditVihcleId = vehicleIdMap[selectedEditType];
+          const selectedEditVehicleId = vehicleIdMap[selectedEditType];
 
           const updatedDataVehicle = {
             driverId: driver_id,
