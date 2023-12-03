@@ -262,11 +262,11 @@ fetch(apiInforDriver)
           const selectedEditType = document.querySelector('.editTypeCar').value;
 
           // Sử dụng đối tượng ánh xạ để lấy vihcleId tương ứng với loại xe được chọn
-          const selectedEditVihcleId = vehicleIdMap[selectedEditType];
+          const selectedEditVehicleId = vehicleIdMap[selectedEditType];
 
           const updatedDataVehicle = {
             driverId: driver_id,
-            vihcleId: selectedEditVihcleId,
+            vehicleId: selectedEditVehicleId,
             description: descriptionVehicle,
             status: true,
             fuelEfficiency: parseFloat(fuelEfficiencyVehicle),
@@ -425,7 +425,7 @@ formVehicle.addEventListener("submit", (e) => {
   // Tạo đối tượng chứa dữ liệu để gửi lên API
   const newVehicle = {
     driverId: driver_id,
-    vihcleId: selectedVehicleTypeTruck,
+    vehicleId: selectedVehicleTypeTruck,
     description: descriptionVehicle,
     cargo: cargoVehicle,
     fuelEfficiency: fuelEfficiencyVehicle,
