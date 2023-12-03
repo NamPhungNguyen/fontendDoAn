@@ -31,7 +31,6 @@
 
 <body>
     <!-- header-->
-    <script src="../javaScript/check_token.js"></script>
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
         <div>
@@ -45,60 +44,66 @@
     </section>
 
     <!-- Your page content goes here -->
+    <div align="center" class="container">
+        <div class="background">
+            
+        
+                
+            <form method="post">
+                <h1 style="color: black;">Tìm kiếm đơn hàng</h1>
+                <br><br><br>
+                <table class="create1">
+                    <tr>
+                        <td>Địa điểm đi : </td>
+                        <td>
+                            <select id="city" class="select1">
+                                <option value="" selected >Chọn tỉnh thành</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="district" class="select1">
+                                <option value="" selected >Chọn quận huyện</option>
+                            </select>
+                        </td>
 
-    <div align="center">
-        <form method="post">
-            <h1>Tìm kiếm đơn hàng</h1>
-            <table>
-                <tr>
+                    </tr>
+                    <tr>
 
-                    <td>Địa điểm đi : </td>
-                    <td>
-                        <select id="city">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="district">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
+                        <td>Địa điểm đến : </td>
+                        <td>
+                            <select id="cityCome" class="select1">
+                                <option value="" selected >Chọn tỉnh thành</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="districtCome" class="select1">
+                                <option value="" selected >Chọn quận huyện</option>
+                            </select>
+                        </td>
 
-                </tr>
-                <tr>
+                    </tr>
+                    <tr>
 
-                    <td>Địa điểm đến : </td>
-                    <td>
-                        <select id="cityCome">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="districtCome">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
+                        <td>Chọn xe : </td>
+                        <td>
+                            <select id="dynamicSelect" class="select1">
+                                <option value="" selected>Chọn xe</option>
+                            </select>
 
-                </tr>
-                <tr>
-
-                    <td>Chọn xe : </td>
-                    <td>
-                        <select id="dynamicSelect">
-                            <option value="" selected>Chọn xe</option>
-                        </select>
-
-                    </td>
-
-
-                </tr>
-            </table>
-            <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px" />
-        </form>
+                        </td>
 
 
-        <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
-        </div>
+                    </tr>
+                </table>
+                <br><br><br>
+                <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px" class="button1"/>
+            </form>
+
+
+            <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
+            </div>
+        
+    </div>
     </div>
 
 
@@ -324,35 +329,6 @@
     </script>
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var storedUserInformation = localStorage.getItem('userInfo');
-            var parsedUserInformation = JSON.parse(storedUserInformation);
-
-            var userInfoContainer = document.getElementById('user-info');
-
-            if (parsedUserInformation) {
-                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
-
-                var userInfoElement = document.createElement('span');
-                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
-
-                userInfoContainer.appendChild(userInfoElement);
-
-
-                logoutButton.addEventListener('click', function () {
-                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
-                    localStorage.removeItem('userInfo');
-                    window.location.href = "../public/login.html";
-                });
-
-                userInfoContainer.appendChild(logoutButton);
-            } else {
-                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
-                window.location.href = "../public/login.html";
-            }
-        });
-    </script>
 
 
 
