@@ -160,7 +160,7 @@ function displayAllHistory(results) {
 
         var td = document.createElement("td");
         if (result.statusId == 12)
-            td.innerHTML = `<button onclick="createRate(${result.order.orderId})">Đánh giá</button>
+            td.innerHTML = `<button onclick="createRate(${result.order.orderId},${result.order.ownedVehicleInfor.driverId})">Đánh giá</button>
         <div>
         <div>1   2   3   4   5</div>
         <div>
@@ -196,6 +196,40 @@ function displayAllHistory(results) {
 //         radio.style.display = index <= selectedIndex ? 'inline-block' : 'none';
 //     });
 // }
+
+function createRate(orderId, driverId) {
+    
+    fetch("https://localhost:7156/api/Customer/RateDriver", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password,
+            fullName: fullName,
+            birthday: dateOfBirth,
+            phoneNumber: phoneNumber,
+            status: true,
+            able: true,
+            roleId: 4,
+            dateCreatedAccount: timestampInMilliseconds,
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            window.location.href = "customer_all_order.html?page=3";
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
 
 
 
