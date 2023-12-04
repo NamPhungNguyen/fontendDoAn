@@ -265,7 +265,7 @@ fetch(apiInforDriver)
 
           const updatedDataVehicle = {
             driverId: driver_id,
-            vehicleId: selectedEditVihcleId,
+            vehicleId: selectedEditVehicleId,
             description: descriptionVehicle,
             status: true,
             fuelEfficiency: parseFloat(fuelEfficiencyVehicle),

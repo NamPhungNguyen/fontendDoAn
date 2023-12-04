@@ -160,17 +160,19 @@ function displayAllHistory(results) {
 
         var td = document.createElement("td");
         if (result.statusId == 12)
-            td.innerHTML = `<button onclick="createRate(${result.orderId})">Đánh giá</button>
+            td.innerHTML = `<button onclick="createRate(${result.order.orderId})">Đánh giá</button>
+        <div>
+        <div>1   2   3   4   5</div>
+        <div>
+            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=1 >
+            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=2 >
+            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=3 >
+            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=4 >
+            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=5 >
+        </div>
         
-        <select >
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        </select>
-        
-            <input type="text"/>`;
+        </div>
+        <textarea type="text"/>`;
         else
             td.innerHTML = `<p><font>Đã đánh giá</font></p>`;
         resultTr.appendChild(td);
@@ -179,6 +181,21 @@ function displayAllHistory(results) {
 
 };
 
+
+
+
+// function handleRadioChange(selectedRadio) {
+//     // Lấy tất cả các ô chọn cùng một nhóm
+//     var radios = document.querySelectorAll('input[class="' + selectedRadio.class + '"]');
+
+//     // Lấy vị trí của ô chọn đã chọn trong danh sách
+//     var selectedIndex = Array.from(radios).indexOf(selectedRadio);
+
+//     // Duyệt qua tất cả các ô chọn và đặt hiển thị dựa trên vị trí
+//     radios.forEach(function (radio, index) {
+//         radio.style.display = index <= selectedIndex ? 'inline-block' : 'none';
+//     });
+// }
 
 
 

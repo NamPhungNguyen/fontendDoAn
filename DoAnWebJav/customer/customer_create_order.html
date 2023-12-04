@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    
+    <script src="../javaScript/check_token.js"></script>
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
 
@@ -54,71 +54,72 @@
     <div align="center" class="container">
         <div class="background">
             <div>
-                <main>  
+                <main>
                     <br><br><br>
-                    <div >    
+                    <div>
                         <h1 class="create">Tạo đơn hàng</h1>
                         <br><br><br>
-                        
-                            <table id="Order" class="create1">
-                                <tr>
-                                    <td>Tên đơn hàng:</td>
-                                    <td><input type="text" name="orderName" id="orderName" placeholder="Ví dụ: Hoa quả đi Hà Nội" class="select1"/>
-                                    </td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td>Ngày đi:</td>
-                                    <td><input type="date" name="startDate" id="startDate" class="select1"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Ngày đến:</td>
-                                    <td><input type="date" name="endDate" id="endDate" class="select1" /></td>
-                                </tr>
-                                <tr>
 
-                                    <td>Địa điểm đi:</td>
-                                    <td>
-                                        <select id="city" class="select1">
-                                            <option value="" selected >Chọn tỉnh thành</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="district" class="select1">
-                                            <option value="" selected >Chọn quận huyện</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="ward" class="select1">
-                                            <option value="" selected >Chọn xã</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" id="detailPositionGo" placeholder="địa chỉ cụ thể" /></td>
+                        <table id="Order" class="create1">
+                            <tr>
+                                <td>Tên đơn hàng:</td>
+                                <td><input type="text" name="orderName" id="orderName"
+                                        placeholder="Ví dụ: Hoa quả đi Hà Nội" class="select1" />
+                                </td>
 
-                                </tr>
-                                <tr>
+                            </tr>
+                            <tr>
+                                <td>Ngày đi:</td>
+                                <td><input type="date" name="startDate" id="startDate" class="select1" /></td>
+                            </tr>
+                            <tr>
+                                <td>Ngày đến:</td>
+                                <td><input type="date" name="endDate" id="endDate" class="select1" /></td>
+                            </tr>
+                            <tr>
 
-                                    <td>Địa điểm đến:</td>
-                                    <td >
-                                        <select id="cityCome" class="select1">
-                                            <option value="" selected >Chọn tỉnh thành</option>
-                                        </select>
-                                    </td>
-                                    <td >
-                                        <select id="districtCome" class="select1">
-                                            <option value="" selected >Chọn quận huyện</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="wardCome" class="select1">
-                                            <option value="" selected >Chọn xã</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" id="detailPositionCome" placeholder="địa chỉ cụ thể" /></td>
+                                <td>Địa điểm đi:</td>
+                                <td>
+                                    <select id="city" class="select1">
+                                        <option value="" selected>Chọn tỉnh thành</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="district" class="select1">
+                                        <option value="" selected>Chọn quận huyện</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="ward" class="select1">
+                                        <option value="" selected>Chọn xã</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" id="detailPositionGo" placeholder="địa chỉ cụ thể" /></td>
 
-                                </tr>
-                            </table>
-                        
+                            </tr>
+                            <tr>
+
+                                <td>Địa điểm đến:</td>
+                                <td>
+                                    <select id="cityCome" class="select1">
+                                        <option value="" selected>Chọn tỉnh thành</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="districtCome" class="select1">
+                                        <option value="" selected>Chọn quận huyện</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="wardCome" class="select1">
+                                        <option value="" selected>Chọn xã</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" id="detailPositionCome" placeholder="địa chỉ cụ thể" /></td>
+
+                            </tr>
+                        </table>
+
                     </div>
                     <br><br><br>
                     <div>
@@ -128,9 +129,9 @@
             </div>
             <div>
                 <main1>
-                    <h1  class="create">Thêm mặt hàng</h1>
+                    <h1 class="create">Thêm mặt hàng</h1>
                     <br><br><br>
-                    
+
                     <table id="OrderItem" border="1" class="create1">
                         <tr>
                             <th>Tên mặt hàng</th>
@@ -151,7 +152,7 @@
                         </tr>
                     </table>
                     <br><br><br>
-                    
+
 
                     <button onclick="addRow()" class="button1">Add Row</button>
 
@@ -161,20 +162,20 @@
                     <span id="currentPage">1</span>
                     <button id="nextPage">Next</button>
                 </div>
-                
+
             </div>
-        </div> 
+        </div>
     </div>
-    
+
 
     <!-- dùng để hiện username và logout -->
-    
+
 </body>
 
 </html>
 
 <script>
-     // Add a variable to store the current page
+    // Add a variable to store the current page
     var currentPage = 1;
 
     // Function to update displayed rows based on the current page
@@ -423,7 +424,7 @@
         deleteButton.onclick = function () { deleteRow(this); };
         actionCell.appendChild(deleteButton);
     }
-    
+
     function deleteRow(button) {
         var row = button.parentNode.parentNode;
         var confirmation = confirm("Bạn muốn xóa mặt hàng không?");
