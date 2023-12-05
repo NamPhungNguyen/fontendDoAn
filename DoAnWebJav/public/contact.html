@@ -25,7 +25,60 @@
     </section>
 
     <!-- Your page content goes here -->
+    <section align="center">
+        <div align="center">
+            <h1>Liên hệ</h1>
+            <table>
+                <tr>
+                    <td>Tên đầu đủ của bạn:</td>
+                    <td><input type="text" id="contactName" required /></td>
+                </tr>
+                <tr>
+                    <td>Email của bạn:</td>
+                    <td><input type="email" id="contactEmail" required /></td>
+                </tr>
+                <tr>
+                    <td>Tin nhắn:</td>
+                    <td><textarea id="contactContent" required></textarea></td>
+                </tr>
+            </table>
+            <button onclick="createContact()">Gửi</button>
+
+        </div>
+    </section>
 
 </body>
 
 </html>
+
+<script>
+    function createContact() {
+        var fullName = document.getElementById("contactName").value;
+        var email = document.getElementById("contactEmail").value;
+        var content = document.getElementById("contactContent").value;
+        if (fullName == "" || email == "" || content == "") {
+            alert("Bạn phải nhập đầy đủ thông tin");
+        }
+        else
+            fetch('https://localhost:7156/api/Public/CreateContaction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "fullName": fullName,
+                    "email": email,
+                    "comntent": content,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("success:", data);
+                    alert("bạn đã gửi thư thành công, chúng tôi sẽ liên lạc qua Email.");
+                    window.location.href = "contact.html";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+    }
+</script>
