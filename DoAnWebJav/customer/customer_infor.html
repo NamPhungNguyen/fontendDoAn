@@ -144,7 +144,9 @@
         var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
         var customer_id = parsedUserInformation.id;
 
-        var userInfoElement = document.createElement("span");
+        var userInfoElement = document.createElement('a');
+        userInfoElement.href = '../public/view_customer_infor.html?customerId=' + customer_id;
+        userInfoElement.target = 'blank';
         userInfoElement.textContent = "Chào, " + username; // Thông tin về người dùng
 
         userInfoContainer.appendChild(userInfoElement);
@@ -205,7 +207,9 @@
             // Tạo một container để chứa cả thông tin người dùng và nút đăng xuất
             var userInfoContainer = document.getElementById("user-info");
 
-            var userGreeting = document.createElement("span");
+            var userInfoElement = document.createElement('a');
+            userInfoElement.href = '../public/view_customer_infor.html?customerId=' + customer_id;
+            userInfoElement.target = 'blank';
             userGreeting.textContent = "Chào, " + data.fullName; // Thông tin về người dùng
 
             var logoutButton = document.createElement("button");

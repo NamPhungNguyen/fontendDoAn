@@ -5,7 +5,10 @@ if (parsedUserInformation) {
   var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
   var driver_id = parsedUserInformation.id; // Giả sử tên người dùng được lưu trong userInfo
 
-  var userInfoElement = document.createElement("span");
+  //var userInfoElement = document.createElement("span");
+  var userInfoElement = document.createElement('a');
+  userInfoElement.href = '../public/view_driver_infor.html?driverId=' + driver_id;
+  userInfoElement.target = 'blank';
   userInfoElement.textContent = "Chào, " + username; // Thông tin về người dùng
 
   userInfoContainer.appendChild(userInfoElement);

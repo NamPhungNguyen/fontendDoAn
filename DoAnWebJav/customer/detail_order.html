@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin người dùng</title>
-    <link rel="stylesheet" href="driver_infor.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./customer_home.css">
+    <title>Trang chủ khách hàng</title>
     <style>
         /* CSS cho nút đăng xuất */
         #logoutButton {
@@ -31,15 +30,16 @@
 </head>
 
 <body>
-
     <script src="../javaScript/check_token.js"></script>
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+
         <div>
             <ul id="navbar">
-                <li><a href="driver_home.html">Trang chủ</a></li>
-                <li><a href="driver_search.html">Tìm kiếm</a></li>
-                <li><a href="driver_infor.html">Thông tin</a></li>
+                <li><a href="../customer/customer_home.html">Trang chủ</a></li>
+                <li><a href="customer_create_order.html">Tạo đơn</a></li>
+                <li><a href="customer_all_order.html">Các đơn</a></li>
+                <li><a href="customer_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
             </ul>
         </div>
@@ -90,33 +90,10 @@
 
     var storedUserInformation = localStorage.getItem('userInfo');
     var parsedUserInformation = JSON.parse(storedUserInformation);
-    var driverId = parsedUserInformation.id;
-    var checkWorked = false;
+    var customerId = parsedUserInformation.id;
     var checkStatus = 0;
     const urlParams = new URLSearchParams(window.location.search);
     const orderId = urlParams.get("orderId");
-    const oVIId = urlParams.get("oVIId");
-
-    fetch("https://localhost:7156/api/Driver/DriverInfor?driverId=" + driverId, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("success:", data);
-            checkWorked = data.driver.isWorked;
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            // Xử lý lỗi nếu cần
-        });
 
 
 
@@ -151,7 +128,7 @@
 
 
 
-        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/" + oVIId, {
+        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -209,57 +186,29 @@
                 `;
 
 
-                if (checkStatus != 19) {
-                    if (data.order.oviId == oVIId && (checkStatus == 2 || checkStatus == 4)) {
-                        var XemChiTiet = document.createElement("tr");
-                        XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input style="color:orange" type="button" onclick="xoaDonKhiDaDuocChon()" value="Xóa ứng tuyển (Bạn đã được chọn)"><div></td>`;
-                        resultDiv.appendChild(XemChiTiet);
-                    }
-                    else if (data.order.oviId == oVIId && (checkStatus == 12 || checkStatus == 129)) {
-                        var XemChiTiet = document.createElement("tr");
-                        XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"> <font color="blue">ĐƠN HÀNG ĐÃ HOÀN THÀNH</font></div></td>`;
-                        resultDiv.appendChild(XemChiTiet);
-                    }
-                    else {
-                        alert("đơn hàng không tồn tại")
-                        window.location.href = "driver_search.html"
-                    }
+                if (checkStatus == 19) {
+                    var XemChiTiet = document.createElement("tr");
+                    XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"><button> <font color="red">XÓA ĐƠN HÀNG</font></button></div></td>`;
+                    resultDiv.appendChild(XemChiTiet);
+                }
+                else if ((checkStatus == 4) || (checkStatus == 2)) {
+                    var XemChiTiet = document.createElement("tr");
+                    XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"> <font color="green">CHỜ TÀI XẾ XÁC NHẬN</font></div></td>`;
+                    resultDiv.appendChild(XemChiTiet);
+                }
+                else if ((checkStatus == 12) || (checkStatus == 129)) {
+                    var XemChiTiet = document.createElement("tr");
+                    XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"> <font color="black">ĐƠN HÀNG ĐÃ HOÀN THÀNH</font></div></td>`;
+                    resultDiv.appendChild(XemChiTiet);
                 }
                 else {
-                    if (checkWorked == true) {
-
-                        var XemChiTiet = document.createElement("tr");
-                        XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"> <font color="red">* Không thể ứng tuyển khi đang làm việc</font></div></td>`;
-                        resultDiv.appendChild(XemChiTiet);
-
-                    }
-                    else {
-                        if (data.checkWAL == true) {
-                            if (data.order.oviId == oVIId) {
-                                var XemChiTiet = document.createElement("tr");
-                                XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input style="color:orange" type="button" onclick="xoaDonKhiDaDuocChon()" value="Xóa ứng tuyển (Bạn đã được chọn)"><div></td>`;
-                                resultDiv.appendChild(XemChiTiet);
-
-                            }
-                            else {
-                                var XemChiTiet = document.createElement("tr");
-                                XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input style="color:red" type="button" onclick="XoaUngTuyen()" value="Xóa ứng tuyển"><div></td>`;
-                                resultDiv.appendChild(XemChiTiet);
-                            }
-
-                        }
-                        else {
-                            var XemChiTiet = document.createElement("tr");
-                            XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input type="button" onclick="UngTuyen()" value="Ứng tuyển"><div></td>`;
-                            resultDiv.appendChild(XemChiTiet);
-                        }
-                    }
+                    var XemChiTiet = document.createElement("tr");
+                    XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"> <font color="orange">ĐƠN HÀNG ĐANG LÀM VIỆC</font></div></td>`;
+                    resultDiv.appendChild(XemChiTiet);
                 }
                 resultContainer.appendChild(resultDiv);
 
@@ -307,125 +256,6 @@
 </script>
 
 
-
-<script>
-    // const urlParams2 = new URLSearchParams(window.location.search);
-    // const orderId2 = urlParams.get("orderId");
-    function UngTuyen() {
-        // Hiển thị cảnh báo cho người dùng
-
-        var confirmation = confirm("Bạn chắc chắn muốn ứng tuyển?");
-
-        // Nếu người dùng chọn "Có"
-        if (confirmation) {
-            // Thực hiện gọi API POST ở đây
-            // Đây chỉ là mô phỏng, bạn cần thay thế đoạn mã này với logic thực tế của bạn
-            // Ví dụ: sử dụng fetch() hoặc XMLHttpRequest để gọi API
-            fetch('https://localhost:7156/api/Driver/ApplyOrder/' + oVIId + '/' + orderId, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Các headers khác nếu cần
-                },
-                // Dữ liệu gửi đi, nếu có
-                body: JSON.stringify({}),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        alert("bạn đã ứng tuyển từ trước rồi.");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("success:", data);
-                    window.location.href = 'driver_home.html';
-                })
-                .catch(error => {
-                    // Xử lý lỗi nếu cần
-                    alert("Có lỗi xảy ra khi ứng tuyển.");
-                });
-        }
-        // Người dùng chọn "Không" hoặc hủy bỏ
-        else {
-            // Không làm gì cả hoặc thực hiện các hành động khác theo nhu cầu của bạn
-        }
-    }
-
-
-    function XoaUngTuyen() {
-        var confirmation = confirm("Bạn chắc chắn muốn XÓA ứng tuyển?");
-        if (confirmation) {
-            fetch('https://localhost:7156/api/Driver/DeleteApplyOrder/' + oVIId + '/' + orderId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        alert("bạn đã XÓA trước đó rồi.");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("success:", data);
-                    window.location.href = 'detail_order.html?orderId=' + orderId + '&oVIId=' + oVIId;
-                })
-                .catch(error => {
-                    alert("Có lỗi xảy ra khi ứng tuyển.");
-                });
-        }
-        else {
-        }
-    }
-
-
-
-
-    function xoaDonKhiDaDuocChon() {
-        var confirmation = confirm("Bạn chắc chắn không muốn nhận đơn này?");
-        if (confirmation) {
-            fetch('https://localhost:7156/api/Customer/DeleteContractedByCustomerOrder/' + orderId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("success:", data);
-                    if (data === true) {
-                        fetch('https://localhost:7156/api/Customer/DeleteAcceptedOrder/' + orderId, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({}),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log("success:", data);
-                            })
-                            .catch(error => {
-                                console.error("Error:", error);
-                            });
-                        alert("Bạn đã không nhận đơn hàng " + orderId);
-                        window.location.href = 'detail_order.html?orderId=' + orderId + '&oVIId=' + oVIId;
-                    } else {
-                        alert("Có lỗi xảy ra khi xóa tài xế.");
-                        window.location.href = 'detail_order.html?orderId=' + orderId + '&oVIId=' + oVIId;
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        } else {
-
-        }
-    }
-</script>
 
 
 

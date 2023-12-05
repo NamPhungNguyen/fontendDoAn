@@ -154,8 +154,8 @@ function displayAllHistory(results) {
         var resultTr = document.createElement("tr");
         resultTr.innerHTML = `
     <td>${result.order.orderId} </td>
-    <td>${result.order.orderName} </td>
-    <td>${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</td>
+    <td><a href="detail_order.html?orderId=${result.order.orderId}" target="blank">${result.order.orderName} </a></td>
+    <td><a href="../public/view_driver_infor.html?driverId=${result.order.ownedVehicleInfor.driverId}" target="blank">${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</a></td>
 `;
 
         var td = document.createElement("td");
@@ -164,15 +164,15 @@ function displayAllHistory(results) {
         <div>
         <div>1   2   3   4   5</div>
         <div>
-            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=1 >
-            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=2 >
-            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=3 >
-            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=4 >
-            <input type="radio"  class="${result.order.orderId}"  name="${result.order.orderId}" value=5 >
+            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=1 >
+            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=2 >
+            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=3 >
+            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=4 >
+            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=5 >
         </div>
         
         </div>
-        <textarea type="text"/>`;
+        <textarea type="text" id="c${result.order.orderId}" />`;
         else
             td.innerHTML = `<p><font>Đã đánh giá</font></p>`;
         resultTr.appendChild(td);
@@ -198,37 +198,51 @@ function displayAllHistory(results) {
 // }
 
 function createRate(orderId, driverId) {
-    
-    fetch("https://localhost:7156/api/Customer/RateDriver", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password,
-            fullName: fullName,
-            birthday: dateOfBirth,
-            phoneNumber: phoneNumber,
-            status: true,
-            able: true,
-            roleId: 4,
-            dateCreatedAccount: timestampInMilliseconds,
+
+    var storedUserInformation = localStorage.getItem('userInfo');
+    var parsedUserInformation = JSON.parse(storedUserInformation);
+    var customerId = parsedUserInformation.id;
+    var comment = document.getElementById('c' + orderId).value;
+    var rate = 0;
+    var radios = document.getElementsByName('r' + orderId);
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            rate = radios[i].value;
+            break;
+        }
+    }
+    if (rate == 0) {
+        alert("bạn phải chọn đánh giá");
+    }
+    else
+        fetch("https://localhost:7156/api/Customer/RateDriver", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                rate: rate,
+                commnent: comment,
+                driverId: driverId,
+                customerId: customerId,
+                orderId: orderId,
+                status: true,
+                commenDate: new Date(),
+            })
         })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            window.location.href = "customer_all_order.html?page=3";
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                window.location.href = "customer_all_order.html?page=4";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
 }
 
 
@@ -252,8 +266,8 @@ function displayOnWorkedOrder(results) {
         var resultTr = document.createElement("tr");
         resultTr.innerHTML = `
     <td>${result.order.orderId} </td>
-    <td>${result.order.orderName} </td>
-    <td>${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</td>
+    <td><a href="detail_order.html?orderId=${result.order.orderId}" target="blank">${result.order.orderName} </a></td>
+    <td><a href="../public/view_driver_infor.html?driverId=${result.order.ownedVehicleInfor.driverId}" target="blank">${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</a></td>
     <td>${result.status} </td>
 `;
         var td = document.createElement(td);
@@ -341,8 +355,8 @@ function displayWaitedDeliveredOrder(results) {
         var resultTr = document.createElement("tr");
         resultTr.innerHTML = `
     <td>${result.orderId} </td>
-    <td>${result.orderName} </td>
-    <td>${result.ownedVehicleInfor.driver.fullName} - ${result.ownedVehicleInfor.vehicle.vehicleName} - ${result.ownedVehicleInfor.description}</td>
+    <td><a href="detail_order.html?orderId=${result.orderId}" target="blank">${result.orderName} </a></td>
+    <td><a href="../public/view_driver_infor.html?driverId=${result.ownedVehicleInfor.driverId}" target="blank">${result.ownedVehicleInfor.driver.fullName} - ${result.ownedVehicleInfor.vehicle.vehicleName} - ${result.ownedVehicleInfor.description}</a></td>
     <input type="hidden" id="${result.orderId}" value= "${result.ownedVehicleInfor.oVIId}"/>
     <td><button onclick="xoaTaiXe(${result.orderId})">Xóa tài xế</button></td>
 `;
@@ -374,7 +388,7 @@ function displayInitOrder(results) {
         var orderId = result.orderId;
         resultTr.innerHTML = `
         <td>${result.orderId} </td>
-        <td>${result.orderName} </td>
+        <td><a href="detail_order.html?orderId=${result.orderId}" target="blank">${result.orderName} </a></td>
     `;
 
         var select = document.createElement("select");

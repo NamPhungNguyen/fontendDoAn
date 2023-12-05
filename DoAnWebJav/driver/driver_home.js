@@ -125,7 +125,7 @@ function displayOnWorkedOrder(results) {
                     </tr>
                     <tr>
                         <td><strong>Khách hàng (xem chi tiết):</strong></td>
-                        <td><a target="_blank" href="driver_view_customer_infor.html?customerId=${results.order.customerId}" >${results.order.customer.fullName}</a></td>
+                        <td><a target="_blank" href="../public/view_customer_infor.html?customerId=${results.order.customerId}" >${results.order.customer.fullName}</a></td>
                     </tr>
                     <tr>
                         <td><strong>Ngày đi:</strong></td>
@@ -295,7 +295,7 @@ function displayAppliedOrder(results) {
     th.innerHTML = `
     <th>Mã đơn hàng</th>
     <th>Tên đơn hàng</th>
-    <th>Tài xế ứng tuyển</th>
+    <th>Xe ứng tuyển</th>
     <th>Được chọn</th>
 `;
     AppliedOrder.appendChild(th);
@@ -303,7 +303,7 @@ function displayAppliedOrder(results) {
         var resultTr = document.createElement("tr");
         resultTr.innerHTML = `
     <td>${result.order.orderId} </td>
-    <td>${result.order.orderName} </td>
+    <td><a href="detail_order.html?orderId=${result.order.orderId}&oVIId=${result.oVI.oviId}">${result.order.orderName} </a></td>
     <td>${result.oVI.vehicle.vehicleName} - ${result.oVI.description}</td>
     <input type="hidden" id="${result.order.orderId}" value= "${result.order.orderId}"/>
 `;

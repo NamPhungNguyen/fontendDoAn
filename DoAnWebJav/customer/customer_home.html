@@ -48,13 +48,15 @@
         document.addEventListener("DOMContentLoaded", function () {
             var storedUserInformation = localStorage.getItem('userInfo');
             var parsedUserInformation = JSON.parse(storedUserInformation);
-
+            var id = parsedUserInformation.id;
             var userInfoContainer = document.getElementById('user-info');
 
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
 
-                var userInfoElement = document.createElement('span');
+                var userInfoElement = document.createElement('a');
+                userInfoElement.href = '../public/view_customer_infor.html?customerId=' + id;
+                userInfoElement.target = 'blank';
                 userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
 
                 userInfoContainer.appendChild(userInfoElement);
