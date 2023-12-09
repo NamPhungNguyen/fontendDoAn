@@ -2,14 +2,141 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông tin tài xế</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
 </head>
 
 <body>
     <script src="../javaScript/check_token.js"></script>
-    <h1>Thông tin tài xế</h1>
 
+    <section>
+        <div class="container light-style flex-grow-1 container-p-y">
+            <h4 class="font-weight-bold py-3 mb-4"></h4>
+            <div class="card overflow-hidden">
+                <div class="row no-gutters row-bordered row-border-light">
+                    <div class="col-md-3 pt-0">
+                        <div class="list-group list-group-flush account-settings-links">
+                            <a class="list-group-item list-group-item-action active" data-toggle="list"
+                                href="#account-general">Thông tin tài xế</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list"
+                                href="#account-info">Thông tin xe</a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content">
+                            <form class="tab-pane fade active show form-user" id="account-general">
+                                <hr class="border-light m-0" />
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label class="form-label">Họ và Tên</label>
+                                        <input disabled type="text" class="form-control mb-1 driver_name" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">E-mail</label>
+                                        <input disabled type="text" class="form-control mb-1 email" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Địa chỉ</label>
+                                        <input disabled type="text" class="form-control address" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Số điện thoại</label>
+                                        <input disabled type="text" class="form-control phone" value="" />
+                                    </div>
+                                </div>
+                                <div class="ratings">
+                                    <h2 align="center">Đánh giá tài xế</h2>
+                                    <table class="ratings-table">
+                                    </table>
+                                </div>
 
+                            </form>
+                            <div class="tab-pane fade  list-vehicle" id="account-info">
+                                <div class="container">
+                                    <h2>Danh sách xe của tài xế</h2>
+                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                                        Thông tin xe
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="form-create-vehicle">
+                                                        <div class="form-group">
+                                                            <label>Mô tả</label>
+                                                            <input type="text" class="form-control description-vehicle"
+                                                                name="phone" placeholder="Nhập mô tả" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Cargo</label>
+                                                            <input type="number" class="form-control cargo-vehicle"
+                                                                name="email" placeholder="" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>fuelEfficiency</label>
+                                                            <input type="number"
+                                                                class="form-control fuelEfficiency-vehicle" name="age"
+                                                                placeholder="" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Loại xe</label>
+                                                            <select name="type_car" id="">
+                                                                <option value="Container 8 bánh">Container 8 bánh
+                                                                </option>
+                                                                <option value="Container 6 bánh">Container 6 bánh
+                                                                </option>
+                                                                <option value="Truck">Truck</option>
+                                                                <option value="Mini Truck">Mini Truck</option>
+                                                            </select>
+                                                        </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- show du lieu  -->
+                                <table id="table-user" class="table table-bordered">
+                                    <tr>
+                                        <th>Mô tả</th>
+                                        <th>Cargo</th>
+                                        <th>FuelEfficiency</th>
+                                        <th>Loại xe</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript"></script>
+    </section>
 </body>
 
 </html>
@@ -17,4 +144,121 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const driverId = urlParams.get("driverId");
+    const apiInforDriver = `https://localhost:7156/api/Driver/DriverInfor?driverId=${driverId}`;
+    const apiInforDriverPublic = `https://localhost:7156/api/Public/DriverInfor?driverId=${driverId}`;
+    fetch(apiInforDriver)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Lỗi mạng: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // console.log("Dữ liệu từ API:", data);
+            var dataDriver = data.driver;
+
+
+            var driver_name = document.querySelector(".driver_name");
+            var email = document.querySelector(".email");
+            var address = document.querySelector(".address");
+            var phone = document.querySelector(".phone");
+            driver_name.value = dataDriver.fullName;
+            email.value = dataDriver.email;
+            address.value = dataDriver.address;
+            phone.value = dataDriver.phoneNumber;
+
+
+            const datas = data.vehicle;
+            const table = document.getElementById("table-user");
+            // console.log(datas);
+            datas.forEach((vehicle) => {
+                const row = table.insertRow(-1);
+                // Thêm các ô dữ liệu vào hàng
+                const desCell = row.insertCell(0);
+                desCell.textContent = vehicle.description;
+
+                const cargoCell = row.insertCell(1);
+                cargoCell.textContent = vehicle.cargo;
+
+                const fuelEfficiencyCell = row.insertCell(2);
+                fuelEfficiencyCell.textContent = vehicle.fuelEfficiency;
+
+                const name_verhicle = row.insertCell(3);
+                name_verhicle.textContent = vehicle.vehicle.vehicleName;
+            });
+
+            fetch(apiInforDriverPublic)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Lỗi mạng: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    const driverReviews = data.driverRateList;
+                    const ratingsDiv = document.querySelector(".ratings");
+
+                    // Tạo bảng hiển thị đánh giá
+                    const table = document.createElement("table");
+                    table.classList.add("ratings-table");
+
+                    const thead = document.createElement("thead");
+                    const tr = document.createElement("tr");
+
+                    // Tạo các ô tiêu đề bảng
+                    ["Đánh giá", "Bình luận", "Ngày"].forEach((header) => {
+                        const th = document.createElement("th");
+                        th.textContent = header;
+                        tr.appendChild(th);
+                    });
+
+                    thead.appendChild(tr);
+                    table.appendChild(thead);
+
+                    // Tạo thân bảng và điền dữ liệu
+                    const tbody = document.createElement("tbody");
+                    driverReviews.forEach((review) => {
+                        const row = document.createElement("tr");
+
+                        const starCell = document.createElement("td");
+                        starCell.innerHTML = `<span class="star">${review.rate.toString().padStart(2)} ★</span>`;
+
+                        const reviewCell = document.createElement("td");
+                        reviewCell.textContent = review.commnent;
+
+                        const dateCell = document.createElement("td");
+                        dateCell.textContent = review.commentDate;
+
+                        row.appendChild(starCell);
+                        row.appendChild(reviewCell);
+                        row.appendChild(dateCell);
+
+                        tbody.appendChild(row);
+                    });
+
+                    table.appendChild(tbody);
+                    ratingsDiv.appendChild(table);
+                })
+                .catch((error) => {
+                    console.error("Đã xảy ra lỗi:", error);
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        })
+        .catch((error) => {
+            console.error("Đã xảy ra lỗi:", error);
+        });
 </script>
