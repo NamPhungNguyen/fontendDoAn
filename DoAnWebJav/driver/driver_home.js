@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
 function displayOnWorkedOrder(results) {
     var orderId = results.order.orderId;
     var OnWorkedOrder = document.getElementById("OnWorkedOrder");
@@ -447,3 +448,10 @@ function nhanDon(orderId) {
     else {
     }
 }
+
+
+
+
+
+
+
