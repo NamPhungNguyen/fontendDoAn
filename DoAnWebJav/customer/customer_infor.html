@@ -111,18 +111,10 @@
                   <button type="button" class="btn btn-default">Hủy</button>
                 </div>
               </form>
-
-
             </div>
           </div>
         </div>
       </div>
-
-
-    </div>
-    </div>
-    </div>
-
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -279,46 +271,6 @@
     });
 
     userInfoContainer.appendChild(logoutButton);
-
-
-    // Lấy thông tin khách hàng
-
-    // Địa chỉ URL của API
-    const apiUrl = `https://localhost:7156/api/Driver/CustomerInfor?customerId=${customer_id}`;
-
-    // Gửi yêu cầu GET sử dụng Fetch API
-    fetch(apiUrl)
-      .then((response) => {
-        // Kiểm tra xem phản hồi có thành công không (status code 200)
-        if (!response.ok) {
-          throw new Error(`Lỗi mạng: ${response.status}`);
-        }
-
-        // Chuyển đổi phản hồi sang đối tượng JSON
-        return response.json();
-      })
-      .then((data) => {
-        // Xử lý dữ liệu từ phản hồi ở đây
-        console.log("Dữ liệu từ API:", data);
-        var username = document.querySelector(".username");
-        var imagecustomer = document.querySelector(".imagecustomer");
-        var password = document.querySelector(".password");
-        var email = document.querySelector(".email");
-        var address = document.querySelector(".address");
-        var phone = document.querySelector(".phone");
-        username.value = data.fullName;
-        password.value = data.password;
-        email.value = data.email;
-        address.value = data.address;
-        phone.value = data.phoneNumber;
-        imagecustomer.src = data.avatarImageLink
-          ? data.avatarImageLink
-          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
-      })
-      .catch((error) => {
-        // Xử lý lỗi ở đây
-        console.error("Đã xảy ra lỗi:", error);
-      });
 
   </script>
 </body>
