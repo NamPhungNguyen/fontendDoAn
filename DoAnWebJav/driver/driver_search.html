@@ -118,44 +118,52 @@
 
     <script>
         // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
+        let intervalId;
+
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
             var selectedOviId = document.getElementById("dynamicSelect").value;
-
             var selectedProGo = document.getElementById("city").value;
             var selectedDisGo = document.getElementById("district").value;
             var selectedProCome = document.getElementById("cityCome").value;
             var selectedDisCome = document.getElementById("districtCome").value;
 
-            // Gửi dữ liệu lên API
-            fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    oviId: selectedOviId,
-                    disGo: selectedDisGo,
-                    proGo: selectedProGo,
-                    disCome: selectedDisCome,
-                    proCome: selectedProCome,
+            // Kiểm tra xem interval cũ có tồn tại hay không
+            if (intervalId) {
+                clearInterval(intervalId); // Clear interval cũ nếu tồn tại
+            }
+
+            // Tạo mới interval
+            intervalId = setInterval(function () {
+                fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        oviId: selectedOviId,
+                        disGo: selectedDisGo,
+                        proGo: selectedProGo,
+                        disCome: selectedDisCome,
+                        proCome: selectedProCome,
+                    })
                 })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    // Hiển thị kết quả trong div lớn
-                    displayResults(data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    // Xử lý lỗi nếu cần
-                });
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        // Hiển thị kết quả trong div lớn
+                        displayResults(data);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        // Xử lý lỗi nếu cần
+                    });
+            }, 1000);
         }
 
         // Hàm để hiển thị kết quả trong div lớn

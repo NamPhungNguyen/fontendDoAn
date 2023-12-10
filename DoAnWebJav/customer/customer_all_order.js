@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
-
+    //setInterval(function () {
     fetch("https://localhost:7156/api/Customer/GetAllInitializedOrders/" + customerId, {
         method: 'GET',
         headers: {
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error:", error);
             // Xử lý lỗi nếu cần
         });
-
+    // }, 5000);
 
 });
 
