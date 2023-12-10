@@ -94,6 +94,11 @@ fetch(apiInforDriver)
     }
 
 
+
+
+
+
+
     var storedUserInformation = localStorage.getItem("userInfo");
     var parsedUserInformation = JSON.parse(storedUserInformation);
 

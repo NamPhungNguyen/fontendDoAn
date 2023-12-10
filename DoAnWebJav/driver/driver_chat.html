@@ -136,60 +136,39 @@
                 .then(data => {
                     console.log("success:", data);
                     alert("bạn đã gửi thư thành công, chúng tôi sẽ sớm hồi đáp.");
-                    //window.location.href = "driver_chat.html";
+                    window.location.href = "driver_chat.html";
                 })
                 .catch(error => {
                     console.error("Error:", error);
                 });
-    }
-
-
-    function updateMessage(messId) {
-        fetch('https://localhost:7156/api/Driver/Message/' + messId, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log("success:", data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
     }
 </script>
 
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        setInterval(function () {
-            fetch("https://localhost:7156/api/Driver/Message?driverId=" + driverId, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
 
-                    displayMessage(data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    // Xử lý lỗi nếu cần
-                });
-        }
-            , 1000);
+        fetch("https://localhost:7156/api/Driver/Message?driverId=" + driverId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+
+                displayMessage(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
 
 
     });
@@ -210,27 +189,11 @@
         message.appendChild(th);
         results.forEach(result => {
             var resultTr = document.createElement("tr");
-            if (result.checkRead == false) {
-                resultTr.innerHTML = `
-                <td>${result.question} </td>
-                <td>${result.answer}</td>
-                
-            `;
-                if (result.answer != "") {
-                    var button = document.createElement("td");
-                    button.innerHTML = `
-                <button onclick="updateMessage(${result.messId})">Đã đọc</button>
-                `;
-                    resultTr.appendChild(button);
-                }
-            }
-            else resultTr.innerHTML = `
-                <td><font color="gray">${result.question} </font></td>
-                <td><font color="gray">${result.answer} </font></td>
-                
-            `;
-
-
+            resultTr.innerHTML = `
+    <td>${result.question} </td>
+    <td>${result.answer}</td>
+    
+`;
             message.appendChild(resultTr);
         });
     }
