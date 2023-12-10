@@ -7,6 +7,121 @@
     <title>Simple Navigation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        body {
+            width: 100%;
+            display: grid;
+            align-items: center;
+        }
+
+        .contact-in {
+            width: 80%;
+            height: auto;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0px 0px 10px 0px #666;
+        }
+
+        .contact-map {
+            width: 100%;
+            height: auto;
+            flex: 50%;
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        .contact-form {
+            width: 100%;
+            height: auto;
+            flex: 50%;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .contact-form h1 {
+            margin-bottom: 10px;
+        }
+
+        .contact-form-txt {
+            width: 100%;
+            height: 40px;
+            color: #000;
+            border: 1px solid #bcbcbc;
+            border-radius: 50px;
+            outline: none;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .contact-form-txt::placeholder {
+            color: #aaa;
+        }
+
+        .contact-form-textarea {
+            width: 100%;
+            height: 130px;
+            color: #000;
+            border: 1px solid #bcbcbc;
+            border-radius: 50px;
+            outline: none;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .contact-form-textarea::placeholder {
+            color: #aaa;
+        }
+
+        .contact-form-btn {
+            width: 100%;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+            background: #8e2de2;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 10px 0;
+            cursor: pointer;
+            font-size: 18px;
+        }
+    </style>
+    <script>
+        function createContact() {
+            var fullName = document.querySelector(".email").value;
+            var email = document.querySelector(".name").value;
+            var content = document.querySelector(".message").value;
+
+            fetch('https://localhost:7156/api/Public/CreateContaction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "fullName": fullName,
+                    "email": email,
+                    "comntent": content,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("success:", data);
+                    alert("Gửi thành công, chúng tôi sẽ liên lạc qua Email.");
+                    window.location.href = "contact.html";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+
+        }
+    </script>
 </head>
 
 <body>
@@ -25,62 +140,28 @@
     </section>
 
     <!-- Your page content goes here -->
-    <section align="center">
-        <div align="center">
-            <h1>Liên hệ</h1>
-            <table>
-                <tr>
-                    <td>Tên đầu đủ của bạn:</td>
-                    <td><input type="text" id="contactName" required /></td>
-                </tr>
-                <tr>
-                    <td>Email của bạn:</td>
-                    <td><input type="email" id="contactEmail" required /></td>
-                </tr>
-                <tr>
-                    <td>Tin nhắn:</td>
-                    <td><textarea id="contactContent" required></textarea></td>
-                </tr>
-            </table>
-            <button onclick="createContact()">Gửi</button>
 
+    <body align="center">
+        <div class="contact-in">
+            <div class="contact-map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.7334696247194!2d105.84074577479544!3d21.003318488652827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac773026b415%3A0x499b8b613889f78a!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBYw6J5IEThu7FuZyBIw6AgTuG7mWkgLSBOVUNF!5e0!3m2!1svi!2s!4v1702180266827!5m2!1svi!2s"
+                    width="100%" height="auto" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="contact-form">
+                <h1>Welcome to my Contact</h1>
+                <div>
+                    <input class="contact-form-txt email" type="text" placeholder="Name" required />
+                    <input class="contact-form-txt name" type="email" placeholder="Email" required />
+                    <textarea class="contact-form-textarea message" placeholder="Message" required></textarea>
+                </div>
+                <button class="contact-form-btn" onclick="createContact()">Gửi</button>
+            </div>
         </div>
-    </section>
+    </body>
 
 </body>
 
+
 </html>
-
-<script>
-    function createContact() {
-        var fullName = document.getElementById("contactName").value;
-        var email = document.getElementById("contactEmail").value;
-        var content = document.getElementById("contactContent").value;
-        if (fullName == "" || email == "" || content == "") {
-            alert("Bạn phải nhập đầy đủ thông tin");
-        }
-        else
-            fetch('https://localhost:7156/api/Public/CreateContaction', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "fullName": fullName,
-                    "email": email,
-                    "comntent": content,
-                }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("success:", data);
-                    alert("bạn đã gửi thư thành công, chúng tôi sẽ liên lạc qua Email.");
-                    window.location.href = "contact.html";
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-    }
-</script>
-
-
