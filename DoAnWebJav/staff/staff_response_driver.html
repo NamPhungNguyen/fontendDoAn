@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <!-- Add your CSS stylesheets or links here -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        nav {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        nav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        table {
+            padding: 0;
+            padding: 0;
+            border-collapse: collapse;
+            /*width: 100%;*/
+            /* Bảng chiếm toàn bộ chiều rộng của container */
+        }
+
+        /* Định dạng các đường biên của bảng và ô */
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        /* Tô màu nền cho các ô header */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nội dung của các ô */
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* Màu nền cho các ô chẵn */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <script src="../javaScript/check_token.js"></script>
+
+    <nav>
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+        <a href="staff_response_driver.html">Trả lời tài xế</a>
+        <a href="staff_response_customer.html">Trả lời khách hàng</a>
+        <a href="staff_get_contaction.html">Các liên hệ</a>
+        <a href="staff_infor.html">Tài khoản</a>
+        <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
+        <!-- Add more navigation links as needed -->
+    </nav>
+
+    <main>
+        <!-- Your page content goes here -->
+
+        <div align="center">
+            <h1>Tin nhắn tài xế</h1>
+            <table id="response">
+            </table>
+        </div>
+
+        <!-- Add more sections as needed -->
+    </main>
+
+</body>
+
+</html>
+
+
+<script>
+
+    var storedUserInformation = localStorage.getItem('userInfo');
+    var parsedUserInformation = JSON.parse(storedUserInformation);
+    const staffId = parsedUserInformation.id;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        //setInterval(function () {
+        fetch("https://localhost:7156/api/Staff/DriverMessage?staffId=" + staffId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+
+                displayMessage(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
+        //  }
+        //     , 1000);
+
+
+    });
+</script>
+
+
+
+
+<script>
+    function displayMessage(results) {
+        var contaction = document.getElementById("response");
+        contaction.innerHTML = " ";
+        var th = document.createElement("tr");
+        th.innerHTML = `
+    <th>Mã tài xế</th>
+    <th>Câu hỏi</th>
+    <th>Thời gian hỏi</th>
+    <th>Trả lời</th>
+`;
+        contaction.appendChild(th);
+        results.forEach(result => {
+            var resultTr = document.createElement("tr");
+            if (result.answer == "" || result.answer == null || result.answer == "null") {
+                resultTr.innerHTML = `
+                <td><a target='blank' href='../public/view_driver_infor.html?driverId=${result.userId}'>${result.userId}</a></td>
+                <td>${result.question}</td>
+                <td>${result.date}</td>
+                <td><textarea id="${result.messId}"></textarea></td>
+                <td><button onclick="updateMessage(${result.messId})">Trả lời</button></td>
+            `;
+
+
+            }
+            else resultTr.innerHTML = `
+                <td><font color="gray"><a target='blank' href='../public/view_driver_infor.html?driverId=${result.userId}'>${result.userId}</a></font></td>
+                <td><font color="gray">${result.question} </font></td>
+                <td><font color="gray">${result.date}</font></td>
+                <td><font color="gray">${result.answer} </font></td>
+                
+            `;
+
+
+            contaction.appendChild(resultTr);
+        });
+    }
+
+
+
+
+    function updateMessage(messageId) {
+        var string = document.getElementById(messageId).value;
+        fetch('https://localhost:7156/api/Staff/Message/' + messageId + '/' + string, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("success:", data);
+                window.location.href = 'staff_response_driver.html';
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+</script>
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var storedUserInformation = localStorage.getItem('userInfo');
+        var parsedUserInformation = JSON.parse(storedUserInformation);
+        var id = parsedUserInformation.id;
+        var userInfoContainer = document.getElementById('user-info');
+
+        if (parsedUserInformation) {
+            var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+            var userInfoElement = document.createElement('a');
+            userInfoElement.href = '../public/view_staff_infor.html?staffId=' + id;
+            userInfoElement.target = 'blank';
+            userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+            userInfoContainer.appendChild(userInfoElement);
+
+
+            logoutButton.addEventListener('click', function () {
+                // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                localStorage.removeItem('userInfo');
+                window.location.href = "../public/login.html";
+            });
+
+            userInfoContainer.appendChild(logoutButton);
+        } else {
+            // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+            window.location.href = "../public/login.html";
+        }
+    });
+</script>

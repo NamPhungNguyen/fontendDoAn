@@ -117,8 +117,12 @@
                         // Xử lý dữ liệu trả về từ API sau khi đăng nhập thành công và chuyển hướng trang
                         if (data.roleId === 3) {
                             window.location.href = '../driver/driver_home.html';
-                        } else if (data.roleId === 4) {
+                        }
+                        else if (data.roleId === 4) {
                             window.location.href = '../customer/customer_home.html';
+                        }
+                        else if (data.roleId === 2) {
+                            window.location.href = '../staff/staff_response_driver.html';
                         }
                     }
                 })

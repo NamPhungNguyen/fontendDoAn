@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const storedUserInformation = localStorage.getItem('userInfo');
@@ -5,50 +8,88 @@ document.addEventListener("DOMContentLoaded", function () {
     const driverId = parsedUserInformation.id;
     var checkWorked = false;
 
-    fetch("https://localhost:7156/api/Driver/DriverInfor?driverId=" + driverId, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+    setInterval(function () {
+        fetch("https://localhost:7156/api/Driver/DriverInfor?driverId=" + driverId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
         })
-        .then(data => {
-            console.log("success:", data);
-            checkWorked = data.driver.isWorked;
-            var isNotWorked = document.getElementById("isNotWorked");
-            var isWorked = document.getElementById("isWorked");
-            if (checkWorked == false || checkWorked == null) {
-                isNotWorked.style.display = "block";
-                isWorked.style.display = "none";
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("success:", data);
+                checkWorked = data.driver.isWorked;
+                var isNotWorked = document.getElementById("isNotWorked");
+                var isWorked = document.getElementById("isWorked");
+                if (checkWorked == false || checkWorked == null) {
+                    isNotWorked.style.display = "block";
+                    isWorked.style.display = "none";
 
 
 
-                fetch("https://localhost:7156/api/Driver/GetAllAppliedOrders/" + driverId, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
+                    fetch("https://localhost:7156/api/Driver/GetAllAppliedOrders/" + driverId, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                     })
-                    .then(data => {
-                        console.log(data);
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
 
-                        displayAppliedOrder(data);
+                            displayAppliedOrder(data);
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            // Xử lý lỗi nếu cần
+                        });
+
+
+
+
+
+
+
+
+
+                } else {
+                    isNotWorked.style.display = "none";
+                    isWorked.style.display = "block";
+
+
+
+
+                    fetch("https://localhost:7156/api/Driver/GetOnWorkedOrder/" + driverId, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                     })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        // Xử lý lỗi nếu cần
-                    });
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
+
+                            displayOnWorkedOrder(data);
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            // Xử lý lỗi nếu cần
+                        });
 
 
 
@@ -57,54 +98,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-
-            } else {
-                isNotWorked.style.display = "none";
-                isWorked.style.display = "block";
-
-
-
-
-
-                fetch("https://localhost:7156/api/Driver/GetOnWorkedOrder/" + driverId, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-
-                        displayOnWorkedOrder(data);
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        // Xử lý lỗi nếu cần
-                    });
-
-
-
-
-
-
-
-
-
-
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            // Xử lý lỗi nếu cần
-        });
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            })
+    }
+        , 1000);
 
 })
 

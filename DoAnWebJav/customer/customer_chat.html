@@ -4,28 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin người dùng</title>
-    <link rel="stylesheet" href="driver_infor.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./customer_home.css">
+    <title>Trang chủ khách hàng</title>
     <style>
-        /* CSS cho nút đăng xuất */
-        #logoutButton {
-            padding: 8px 16px;
-            background-color: #f44336;
-            color: white;
-            border: none;
+        select {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ccc;
             border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
         }
 
-        button#logoutButton {
-            margin-left: 10px;
+        select {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
         }
 
-        /* Hover effect */
-        #logoutButton:hover {
-            background-color: #d32f2f;
+        select:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 10px rgba(102, 175, 233, 0.6);
         }
 
         table {
@@ -64,20 +61,50 @@
         tr:hover {
             background-color: #f5f5f5;
         }
+
+        /* CSS cho nút đăng xuất */
+        #logoutButton {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button#logoutButton {
+            padding-left: 10px;
+        }
+
+        /* Hover effect */
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
     </style>
+    <style>
+        /* CSS để ẩn tất cả các phần trừ phần đầu tiên */
+        #content>div:not(:first-child) {
+            display: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
-
     <script src="../javaScript/check_token.js"></script>
+    <script src="customer_all_order.js"></script>
+
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+
         <div>
             <ul id="navbar">
-                <li><a href="driver_home.html">Trang chủ</a></li>
-                <li><a href="driver_search.html">Tìm kiếm</a></li>
-                <li><a class="active" href="driver_chat.html">Tư vấn</a></li>
-                <li><a href="driver_infor.html">Thông tin</a></li>
+                <li><a href="customer_home.html">Trang chủ</a></li>
+                <li><a href="customer_create_order.html">Tạo đơn</a></li>
+                <li><a href="customer_all_order.html">Các đơn</a></li>
+                <li><a class="active" href="customer_chat.html">Tư vấn</a></li>
+                <li><a href="customer_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
             </ul>
         </div>
@@ -110,7 +137,7 @@
 
     var storedUserInformation = localStorage.getItem('userInfo');
     var parsedUserInformation = JSON.parse(storedUserInformation);
-    var driverId = parsedUserInformation.id;
+    var customerId = parsedUserInformation.id;
 
     function createContact() {
         var question = document.getElementById("question").value;
@@ -118,7 +145,7 @@
             alert("Bạn phải nhập câu hỏi");
         }
         else
-            fetch('https://localhost:7156/api/Driver/Message', {
+            fetch('https://localhost:7156/api/Customer/Message', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -126,8 +153,8 @@
                 body: JSON.stringify({
                     "question": question,
                     "answer": "",
-                    "userId": driverId,
-                    "roleId": 3,
+                    "userId": customerId,
+                    "roleId": 4,
                     "checkRead": false,
                     "status": true
                 }),
@@ -136,7 +163,7 @@
                 .then(data => {
                     console.log("success:", data);
                     alert("bạn đã gửi thư thành công, chúng tôi sẽ sớm hồi đáp.");
-                    //window.location.href = "driver_chat.html";
+                    //window.location.href = "Customer_chat.html";
                 })
                 .catch(error => {
                     console.error("Error:", error);
@@ -145,7 +172,7 @@
 
 
     function updateMessage(messId) {
-        fetch('https://localhost:7156/api/Driver/Message/' + messId, {
+        fetch('https://localhost:7156/api/Customer/Message/' + messId, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -167,7 +194,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         setInterval(function () {
-            fetch("https://localhost:7156/api/Driver/Message?driverId=" + driverId, {
+            fetch("https://localhost:7156/api/Customer/Message?customerId=" + customerId, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
