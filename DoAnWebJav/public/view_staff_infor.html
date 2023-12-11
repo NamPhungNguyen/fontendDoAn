@@ -19,13 +19,86 @@
         }
     </style>
 </head>
+<html>
 
 <body>
-    <script src="../javaScript/check_token.js"></script>
 
+    <script src="../javaScript/check_token.js"></script>
     <section>
-        thông tin nhân viên
+        <div class="container light-style flex-grow-1 container-p-y">
+            <h4 class="font-weight-bold py-3 mb-4"></h4>
+            <div class="card overflow-hidden">
+                <div class="row no-gutters row-bordered row-border-light">
+                    <div class="col-md-3 pt-0">
+                        <div class="list-group list-group-flush account-settings-links">
+                            <a class="list-group-item list-group-item-action active" data-toggle="list"
+                                href="#account-general">Thông tin nhân viên</a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content">
+                            <form class="tab-pane fade active show form-user" id="account-general">
+                                <hr class="border-light m-0" />
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label class="form-label">Họ và Tên</label>
+                                        <input disabled type="text" class="form-control mb-1 username" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">E-mail</label>
+                                        <input disabled type="text" class="form-control mb-1 email" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Địa chỉ</label>
+                                        <input disabled type="text" class="form-control address" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Số điện thoại</label>
+                                        <input disabled type="text" class="form-control phone" value="" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript"></script>
     </section>
+
+
 </body>
 
 </html>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const staffId = urlParams.get("staffId");
+
+    const apiUrl = `https://localhost:7156/api/Public/StaffInfor?staffId=${staffId}`;
+    fetch(apiUrl)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Lỗi mạng: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Dữ liệu từ API:", data);
+            var username = document.querySelector(".username");
+            var email = document.querySelector(".email");
+            var address = document.querySelector(".address");
+            var phone = document.querySelector(".phone");
+            username.value = data.fullName;
+            email.value = data.email;
+            address.value = data.address;
+            phone.value = data.phoneNumber;
+        })
+        .catch((error) => {
+            // Xử lý lỗi ở đây
+            console.error("Đã xảy ra lỗi:", error);
+        });
+</script>
