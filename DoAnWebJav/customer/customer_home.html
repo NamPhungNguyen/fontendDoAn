@@ -45,7 +45,11 @@
         </div>
     </section>
     <section id="hero">
-       
+        <h4>Dịch vụ</h4>
+        <h2>Super transfer VietNam</h2>
+        <h1>Cho tất cả các mặt hàng</h1>
+        <p>Cung cấp đa dạng dịch vụ vận chuyển, đáp ứng mọi nhu cầu gửi nhân hàng hóa trên toàn quốc</p>
+        
         
     </section>
     <section id="feature" class="section-p1">
@@ -197,7 +201,35 @@
             <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
         </div>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var storedUserInformation = localStorage.getItem('userInfo');
+            var parsedUserInformation = JSON.parse(storedUserInformation);
 
+            var userInfoContainer = document.getElementById('user-info');
+
+            if (parsedUserInformation) {
+                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+                var userInfoElement = document.createElement('span');
+                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+                userInfoContainer.appendChild(userInfoElement);
+
+
+                logoutButton.addEventListener('click', function () {
+                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                    localStorage.removeItem('userInfo');
+                    window.location.href = "../public/login.html";
+                });
+
+                userInfoContainer.appendChild(logoutButton);
+            } else {
+                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+                window.location.href = "../public/login.html";
+            }
+        });
+    </script>
     
     
 </body>

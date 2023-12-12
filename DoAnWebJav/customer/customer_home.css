@@ -181,7 +181,7 @@ body {
 
 #hero {
     background-image: url('../images/background_imagejpg.jpg');
-    height: 90vh;
+    height: 60vh;
     width: 100%;
     background-position: top 25% right 0;
     background-size: cover;
