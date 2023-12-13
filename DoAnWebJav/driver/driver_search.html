@@ -30,6 +30,7 @@
 </head>
 
 <body>
+    <script src="../javaScript/check_token.js"></script>
     <!-- header-->
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
@@ -37,6 +38,7 @@
             <ul id="navbar">
                 <li><a href="driver_home.html">Trang chủ</a></li>
                 <li><a class="active" href="driver_search.html">Tìm kiếm</a></li>
+                <li><a href="driver_chat.html">Tư vấn</a></li>
                 <li><a href="driver_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
             </ul>
@@ -46,9 +48,9 @@
     <!-- Your page content goes here -->
     <div align="center" class="container">
         <div class="background">
-            
-        
-                
+
+
+
             <form method="post">
                 <h1 style="color: black;">Tìm kiếm đơn hàng</h1>
                 <br><br><br>
@@ -57,12 +59,12 @@
                         <td>Địa điểm đi : </td>
                         <td>
                             <select id="city" class="select1">
-                                <option value="" selected >Chọn tỉnh thành</option>
+                                <option value="" selected>Chọn tỉnh thành</option>
                             </select>
                         </td>
                         <td>
                             <select id="district" class="select1">
-                                <option value="" selected >Chọn quận huyện</option>
+                                <option value="" selected>Chọn quận huyện</option>
                             </select>
                         </td>
 
@@ -72,12 +74,12 @@
                         <td>Địa điểm đến : </td>
                         <td>
                             <select id="cityCome" class="select1">
-                                <option value="" selected >Chọn tỉnh thành</option>
+                                <option value="" selected>Chọn tỉnh thành</option>
                             </select>
                         </td>
                         <td>
                             <select id="districtCome" class="select1">
-                                <option value="" selected >Chọn quận huyện</option>
+                                <option value="" selected>Chọn quận huyện</option>
                             </select>
                         </td>
 
@@ -96,14 +98,16 @@
                     </tr>
                 </table>
                 <br><br><br>
-                <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px" class="button1"/>
+                <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px"
+                    class="button1" />
             </form>
 
 
-            <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
-            </div>
-        
+
+        </div>
+
     </div>
+    <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer"></div>
     </div>
 
 
@@ -114,44 +118,52 @@
 
     <script>
         // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
+        let intervalId;
+
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
             var selectedOviId = document.getElementById("dynamicSelect").value;
-
             var selectedProGo = document.getElementById("city").value;
             var selectedDisGo = document.getElementById("district").value;
             var selectedProCome = document.getElementById("cityCome").value;
             var selectedDisCome = document.getElementById("districtCome").value;
 
-            // Gửi dữ liệu lên API
-            fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    oviId: selectedOviId,
-                    disGo: selectedDisGo,
-                    proGo: selectedProGo,
-                    disCome: selectedDisCome,
-                    proCome: selectedProCome,
+            // Kiểm tra xem interval cũ có tồn tại hay không
+            if (intervalId) {
+                clearInterval(intervalId); // Clear interval cũ nếu tồn tại
+            }
+
+            // Tạo mới interval
+            intervalId = setInterval(function () {
+                fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        oviId: selectedOviId,
+                        disGo: selectedDisGo,
+                        proGo: selectedProGo,
+                        disCome: selectedDisCome,
+                        proCome: selectedProCome,
+                    })
                 })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    // Hiển thị kết quả trong div lớn
-                    displayResults(data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    // Xử lý lỗi nếu cần
-                });
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        // Hiển thị kết quả trong div lớn
+                        displayResults(data);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        // Xử lý lỗi nếu cần
+                    });
+            }, 1000);
         }
 
         // Hàm để hiển thị kết quả trong div lớn
@@ -329,7 +341,37 @@
     </script>
 
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var storedUserInformation = localStorage.getItem('userInfo');
+            var parsedUserInformation = JSON.parse(storedUserInformation);
+            var id = parsedUserInformation.id;
+            var userInfoContainer = document.getElementById('user-info');
 
+            if (parsedUserInformation) {
+                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+                var userInfoElement = document.createElement('a');
+                userInfoElement.href = '../public/view_driver_infor.html?driverId=' + id;
+                userInfoElement.target = 'blank';
+                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+                userInfoContainer.appendChild(userInfoElement);
+
+
+                logoutButton.addEventListener('click', function () {
+                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                    localStorage.removeItem('userInfo');
+                    window.location.href = "../public/login.html";
+                });
+
+                userInfoContainer.appendChild(logoutButton);
+            } else {
+                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+                window.location.href = "../public/login.html";
+            }
+        });
+    </script>
 
 
 </body>

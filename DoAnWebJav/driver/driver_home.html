@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Navigation</title>
+    <title>Trang chủ tài xế</title>
     <link rel="stylesheet" href="./driver_home.css">
     <style>
         /* CSS cho nút đăng xuất */
@@ -26,19 +26,58 @@
         #logoutButton:hover {
             background-color: #d32f2f;
         }
+
+        table {
+            padding: 0;
+            padding: 0;
+            border-collapse: collapse;
+            /*width: 100%;*/
+            /* Bảng chiếm toàn bộ chiều rộng của container */
+        }
+
+        /* Định dạng các đường biên của bảng và ô */
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        /* Tô màu nền cho các ô header */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nội dung của các ô */
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* Màu nền cho các ô chẵn */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 
 <body>
     <!-- header-->
     <script src="../javaScript/check_token.js"></script>
+    <script src="driver_home.js"></script>
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
         <div>
             <ul id="navbar">
-                <li><a class="active" href="driver_home">Trang chủ</a></li>
+                <li><a class="active" href="../driver/driver_home.html">Trang chủ</a></li>
                 <li><a href="driver_search.html">Tìm kiếm</a></li>
-                <li><a href="driver_infor.html">Thông tin</a></li>
+                <li><a href="driver_chat.html">Tư vấn</a></li>
+                <li><a href="../driver/driver_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
             </ul>
         </div>
@@ -74,6 +113,7 @@
         </div>
     </section>
 
+<<<<<<< HEAD
     <section id="product1" class="section-p1">
         <h2>List Order Item</h2>
         <div class="pro-container">
@@ -196,7 +236,48 @@
             <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
         </div>
     </footer>
+=======
+
+
+>>>>>>> mhoang
     <!-- Your page content goes here -->
+
+
+    <section id="content">
+
+        <div align="center" id="isNotWorked">
+            <div style="padding-top: 20px;">
+                <h3 style="color: gray;">BẠN ĐANG KHÔNG LÀM VIỆC</h3>
+                <h3 style="color: black;">Danh sách các đơn hàng đã ứng tuyển</h3>
+            </div>
+            <div>
+                <table id="AppliedOrder">
+                </table>
+            </div>
+        </div>
+
+
+
+        <div align="center" id="isWorked">
+            <div style="padding-top: 20px;">
+                <h3 style="color: gray;">BẠN ĐANG VẬN CHUYỂN ĐƠN HÀNG</h3>
+                <h3 style="color: black;">Thông tin đơn hàng bạn đang vận chuyển</h3>
+            </div>
+            <div>
+                <table id="OnWorkedOrder">
+                </table>
+            </div>
+            <div>
+                <table id="OnWorkedOrderStatus">
+                </table>
+            </div>
+            <div>
+                <div id="UpdateStatus"></div>
+            </div>
+        </div>
+
+    </section>
+
 
 
 
@@ -205,13 +286,15 @@
         document.addEventListener("DOMContentLoaded", function () {
             var storedUserInformation = localStorage.getItem('userInfo');
             var parsedUserInformation = JSON.parse(storedUserInformation);
-
+            var id = parsedUserInformation.id;
             var userInfoContainer = document.getElementById('user-info');
 
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
 
-                var userInfoElement = document.createElement('span');
+                var userInfoElement = document.createElement('a');
+                userInfoElement.href = '../public/view_driver_infor.html?driverId=' + id;
+                userInfoElement.target = 'blank';
                 userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
 
                 userInfoContainer.appendChild(userInfoElement);
