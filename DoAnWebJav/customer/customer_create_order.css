@@ -12,7 +12,7 @@
     position: relative;
     width: 100vw; /* 100% chiều rộng của màn hình */
     height: 100vh; /* 100% chiều cao của màn hình */
-    overflow: hidden;
+    
     
 }
 .background {
@@ -23,7 +23,7 @@
         width: 100%;
         background-position: center;
         height: 100% ;
-        overflow: hidden;
+        
         justify-content: center;
         align-items: center;
         box-shadow: 50px 50px 50px rgba(27, 13, 13, 0.1);
