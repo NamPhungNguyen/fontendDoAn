@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Navigation</title>
     <link rel="stylesheet" href="driver_search.css">
+    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
         /* CSS cho nút đăng xuất */
         #logoutButton {
@@ -112,14 +114,108 @@
 
 
 
+    <div align="center" style="padding-top: 20px; padding-bottom: 20px;">
+        <button id="Previous" onclick="goPrevious()" style="display: none;">TRANG TRƯỚC</button>
+        <button id="Next" onclick="goNext()" style="display: none;">TRANG SAU</button>
+    </div>
 
+
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="../images/fast-delivery1.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> 562 Trần đại nghĩa, Hai Bà Trưng, Hà Nội</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Term & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="../public/images/pay/app.jpg" alt="">
+                <img src="../public/images/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="../public/images/pay/pay.png" alt="">
+        </div>
+
+        <div class="copyright">
+            <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
+        </div>
+    </footer>
 
 
 
     <script>
         // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
         let intervalId;
+        let currentPagenumberItem = 1;
+        let originalArray = [];
+        let currentPage = 1;
+        let displayArray = [];
+        const itemsPerPage = 10;
+        const tableDOM = document.querySelector('.resultContainer');
 
+        const pagination = (currentPage, numberItem) => {
+            let pri = document.getElementById("Previous");
+            let next = document.getElementById("Next");
+            pri.style.display = "block";
+            next.style.display = "block";
+            if (currentPage == 1) pri.style.display = "none";
+
+            const startIndex = (currentPage - 1) * numberItem;
+            currentPagenumberItem = startIndex + 1;
+            displayArray = originalArray.slice(startIndex, startIndex + numberItem);
+
+            if ((originalArray.slice(currentPage * numberItem, currentPage * numberItem + numberItem)).length === 0) next.style.display = "none";
+            displayResults(displayArray);
+        }
+
+        const goPrevious = () => {
+            currentPage--;
+            if (currentPage < 0) {
+                currentPage == 0;
+            }
+            else
+                pagination(currentPage, 3);
+        }
+        const goNext = () => {
+            currentPage++;
+            pagination(currentPage, 3);
+        }
+        // const handleLoad = () => {
+        //     pagination(currentPage, 3);
+        // }
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
             var selectedOviId = document.getElementById("dynamicSelect").value;
@@ -134,37 +230,51 @@
             }
 
             // Tạo mới interval
-            intervalId = setInterval(function () {
-                fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        oviId: selectedOviId,
-                        disGo: selectedDisGo,
-                        proGo: selectedProGo,
-                        disCome: selectedDisCome,
-                        proCome: selectedProCome,
-                    })
+            //intervalId = setInterval(function () {
+            fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    oviId: selectedOviId,
+                    disGo: selectedDisGo,
+                    proGo: selectedProGo,
+                    disCome: selectedDisCome,
+                    proCome: selectedProCome,
                 })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-                        // Hiển thị kết quả trong div lớn
-                        displayResults(data);
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        // Xử lý lỗi nếu cần
-                    });
-            }, 1000);
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+
+                    originalArray = data;
+                    pagination(1, 3);
+
+
+
+                    // Hiển thị kết quả trong div lớn
+                    //displayResults(data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    // Xử lý lỗi nếu cần
+                });
+            //}, 1000);
         }
+
+
+
+
+
+
+
+
 
         // Hàm để hiển thị kết quả trong div lớn
         function displayResults(results) {
