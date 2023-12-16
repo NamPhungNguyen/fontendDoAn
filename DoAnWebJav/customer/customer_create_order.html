@@ -55,11 +55,9 @@
         <div class="background">
             <div>
                 <main>
-                    <br><br><br>
+                    <br><br><br><br><br><br><br>
                     <div>
                         <h1 class="create">Tạo đơn hàng</h1>
-                        <br><br><br>
-
                         <table id="Order" class="create1">
                             <tr>
                                 <td>Tên đơn hàng:</td>
@@ -94,7 +92,8 @@
                                         <option value="" selected>Chọn xã</option>
                                     </select>
                                 </td>
-                                <td><input type="text" id="detailPositionGo" placeholder="địa chỉ cụ thể" /></td>
+                                <td><input class="select1" type="text" id="detailPositionGo"
+                                        placeholder="Chi tiết địa chỉ" /></td>
 
                             </tr>
                             <tr>
@@ -115,7 +114,8 @@
                                         <option value="" selected>Chọn xã</option>
                                     </select>
                                 </td>
-                                <td><input type="text" id="detailPositionCome" placeholder="địa chỉ cụ thể" /></td>
+                                <td><input class="select1" type="text" id="detailPositionCome"
+                                        placeholder="Chi tiết địa chỉ" /></td>
 
                             </tr>
                         </table>
@@ -123,7 +123,7 @@
                     </div>
                     <br><br><br>
                     <div>
-                        <button onclick="createOrder()" class="button1">Create Order</button>
+                        <button onclick="createOrder()" class="button1">Tạo đơn hàng</button>
                     </div>
                 </main>
             </div>
@@ -132,7 +132,7 @@
                     <h1 class="create">Thêm mặt hàng</h1>
                     <br><br><br>
 
-                    <table id="OrderItem" border="1" class="create1">
+                    <table id="OrderItem" border="1" class="create2">
                         <tr>
                             <th>Tên mặt hàng</th>
                             <th>Số lượng</th>

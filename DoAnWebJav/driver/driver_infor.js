@@ -204,10 +204,10 @@ fetch(apiInforDriver)
     return response.json();
   })
   .then((dataVehicles) => {
-    // console.log(dataVehicles.vehicle);
+    console.log(dataVehicles.vehicle);
     const datas = dataVehicles.vehicle;
     const table = document.getElementById("table-user");
-    // console.log(dataVehicles);
+    console.log(dataVehicles);
     // Lặp qua từng phần tử trong mảng xe
 
     datas.forEach((vehicle) => {
@@ -229,11 +229,6 @@ fetch(apiInforDriver)
 
 
       const actionCell = row.insertCell(4);
-
-      //   <button type="button" class="btn btn-primary btn-add" data-toggle="modal"
-      //   data-target="#exampleModalCenter">
-      //   Tạo xe
-      // </button>
 
 
       // Tạo nút Edit
@@ -296,7 +291,6 @@ fetch(apiInforDriver)
               return response.json();
             })
             .then((data) => {
-              // Xử lý phản hồi từ server (nếu cần)
               console.log("Dữ liệu sau khi cập nhật:", data);
               window.location.reload();
             })
@@ -305,15 +299,10 @@ fetch(apiInforDriver)
               console.error("Đã xảy ra lỗi:", error);
             });
         })
-        // const vehicleName = document.querySelector(".vehicleName");
-        // const descriptionVehicle = document.querySelector('.descriptionVehicle');
-        // const cargoVehicle = document.querySelector('.cargoVehicle');
-        // const fuelEfficiencyVehicle = document.querySelector('.fuelEfficiencyVehicle');
-        // const statusVehicle = document.querySelector('.statusVehicle');
         const closeForm = document.querySelector('.close-form-edit');
         closeForm.addEventListener('click', () => {
           editModal.style.display = "none"; // Hiển thị modal
-          editModal.classList.remove("show"); // Thêm class "show" để hiển thị modal (phụ thuộc vào cách Bootstrap của bạn sử dụng class để điều khiển modal)
+          editModal.classList.remove("show");
 
         })
         // });
@@ -323,12 +312,7 @@ fetch(apiInforDriver)
         editButtonContainer.appendChild(editButton);
       });
 
-      // Thêm sự kiện click cho nút "Edit" (thêm xử lý tương ứng)
 
-      // editButton.addEventListener('click', ()=> {
-      //   const formEdit = document.querySelector('.form-edit');
-      //   formEdit.style.display = 'block';
-      // })
 
       // Tạo nút Delete
       const deleteButton = document.createElement("a");
