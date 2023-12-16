@@ -114,9 +114,9 @@
 
 
 
-    <div align="center" style="padding-top: 20px; padding-bottom: 20px;">
-        <button id="Previous" onclick="goPrevious()" style="display: none;">TRANG TRƯỚC</button>
-        <button id="Next" onclick="goNext()" style="display: none;">TRANG SAU</button>
+    <div align="center" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+        <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
+        <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
     </div>
 
 
@@ -177,8 +177,10 @@
 
 
     <script>
-        // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
-        let intervalId;
+
+        //let intervalId;
+
+        let pageSize = 6;
         let currentPagenumberItem = 1;
         let originalArray = [];
         let currentPage = 1;
@@ -207,15 +209,17 @@
                 currentPage == 0;
             }
             else
-                pagination(currentPage, 3);
+                pagination(currentPage, pageSize);
         }
         const goNext = () => {
             currentPage++;
-            pagination(currentPage, 3);
+            pagination(currentPage, pageSize);
         }
-        // const handleLoad = () => {
-        //     pagination(currentPage, 3);
-        // }
+
+
+
+
+
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
             var selectedOviId = document.getElementById("dynamicSelect").value;
@@ -225,9 +229,10 @@
             var selectedDisCome = document.getElementById("districtCome").value;
 
             // Kiểm tra xem interval cũ có tồn tại hay không
-            if (intervalId) {
-                clearInterval(intervalId); // Clear interval cũ nếu tồn tại
-            }
+
+            // if (intervalId) {
+            //     clearInterval(intervalId); // Clear interval cũ nếu tồn tại
+            // }
 
             // Tạo mới interval
             //intervalId = setInterval(function () {
@@ -254,7 +259,7 @@
                     console.log(data);
 
                     originalArray = data;
-                    pagination(1, 3);
+                    pagination(1, pageSize);
 
 
 

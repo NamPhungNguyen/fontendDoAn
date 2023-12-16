@@ -293,6 +293,21 @@ function displayAppliedOrder(results) {
 
     var AppliedOrder = document.getElementById("AppliedOrder");
     AppliedOrder.innerHTML = " ";
+
+    if (results.length === 0) {
+        AppliedOrder.innerHTML = `
+        <tr>
+        <th>Mã đơn hàng</th>
+        <th>Tên đơn hàng</th>
+        <th>Xe ứng tuyển</th>
+        <th>Được chọn</th>
+        </tr>
+        <tr>
+        <td colspan="4">Bạn chưa ứng tuyển đơn hàng nào</td>
+        </tr>
+        `;
+    }
+else{
     var th = document.createElement("tr");
     th.innerHTML = `
     <th>Mã đơn hàng</th>
@@ -301,6 +316,7 @@ function displayAppliedOrder(results) {
     <th>Được chọn</th>
 `;
     AppliedOrder.appendChild(th);
+
     results.forEach(result => {
         var resultTr = document.createElement("tr");
         resultTr.innerHTML = `
@@ -321,7 +337,7 @@ function displayAppliedOrder(results) {
         }
         resultTr.appendChild(td);
         AppliedOrder.appendChild(resultTr);
-    });
+    });}
 
 };
 

@@ -95,7 +95,7 @@
                                     <div class="media-body ml-4">
                                         <label class="btn btn-outline-primary">
                                             Upload new photo
-                                            <input type="file" class="account-settings-fileinput" />
+                                            <input type="file" class="account-settings-fileinput" id="fileInput" />
                                         </label>
                                         &nbsp;
                                         <button type="button" class="btn btn-default md-btn-flat">
@@ -240,6 +240,10 @@
             event.preventDefault();
             // console.log(123);
             // xử lý update dữ liệu
+
+
+            uploadImage(staffId);
+
             const staffName = document.querySelector(".username").value;
             const passwordstaff = document.querySelector(".password").value;
             const emailstaff = document.querySelector(".email").value;
@@ -282,4 +286,40 @@
     });
     userInfoContainer.appendChild(logoutButton);
 
+</script>
+
+
+
+<script>
+    function uploadImage(staffId) {
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
+
+        if (file) {
+            var formData = new FormData();
+            formData.append('image', file);
+
+            fetch("https://localhost:7156/api/Staff/SaveImage?staffId=" + staffId, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Network error: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    // Data will contain the imageUrl returned by the server
+                    console.log('Image saved successfully:', data.imageUrl);
+                })
+                .catch((error) => {
+                    console.error('Error saving image:', error);
+                });
+        } else {
+            console.warn('No image selected.');
+        }
+
+
+    }
 </script>
