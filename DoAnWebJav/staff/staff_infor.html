@@ -198,8 +198,8 @@
                 email.value = data.email;
                 address.value = data.address;
                 phone.value = data.phoneNumber;
-                imagecustomer.src = data.avatarImageLink
-                    ? data.avatarImageLink
+                imagecustomer.src = "https://localhost:7156/image/staff/" + data.avatarImageLink
+                    ? "https://localhost:7156/image/staff/" + data.avatarImageLink
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
 
                 var storedUserInformation = localStorage.getItem("userInfo");

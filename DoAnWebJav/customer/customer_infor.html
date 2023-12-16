@@ -71,7 +71,7 @@
                   <div class="media-body ml-4">
                     <label class="btn btn-outline-primary">
                       Upload new photo
-                      <input type="file" class="account-settings-fileinput" />
+                      <input type="file" class="account-settings-fileinput" id="fileInput" />
                     </label>
                     &nbsp;
                     <button type="button" class="btn btn-default md-btn-flat">
@@ -184,8 +184,8 @@
           email.value = data.email;
           address.value = data.address;
           phone.value = data.phoneNumber;
-          imagecustomer.src = data.avatarImageLink
-            ? data.avatarImageLink
+          imagecustomer.src = "https://localhost:7156/image/customer/" + data.avatarImageLink
+            ? "https://localhost:7156/image/customer/" + data.avatarImageLink
             : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
 
 
@@ -229,6 +229,8 @@
         event.preventDefault();
         // console.log(123);
         // xử lý update dữ liệu
+        uploadImage(customer_id);
+
         const customerName = document.querySelector(".username").value;
         const passwordCustomer = document.querySelector(".password").value;
         const emailCustomer = document.querySelector(".email").value;
@@ -273,6 +275,47 @@
     userInfoContainer.appendChild(logoutButton);
 
   </script>
+
+
+
+<script>
+  function uploadImage(customerId) {
+      var fileInput = document.getElementById('fileInput');
+      var file = fileInput.files[0];
+
+      if (file) {
+          var formData = new FormData();
+          formData.append('image', file);
+
+          fetch("https://localhost:7156/api/Customer/SaveImage?customerId=" + customerId, {
+              method: 'POST',
+              body: formData,
+          })
+              .then((response) => {
+                  if (!response.ok) {
+                      throw new Error(`Network error: ${response.status}`);
+                  }
+                  return response.json();
+              })
+              .then((data) => {
+                  // Data will contain the imageUrl returned by the server
+                  console.log('Image saved successfully:', data.imageUrl);
+              })
+              .catch((error) => {
+                  console.error('Error saving image:', error);
+              });
+      } else {
+          console.warn('No image selected.');
+      }
+
+
+  }
+</script>
+
+
+
+
+
 </body>
 
 </html>

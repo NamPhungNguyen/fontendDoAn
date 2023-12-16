@@ -50,12 +50,15 @@
     <!-- Your page content goes here -->
     <div align="center" class="container">
         <div class="background">
+
+
+
             <form method="post">
                 <h1 style="color: black;">Tìm kiếm đơn hàng</h1>
                 <br><br><br>
                 <table class="create1">
                     <tr>
-                        <td>Địa điểm đi: </td>
+                        <td>Địa điểm đi : </td>
                         <td>
                             <select id="city" class="select1">
                                 <option value="" selected>Chọn tỉnh thành</option>
@@ -66,9 +69,11 @@
                                 <option value="" selected>Chọn quận huyện</option>
                             </select>
                         </td>
+
                     </tr>
                     <tr>
-                        <td>Địa điểm đến: </td>
+
+                        <td>Địa điểm đến : </td>
                         <td>
                             <select id="cityCome" class="select1">
                                 <option value="" selected>Chọn tỉnh thành</option>
@@ -79,21 +84,30 @@
                                 <option value="" selected>Chọn quận huyện</option>
                             </select>
                         </td>
+
                     </tr>
                     <tr>
-                        <td>Chọn xe: </td>
+
+                        <td>Chọn xe : </td>
                         <td>
                             <select id="dynamicSelect" class="select1">
                                 <option value="" selected>Chọn xe</option>
                             </select>
+
                         </td>
+
+
                     </tr>
                 </table>
                 <br><br><br>
-                <input type="button" value="Tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px"
+                <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px"
                     class="button1" />
             </form>
+
+
+
         </div>
+
     </div>
     <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer"></div>
     </div>

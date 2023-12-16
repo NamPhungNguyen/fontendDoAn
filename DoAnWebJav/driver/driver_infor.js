@@ -71,8 +71,8 @@ fetch(apiInforDriver)
     email.value = dataDriver.email;
     address.value = dataDriver.address;
     phone.value = dataDriver.phoneNumber;
-    image_driver.src = dataDriver.avatarImageLink
-      ? dataDriver.avatarImageLink
+    image_driver.src = "https://localhost:7156/image/driver/" + dataDriver.avatarImageLink
+      ? "https://localhost:7156/image/driver/" + dataDriver.avatarImageLink
       : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
 
     var name_verhicle = document.querySelector(".name_verhicle");
@@ -148,6 +148,9 @@ const form = document.querySelector(".form-user");
 form.addEventListener("submit", function (event) {
   event.preventDefault(); // Ngăn chặn hành động mặc định của form
   // Xử lí update dữ liệu
+
+  uploadImage(driver_id);
+
   const driverName = document.querySelector(".driver_name").value;
   const password = document.querySelector(".password").value;
   const email = document.querySelector(".email").value;
@@ -189,6 +192,39 @@ form.addEventListener("submit", function (event) {
 });
 
 
+
+
+function uploadImage(driverId) {
+  var fileInput = document.getElementById('fileInput');
+  var file = fileInput.files[0];
+
+  if (file) {
+    var formData = new FormData();
+    formData.append('image', file);
+
+    fetch("https://localhost:7156/api/Driver/SaveImage?driverId=" + driverId, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Network error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Data will contain the imageUrl returned by the server
+        console.log('Image saved successfully:', data.imageUrl);
+      })
+      .catch((error) => {
+        console.error('Error saving image:', error);
+      });
+  } else {
+    console.warn('No image selected.');
+  }
+
+
+}
 
 
 
