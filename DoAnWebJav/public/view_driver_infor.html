@@ -40,6 +40,8 @@
                         <div class="tab-content">
                             <form class="tab-pane fade active show form-user" id="account-general">
                                 <hr class="border-light m-0" />
+                                <img src="" alt class="d-block ui-w-80 imagedriver" />
+
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label class="form-label">Họ và Tên</label>
@@ -156,12 +158,16 @@
         .then((data) => {
             // console.log("Dữ liệu từ API:", data);
             var dataDriver = data.driver;
-
-
             var driver_name = document.querySelector(".driver_name");
             var email = document.querySelector(".email");
             var address = document.querySelector(".address");
             var phone = document.querySelector(".phone");
+            var imagedriver = document.querySelector(".imagedriver");
+            if (data.avatarImageLink !== null && data.avatarImageLink !== undefined) {
+                imagedriver.src = "https://localhost:7156/image/customer/" + data.avatarImageLink;
+            } else {
+                imagedriver.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
+            }
             driver_name.value = dataDriver.fullName;
             email.value = dataDriver.email;
             address.value = dataDriver.address;
