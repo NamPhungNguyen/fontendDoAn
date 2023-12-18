@@ -85,10 +85,6 @@
 
 
 <script>
-
-
-
-
     var storedUserInformation = localStorage.getItem('userInfo');
     var parsedUserInformation = JSON.parse(storedUserInformation);
     var driverId = parsedUserInformation.id;
@@ -119,9 +115,6 @@
             // Xử lý lỗi nếu cần
         });
 
-
-
-
     fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Status", {
         method: 'GET',
         headers: {
@@ -144,14 +137,7 @@
             // Xử lý lỗi nếu cần
         });
 
-
-
-
     document.addEventListener("DOMContentLoaded", function () {
-
-
-
-
         fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/" + oVIId, {
             method: 'GET',
             headers: {
@@ -257,7 +243,7 @@
                         else {
                             var XemChiTiet = document.createElement("tr");
                             XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input type="button" onclick="UngTuyen()" value="Ứng tuyển"><div></td>`;
+                        <td><div align="right"><input style="border:none;background-color: #d32f2f;border: none;padding: 5px 7px;border-radius: 11px;cursor: pointer;color: white;" type="button" onclick="UngTuyen()" value="Ứng tuyển"><div></td>`;
                             resultDiv.appendChild(XemChiTiet);
                         }
                     }
@@ -269,17 +255,6 @@
                 console.error("Error:", error);
                 // Xử lý lỗi nếu cần
             });
-
-
-
-
-
-
-
-
-
-
-
 
 
         fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Items", {
@@ -380,8 +355,6 @@
         else {
         }
     }
-
-
 
 
     function xoaDonKhiDaDuocChon() {
