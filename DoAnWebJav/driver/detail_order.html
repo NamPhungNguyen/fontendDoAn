@@ -203,27 +203,36 @@
     document.addEventListener("DOMContentLoaded", function () {
 
 
-
-
-        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/" + oVIId, {
-            method: 'GET',
+        fetch('https://localhost:7156/api/Public/CheckAvalbleOrder?orderId=' + orderId, {
+            method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({}),
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-
                 console.log("success:", data);
-                var resultContainer = document.getElementById("orderInforRight");
+                if (data == true) {
+                    fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/" + oVIId, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
 
-                var resultDiv = document.createElement("table");
-                resultDiv.innerHTML = `
+                            console.log("success:", data);
+                            var resultContainer = document.getElementById("orderInforRight");
+
+                            var resultDiv = document.createElement("table");
+                            resultDiv.innerHTML = `
                     <tr>
                         <td><strong>Tên đơn hàng:</strong></td>
                         <td>${data.order.orderName}</td>
@@ -263,98 +272,111 @@
                 `;
 
 
-                if (checkStatus != 19) {
-                    if (data.order.oviId == oVIId && (checkStatus == 2 || checkStatus == 4)) {
-                        var XemChiTiet = document.createElement("tr");
-                        XemChiTiet.innerHTML = `<td></td>
+                            if (checkStatus != 19) {
+                                if (data.order.oviId == oVIId && (checkStatus == 2 || checkStatus == 4)) {
+                                    var XemChiTiet = document.createElement("tr");
+                                    XemChiTiet.innerHTML = `<td></td>
                         <td><div align="right"><input style="color:orange" type="button" onclick="xoaDonKhiDaDuocChon()" value="Xóa ứng tuyển (Bạn đã được chọn)"><div></td>`;
-                        resultDiv.appendChild(XemChiTiet);
-                    }
-                    else if (data.order.oviId == oVIId && (checkStatus == 12 || checkStatus == 129)) {
-                        var XemChiTiet = document.createElement("tr");
-                        XemChiTiet.innerHTML = `<td></td>
+                                    resultDiv.appendChild(XemChiTiet);
+                                }
+                                else if (data.order.oviId == oVIId && (checkStatus == 12 || checkStatus == 129)) {
+                                    var XemChiTiet = document.createElement("tr");
+                                    XemChiTiet.innerHTML = `<td></td>
                         <td><div align="right"> <font color="blue">ĐƠN HÀNG ĐÃ HOÀN THÀNH</font></div></td>`;
-                        resultDiv.appendChild(XemChiTiet);
-                    }
-                    else {
-                        alert("đơn hàng không tồn tại")
-                        window.location.href = "driver_search.html"
-                    }
-                }
-                else {
-                    if (checkWorked == true) {
-
-                        var XemChiTiet = document.createElement("tr");
-                        XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"> <font color="red">* Không thể ứng tuyển khi đang làm việc</font></div></td>`;
-                        resultDiv.appendChild(XemChiTiet);
-
-                    }
-                    else {
-                        if (data.checkWAL == true) {
-                            if (data.order.oviId == oVIId) {
-                                var XemChiTiet = document.createElement("tr");
-                                XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input style="color:orange" type="button" onclick="xoaDonKhiDaDuocChon()" value="Xóa ứng tuyển (Bạn đã được chọn)"><div></td>`;
-                                resultDiv.appendChild(XemChiTiet);
-
+                                    resultDiv.appendChild(XemChiTiet);
+                                }
+                                else {
+                                    alert("đơn hàng không tồn tại")
+                                    window.location.href = "driver_search.html"
+                                }
                             }
                             else {
-                                var XemChiTiet = document.createElement("tr");
-                                XemChiTiet.innerHTML = `<td></td>
+                                if (checkWorked == true) {
+
+                                    var XemChiTiet = document.createElement("tr");
+                                    XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"> <font color="red">* Không thể ứng tuyển khi đang làm việc</font></div></td>`;
+                                    resultDiv.appendChild(XemChiTiet);
+
+                                }
+                                else {
+                                    if (data.checkWAL == true) {
+                                        if (data.order.oviId == oVIId) {
+                                            var XemChiTiet = document.createElement("tr");
+                                            XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"><input style="color:orange" type="button" onclick="xoaDonKhiDaDuocChon()" value="Xóa ứng tuyển (Bạn đã được chọn)"><div></td>`;
+                                            resultDiv.appendChild(XemChiTiet);
+
+                                        }
+                                        else {
+                                            var XemChiTiet = document.createElement("tr");
+                                            XemChiTiet.innerHTML = `<td></td>
                         <td><div align="right"><input style="color:red" type="button" onclick="XoaUngTuyen()" value="Xóa ứng tuyển"><div></td>`;
-                                resultDiv.appendChild(XemChiTiet);
-                            }
+                                            resultDiv.appendChild(XemChiTiet);
+                                        }
 
-                        }
-                        else {
-                            var XemChiTiet = document.createElement("tr");
-                            XemChiTiet.innerHTML = `<td></td>
+                                    }
+                                    else {
+                                        var XemChiTiet = document.createElement("tr");
+                                        XemChiTiet.innerHTML = `<td></td>
                         <td><div align="right"><input type="button" onclick="UngTuyen()" value="Ứng tuyển"><div></td>`;
-                            resultDiv.appendChild(XemChiTiet);
-                        }
-                    }
-                }
-                resultContainer.appendChild(resultDiv);
+                                        resultDiv.appendChild(XemChiTiet);
+                                    }
+                                }
+                            }
+                            resultContainer.appendChild(resultDiv);
 
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            // Xử lý lỗi nếu cần
+                        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Items", {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log("success:", data);
+                            displayResults(data);
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            // Xử lý lỗi nếu cần
+                        });
+                }
+                else {
+                    alert("Đơn hàng không tồn tại hoặc đã hết hạn.");
+                    window.location.href = "driver_search.html";
+                }
             })
             .catch(error => {
                 console.error("Error:", error);
-                // Xử lý lỗi nếu cần
             });
 
 
 
 
-
-
-
-
-
-
-
-
-
-        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Items", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("success:", data);
-                displayResults(data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                // Xử lý lỗi nếu cần
-            });
 
 
     })

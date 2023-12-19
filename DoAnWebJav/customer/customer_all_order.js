@@ -324,38 +324,51 @@ function displayAllHistory(results) {
     else {
         var th = document.createElement("tr");
         th.innerHTML = `
-    <th>Mã đơn hàng</th>
-    <th>Tên đơn hàng</th>
-    <th>Tài xế ứng tuyển</th>
-    <th>Đánh giá</th>
-`;
+                <th>Mã đơn hàng</th>
+                <th>Tên đơn hàng</th>
+                <th>Tài xế ứng tuyển</th>
+                <th>Đánh giá</th>
+            `;
         history.appendChild(th);
         results.forEach(result => {
             var resultTr = document.createElement("tr");
-            resultTr.innerHTML = `
-    <td>${result.order.orderId} </td>
-    <td><a href="detail_order.html?orderId=${result.order.orderId}" target="blank">${result.order.orderName} </a></td>
-    <td><a href="../public/view_driver_infor.html?driverId=${result.order.ownedVehicleInfor.driverId}" target="blank">${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</a></td>
-`;
+            if (result.statusId == 139) {
+                console.log("fix");
+                resultTr.innerHTML = `
+                    <td>${result.order.orderId} </td>
+                    <td><a>${result.order.orderName} </a></td>
+                    <td colspan=2><p><font color="red">Đã hết hạn</font></p></td>
+                    `;
+            }
+            else {
 
-            var td = document.createElement("td");
-            if (result.statusId == 12)
-                td.innerHTML = `<button onclick="createRate(${result.order.orderId},${result.order.ownedVehicleInfor.driverId})">Đánh giá</button>
-        <div>
-        <div>1   2   3   4   5</div>
-        <div>
-            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=1 >
-            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=2 >
-            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=3 >
-            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=4 >
-            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=5 >
-        </div>
-        
-        </div>
-        <textarea type="text" id="c${result.order.orderId}" />`;
-            else
-                td.innerHTML = `<p><font>Đã đánh giá</font></p>`;
-            resultTr.appendChild(td);
+                resultTr.innerHTML = `
+                    <td>${result.order.orderId} </td>
+                    <td><a href="detail_order.html?orderId=${result.order.orderId}" target="blank">${result.order.orderName} </a></td>
+                    <td><a href="../public/view_driver_infor.html?driverId=${result.order.ownedVehicleInfor.driverId}" target="blank">${result.order.ownedVehicleInfor.driver.fullName} - ${result.order.ownedVehicleInfor.vehicle.vehicleName} - ${result.order.ownedVehicleInfor.description}</a></td>
+                `;
+
+                var td = document.createElement("td");
+                if (result.statusId == 12)
+                    td.innerHTML = `<button onclick="createRate(${result.order.orderId},${result.order.ownedVehicleInfor.driverId})">Đánh giá</button>
+                        <div>
+                        <div>1   2   3   4   5</div>
+                        <div>
+                            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=1 >
+                            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=2 >
+                            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=3 >
+                            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=4 >
+                            <input type="radio"  class="${result.order.orderId}"  name="r${result.order.orderId}" value=5 >
+                        </div>
+                        
+                        </div>
+                        <textarea type="text" id="c${result.order.orderId}" />`;
+
+                else
+                    td.innerHTML = `<p><font>Đã đánh giá</font></p>`;
+                resultTr.appendChild(td);
+
+            }
             history.appendChild(resultTr);
         });
     }
@@ -639,19 +652,27 @@ function displayInitOrder(results) {
 
                         var td = document.createElement("td");
                         var td2 = document.createElement("td");
+                        var deleteButton = document.createElement("td")
+                        deleteButton.innerHTML = `<button onclick="xoaDon(${orderId})">Xóa</button>`;
                         td2.innerHTML = `<button onclick="chonTaiXe(${orderId})">Chọn tài xế</button> `;
                         td.appendChild(select);
                         resultTr.appendChild(td);
                         resultTr.appendChild(td2);
+                        resultTr.appendChild(deleteButton);
                         initOrder.appendChild(resultTr);
                     }
                     else {
                         var chuaCoTX = document.createElement("td");
+                        chuaCoTX.colSpan = 2;
+                        var deleteButton = document.createElement("td")
+                        deleteButton.innerHTML = `<button onclick="xoaDon(${orderId})">Xóa</button>`;
                         chuaCoTX.innerHTML = `<p>chưa có tài xế</p>`;
                         resultTr.appendChild(chuaCoTX);
-                        resultTr.appendChild(document.createElement("td"));
+                        //resultTr.appendChild(document.createElement("td"));
+                        resultTr.appendChild(deleteButton);
                         initOrder.appendChild(resultTr);
                     }
+
                 })
                 .catch(error => {
                     console.error("Error:", error);
@@ -671,6 +692,32 @@ function displayInitOrder(results) {
         });
     }
 };
+
+
+function xoaDon(orderId) {
+    var confirmation = confirm("Bạn chắc chắn muốn xóa đơn hàng ?");
+
+    if (confirmation) {
+
+        fetch('https://localhost:7156/api/Customer/deleteOrder?orderId=' + orderId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("success:", data);
+                window.location.href = "customer_all_order.html?page=1";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+
+    }
+}
+
 
 
 function chonTaiXe(orderId) {

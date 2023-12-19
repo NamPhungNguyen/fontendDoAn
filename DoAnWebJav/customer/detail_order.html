@@ -98,7 +98,7 @@
 
 
 
-    fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Status", {
+    fetch("https://localhost:7156/api/Customer/OrdersList/" + orderId + "/Status", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -122,31 +122,38 @@
 
 
 
-
     document.addEventListener("DOMContentLoaded", function () {
-
-
-
-
-        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId, {
-            method: 'GET',
+        fetch('https://localhost:7156/api/Public/CheckAvalbleOrder?orderId=' + orderId, {
+            method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({}),
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-
                 console.log("success:", data);
-                var resultContainer = document.getElementById("orderInforRight");
+                if (data == true) {
 
-                var resultDiv = document.createElement("table");
-                resultDiv.innerHTML = `
+                    fetch("https://localhost:7156/api/Customer/OrdersList/" + orderId, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+
+                            console.log("success:", data);
+                            var resultContainer = document.getElementById("orderInforRight");
+
+                            var resultDiv = document.createElement("table");
+                            resultDiv.innerHTML = `
                     <tr>
                         <td><strong>Tên đơn hàng:</strong></td>
                         <td>${data.order.orderName}</td>
@@ -186,39 +193,166 @@
                 `;
 
 
-                if (checkStatus == 19) {
-                    var XemChiTiet = document.createElement("tr");
-                    XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><button> <font color="red">XÓA ĐƠN HÀNG</font></button></div></td>`;
-                    resultDiv.appendChild(XemChiTiet);
-                }
-                else if ((checkStatus == 4) || (checkStatus == 2)) {
-                    var XemChiTiet = document.createElement("tr");
-                    XemChiTiet.innerHTML = `<td></td>
+                            if (checkStatus == 19) {
+                                var XemChiTiet = document.createElement("tr");
+                                XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"><button onclick="xoaDon(${orderId})"> <font color="red">XÓA ĐƠN HÀNG</font></button></div></td>`;
+                                resultDiv.appendChild(XemChiTiet);
+                            }
+                            else if ((checkStatus == 4) || (checkStatus == 2)) {
+                                var XemChiTiet = document.createElement("tr");
+                                XemChiTiet.innerHTML = `<td></td>
                         <td><div align="right"> <font color="green">CHỜ TÀI XẾ XÁC NHẬN</font></div></td>`;
-                    resultDiv.appendChild(XemChiTiet);
-                }
-                else if ((checkStatus == 12) || (checkStatus == 129)) {
-                    var XemChiTiet = document.createElement("tr");
-                    XemChiTiet.innerHTML = `<td></td>
+                                resultDiv.appendChild(XemChiTiet);
+                            }
+                            else if ((checkStatus == 12) || (checkStatus == 129)) {
+                                var XemChiTiet = document.createElement("tr");
+                                XemChiTiet.innerHTML = `<td></td>
                         <td><div align="right"> <font color="black">ĐƠN HÀNG ĐÃ HOÀN THÀNH</font></div></td>`;
-                    resultDiv.appendChild(XemChiTiet);
+                                resultDiv.appendChild(XemChiTiet);
+                            }
+                            else {
+                                var XemChiTiet = document.createElement("tr");
+                                XemChiTiet.innerHTML = `<td></td>
+                        <td><div align="right"> <font color="orange">ĐƠN HÀNG ĐANG LÀM VIỆC</font></div></td>`;
+                                resultDiv.appendChild(XemChiTiet);
+                            }
+                            resultContainer.appendChild(resultDiv);
+
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            // Xử lý lỗi nếu cần
+                        });
+
+
+
+
+                    fetch("https://localhost:7156/api/Customer/OrdersList/" + orderId + "/Items", {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log("success:", data);
+                            displayResults(data);
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            // Xử lý lỗi nếu cần
+                        });
+
                 }
                 else {
-                    var XemChiTiet = document.createElement("tr");
-                    XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"> <font color="orange">ĐƠN HÀNG ĐANG LÀM VIỆC</font></div></td>`;
-                    resultDiv.appendChild(XemChiTiet);
+                    alert("Đơn hàng không tồn tại hoặc đã hết hạn.");
+                    window.location.href = "customer_all_order.html?page=1";
                 }
-                resultContainer.appendChild(resultDiv);
-
             })
             .catch(error => {
                 console.error("Error:", error);
-                // Xử lý lỗi nếu cần
             });
 
 
+        // console.log(checkAvail);
+        // if (checkAvail == 1) {
+
+
+        //     fetch("https://localhost:7156/api/Customer/OrdersList/" + orderId, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //     })
+        //         .then(response => {
+        //             if (!response.ok) {
+        //                 throw new Error('Network response was not ok');
+        //             }
+        //             return response.json();
+        //         })
+        //         .then(data => {
+
+        //             console.log("success:", data);
+        //             var resultContainer = document.getElementById("orderInforRight");
+
+        //             var resultDiv = document.createElement("table");
+        //             resultDiv.innerHTML = `
+        //             <tr>
+        //                 <td><strong>Tên đơn hàng:</strong></td>
+        //                 <td>${data.order.orderName}</td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Khách hàng (xem chi tiết):</strong></td>
+        //                 <td><a target="_blank" href="../public/view_customer_infor.html?customerId=${data.order.customerId}" >${data.order.customer.fullName}</a></td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Ngày đi:</strong></td>
+        //                 <td>${data.order.orderedDate}</td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Ngày đến:</strong></td>
+        //                 <td>${data.order.arrivedDate}</td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Điểm đi:</strong></td>
+        //                 <td>${data.order.provinceGo} - ${data.order.districtGo} - ${data.order.wardGo} - ${data.order.detailPositionGo}</td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Điểm đến:</strong></td>
+        //                 <td>${data.order.provinceCome} - ${data.order.districtCome} - ${data.order.wardCome} - ${data.order.detailPositionCome}</td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Tổng trọng lượng:</strong></td>
+        //                 <td>${data.order.totalWeight} (kilogram)</td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Tổng khối lượng:</strong></td>
+        //                 <td>${data.order.totalMass} (mét khối)</td>
+        //             </tr>
+        //             <tr>
+        //                 <td><strong>Tiền công:</strong></td>
+        //                 <td>${data.order.totalAmount}</td>
+        //             </tr>
+        //         `;
+
+
+        //             if (checkStatus == 19) {
+        //                 var XemChiTiet = document.createElement("tr");
+        //                 XemChiTiet.innerHTML = `<td></td>
+        //                 <td><div align="right"><button onclick="xoaDon(${orderId})"> <font color="red">XÓA ĐƠN HÀNG</font></button></div></td>`;
+        //                 resultDiv.appendChild(XemChiTiet);
+        //             }
+        //             else if ((checkStatus == 4) || (checkStatus == 2)) {
+        //                 var XemChiTiet = document.createElement("tr");
+        //                 XemChiTiet.innerHTML = `<td></td>
+        //                 <td><div align="right"> <font color="green">CHỜ TÀI XẾ XÁC NHẬN</font></div></td>`;
+        //                 resultDiv.appendChild(XemChiTiet);
+        //             }
+        //             else if ((checkStatus == 12) || (checkStatus == 129)) {
+        //                 var XemChiTiet = document.createElement("tr");
+        //                 XemChiTiet.innerHTML = `<td></td>
+        //                 <td><div align="right"> <font color="black">ĐƠN HÀNG ĐÃ HOÀN THÀNH</font></div></td>`;
+        //                 resultDiv.appendChild(XemChiTiet);
+        //             }
+        //             else {
+        //                 var XemChiTiet = document.createElement("tr");
+        //                 XemChiTiet.innerHTML = `<td></td>
+        //                 <td><div align="right"> <font color="orange">ĐƠN HÀNG ĐANG LÀM VIỆC</font></div></td>`;
+        //                 resultDiv.appendChild(XemChiTiet);
+        //             }
+        //             resultContainer.appendChild(resultDiv);
+
+        //         })
+        //         .catch(error => {
+        //             console.error("Error:", error);
+        //             // Xử lý lỗi nếu cần
+        //         });
 
 
 
@@ -230,28 +364,34 @@
 
 
 
-        fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Items", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("success:", data);
-                displayResults(data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                // Xử lý lỗi nếu cần
-            });
 
 
+        //     fetch("https://localhost:7156/api/Customer/OrdersList/" + orderId + "/Items", {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //     })
+        //         .then(response => {
+        //             if (!response.ok) {
+        //                 throw new Error('Network response was not ok');
+        //             }
+        //             return response.json();
+        //         })
+        //         .then(data => {
+        //             console.log("success:", data);
+        //             displayResults(data);
+        //         })
+        //         .catch(error => {
+        //             console.error("Error:", error);
+        //             // Xử lý lỗi nếu cần
+        //         });
+
+        // }
+        // else {
+        //     alert("Đơn hàng không tồn tại hoặc đã hết hạn.");
+        //     //window.location.href = "customer_all_order.html?page=1";
+        // }
     })
 </script>
 
@@ -260,6 +400,35 @@
 
 
 <script>
+
+    function xoaDon(orderId) {
+        var confirmation = confirm("Bạn chắc chắn muốn xóa đơn hàng ?");
+
+        if (confirmation) {
+
+            fetch('https://localhost:7156/api/Customer/deleteOrder?orderId=' + orderId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("success:", data);
+                    window.location.href = "customer_all_order.html?page=1";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+
+        }
+    }
+
+
+
+
+
 
     function displayResults(results) {
         // Lấy phần tử div lớn để chứa các div con
@@ -298,6 +467,9 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+
+
         var storedUserInformation = localStorage.getItem('userInfo');
         var parsedUserInformation = JSON.parse(storedUserInformation);
         var id = parsedUserInformation.id;
@@ -325,5 +497,6 @@
             // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
             window.location.href = "../public/login.html";
         }
+
     });
 </script>
