@@ -123,7 +123,8 @@
         <div align="center">
             <h1>Quản lý tài khoản nhân viên</h1>
             <div><input type="text" id="search" placeholder="nhập email hoặc tên" /><button onclick="search()">Tìm
-                    kiếm</button><button onclick="reload()">Làm mới</button></div>
+                    kiếm</button><button onclick="reload()">Làm mới</button><button onclick="createStaff()">tạo mới tài
+                    khoản</button></div>
             <table id="user">
             </table>
         </div>
@@ -131,7 +132,37 @@
             <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
             <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
         </div>
+        <div id="createStaff"  style="display: none;">
+            <h3>Tạo tài khoản nhân viên mới</h3>
+            <div class="form-input">
+                <label for="">Họ và Tên</label>
+                <input type="text" placeholder="Nhập họ tên" name="fullName" id="fullName">
+            </div>
+            <div class="form-input">
+                <label for="">Email</label>
+                <input type="email" placeholder="Nhập email" name="email" id="email">
+            </div>
+            <div class="form-input">
+                <label for="">Số điện thoại</label>
+                <input type="text" placeholder="Nhập số điện thoại" name="phoneNumber" id="phoneNumber">
+            </div>
+            <div class="form-input">
+                <label for="">Ngày sinh</label>
+                <input type="date" placeholder="Nhập ngày sinh" name="date_of_birth" id="birthday">
+            </div>
 
+            <div class="form-input">
+                <label for="">Mật khẩu</label>
+                <input type="password" placeholder="Enter password" name="password" id="password">
+            </div>
+            <div class="form-input">
+                <label for="">Xác nhận mật khẩu</label>
+                <input type="password" placeholder="Xác nhận mật khẩu" name="password_cofirm" id="password_cofirm">
+            </div>
+            <div class="form-input">
+                <button type="button" onclick="signupStaff()">Đăng ký</button>
+            </div>
+        </div>
         <!-- Add more sections as needed -->
     </main>
 
@@ -141,6 +172,75 @@
 
 
 
+<script>
+    function createStaff(){
+        var create = document.getElementById("createStaff");
+        create.style.display = "block";
+    }
+
+    function signupStaff() {
+            // Lấy giá trị từ các trường form
+            var fullName = document.getElementById("fullName").value;
+            var email = document.getElementById("email").value;
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            var password = document.getElementById("password").value;
+            var dateOfBirth = document.getElementById("birthday").value;
+            var confirmPassword = document.getElementById("password_cofirm").value;
+            var timestampInMilliseconds = Date.UTC();
+
+            if (fullName === '' || email === '' || phoneNumber === '' || dateOfBirth === '' || password === '') {
+                    alert('Vui lòng điền đầy đủ thông tin');
+                    return;
+            }
+
+            if (password !== confirmPassword) {
+                    alert('Mật khẩu không khớp');
+                    return;
+            }
+
+            // Kiểm tra định dạng email sử dụng Regular Expression
+            var emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.match(emailFormat)) {
+                    alert('Vui lòng nhập đúng định dạng email');
+                    return;
+            }
+
+            // Thực hiện yêu cầu POST sử dụng fetch
+            fetch("https://localhost:7156/api/SignIn/staff", {
+                    method: 'POST',
+                    headers: {
+                            'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                            email: email,
+                            password: password,
+                            fullName: fullName,
+                            birthday: dateOfBirth,
+                            phoneNumber: phoneNumber,
+                            status: true,
+                            able: true,
+                            roleId: 4,
+                            dateCreatedAccount: timestampInMilliseconds,
+                    })
+            })
+                    .then(response => {
+                            if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                    })
+                    .then(data => {
+                            // Xử lý phản hồi từ server nếu cần
+                            console.log(data);
+                            window.location.href = '';
+                            alert('Đăng ký tài khoản thành công!');
+                    })
+                    .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                            // Xử lý lỗi nếu cần
+                    });
+    }
+</script>
 
 
 <script>
@@ -275,7 +375,7 @@
                 var resultTr = document.createElement("tr");
                 resultTr.innerHTML = `
                 <td><font>${result.userId} </font></td>
-                <td><a target="blank" href="../public/view_customer_infor.html?customerId=${result.userId}"><font>${result.fullName} </font></a></td>
+                <td><a target="blank" href="../public/view_staff_infor.html?staffId=${result.userId}"><font>${result.fullName} </font></a></td>
                 <td><font>${result.email} </font></td>
                 <td><font>${result.password} </font></td>
                 <td><font>${result.address} </font></td>
