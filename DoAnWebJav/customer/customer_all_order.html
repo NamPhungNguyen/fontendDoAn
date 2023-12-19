@@ -94,6 +94,7 @@
 
 <body>
     <script src="../javaScript/check_token.js"></script>
+    
     <script src="customer_all_order.js"></script>
 
     <section id="header">
@@ -173,13 +174,15 @@
 
 
 
-            <div id="page4" align="center">
-                <div style="padding-top: 20px;">
-                    <h3>Danh sách đơn hàng đã hoàn thành</h3>
-                </div>
-                <div>
-                    <table id="history">
-                    </table>
+                    <div id="page4" align="center">
+                        <div style="padding-top: 20px;">
+                            <h3>Danh sách đơn hàng đã hoàn thành</h3>
+                        </div>
+                        <div>
+                            <table id="history">
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div align="center"
                     style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
@@ -192,9 +195,21 @@
 
 
 
-
     </section>
+    <script>
+        function changeColor(element) {
+    // Lấy tất cả các phần tử a trong thanh navbar
+    var navItems = document.querySelectorAll('#navbar2 a');
 
+    // Xóa class 'active' từ tất cả các phần tử a
+    navItems.forEach(function (navItem) {
+      navItem.classList.remove('fix2');
+    });
+
+    // Thêm class 'active' vào phần tử được nhấp vào
+    element.classList.add('fix2');
+  }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var storedUserInformation = localStorage.getItem('userInfo');

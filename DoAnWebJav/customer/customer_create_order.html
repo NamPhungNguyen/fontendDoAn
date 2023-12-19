@@ -30,6 +30,25 @@
         #logoutButton:hover {
             background-color: #d32f2f;
         }
+        table {
+      
+            border-collapse: collapse;
+      
+        }
+
+        th, td {
+     
+            text-align: left;
+            border-bottom: 1px solid #706f6f;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 
@@ -170,65 +189,6 @@
 
 </html>
 
-<script>
-    // Add a variable to store the current page
-    var currentPage = 1;
-
-    // Function to update displayed rows based on the current page
-    // Hàm để cập nhật các dòng được hiển thị dựa trên trang hiện tại
-    function updateDisplayedRows() {
-        var rowsPerPage = 5; // Thay đổi số dòng trên mỗi trang nếu cần
-        var startIndex = (currentPage - 1) * rowsPerPage + 1; // Bắt đầu từ index 1 để tránh ẩn dòng tiêu đề
-        var endIndex = startIndex + rowsPerPage;
-
-        var table = document.getElementById("OrderItem");
-        var rows = table.getElementsByTagName("tr");
-
-        // Ẩn tất cả các dòng, bắt đầu từ dòng thứ 1
-        for (var i = 1; i < rows.length; i++) {
-            rows[i].style.display = "none";
-        }
-
-        // Hiển thị dòng cho trang hiện tại
-        for (var i = startIndex; i < endIndex && i < rows.length; i++) {
-            rows[i].style.display = "";
-        }
-
-        // Cập nhật hiển thị trang hiện tại
-        document.getElementById("currentPage").textContent = currentPage;
-    }
-
-
-    // Function to handle the "Next" button click
-    document.getElementById("nextPage").addEventListener("click", function () {
-        var table = document.getElementById("OrderItem");
-        var rows = table.getElementsByTagName("tr");
-
-        var rowsPerPage = 5; // Change this to the desired number of rows per page
-        var totalRows = rows.length - 1; // Exclude the header row
-        var totalPages = Math.ceil(totalRows / rowsPerPage);
-
-        // Increment the current page if not at the last page
-        if (currentPage < totalPages) {
-            currentPage++;
-            updateDisplayedRows();
-        }
-    });
-
-    // Function to handle the "Previous" button click
-    document.getElementById("prevPage").addEventListener("click", function () {
-        // Decrement the current page if not at the first page
-        if (currentPage > 1) {
-            currentPage--;
-            updateDisplayedRows();
-        }
-    });
-
-    // Initial setup to display the first page
-    updateDisplayedRows();
-
-
-</script>
 
 
 <script>
