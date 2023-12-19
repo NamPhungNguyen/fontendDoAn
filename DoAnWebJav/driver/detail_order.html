@@ -138,10 +138,6 @@
 
 
 <script>
-
-
-
-
     var storedUserInformation = localStorage.getItem('userInfo');
     var parsedUserInformation = JSON.parse(storedUserInformation);
     var driverId = parsedUserInformation.id;
@@ -172,9 +168,6 @@
             // Xử lý lỗi nếu cần
         });
 
-
-
-
     fetch("https://localhost:7156/api/Driver/OrdersList/" + orderId + "/Status", {
         method: 'GET',
         headers: {
@@ -196,9 +189,6 @@
             console.error("Error:", error);
             // Xử lý lỗi nếu cần
         });
-
-
-
 
     document.addEventListener("DOMContentLoaded", function () {
 
@@ -455,8 +445,6 @@
         else {
         }
     }
-
-
 
 
     function xoaDonKhiDaDuocChon() {

@@ -39,6 +39,7 @@
                         <div class="tab-content">
                             <form class="tab-pane fade active show form-user" id="account-general">
                                 <hr class="border-light m-0" />
+                                <img src="" alt class="d-block ui-w-80 imagestaff" />
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label class="form-label">Họ và Tên</label>
@@ -92,6 +93,13 @@
             var email = document.querySelector(".email");
             var address = document.querySelector(".address");
             var phone = document.querySelector(".phone");
+            var imagestaff = document.querySelector(".imagestaff");
+            var imagestaff = document.querySelector(".imagestaff");
+            if (data.avatarImageLink !== null && data.avatarImageLink !== undefined) {
+                imagestaff.src = "https://localhost:7156/image/customer/" + data.avatarImageLink;
+            } else {
+                imagestaff.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
+            }
             username.value = data.fullName;
             email.value = data.email;
             address.value = data.address;

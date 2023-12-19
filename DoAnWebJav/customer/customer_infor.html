@@ -73,42 +73,35 @@
                       Upload new photo
                       <input type="file" class="account-settings-fileinput" id="fileInput" />
                     </label>
-                    &nbsp;
-                    <button type="button" class="btn btn-default md-btn-flat">
-                      Reset
-                    </button>
-                    <div class="text-light small mt-1">
-                      Allowed JPG, GIF or PNG. Max size of 800K
-                    </div>
                   </div>
                 </div>
                 <hr class="border-light m-0" />
                 <div class="card-body">
                   <div class="form-group">
                     <label class="form-label">Họ và Tên</label>
-                    <input type="text" class="form-control mb-1 username" value="nmaxwell" />
+                    <input type="text" class="form-control mb-1 username" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Mật khẩu</label>
-                    <input type="text" class="form-control password" value="Nelle Maxwell" />
+                    <input type="text" class="form-control password" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">E-mail</label>
-                    <input type="text" class="form-control mb-1 email" value="nmaxwell@mail.com" />
+                    <input type="text" class="form-control mb-1 email" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Địa chỉ</label>
-                    <input type="text" class="form-control address" value="Company Ltd." />
+                    <input type="text" class="form-control address" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Số điện thoại</label>
-                    <input type="text" class="form-control phone" value="Company Ltd." />
+                    <input type="text" class="form-control phone" value="" />
                   </div>
                 </div>
                 <div class="text-right mt-3">
                   <button type="submit" class="btn btn-primary btn-submit">
                     Lưu</button>&nbsp;
-                  <button type="button" class="btn btn-default">Hủy</button>
+                  <button type="reset" class="btn btn-default">Hủy</button>
                 </div>
               </form>
             </div>
@@ -184,9 +177,11 @@
           email.value = data.email;
           address.value = data.address;
           phone.value = data.phoneNumber;
-          imagecustomer.src = "https://localhost:7156/image/customer/" + data.avatarImageLink
-            ? "https://localhost:7156/image/customer/" + data.avatarImageLink
-            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
+          if (data.avatarImageLink !== null && data.avatarImageLink !== undefined) {
+            imagecustomer.src = "https://localhost:7156/image/customer/" + data.avatarImageLink;
+          } else {
+            imagecustomer.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
+          }
 
 
           var storedUserInformation = localStorage.getItem("userInfo");
@@ -278,43 +273,37 @@
 
 
 
-<script>
-  function uploadImage(customerId) {
+  <script>
+    function uploadImage(customerId) {
       var fileInput = document.getElementById('fileInput');
       var file = fileInput.files[0];
 
       if (file) {
-          var formData = new FormData();
-          formData.append('image', file);
+        var formData = new FormData();
+        formData.append('image', file);
 
-          fetch("https://localhost:7156/api/Customer/SaveImage?customerId=" + customerId, {
-              method: 'POST',
-              body: formData,
+        fetch("https://localhost:7156/api/Customer/SaveImage?customerId=" + customerId, {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Network error: ${response.status}`);
+            }
+            return response.json();
           })
-              .then((response) => {
-                  if (!response.ok) {
-                      throw new Error(`Network error: ${response.status}`);
-                  }
-                  return response.json();
-              })
-              .then((data) => {
-                  // Data will contain the imageUrl returned by the server
-                  console.log('Image saved successfully:', data.imageUrl);
-              })
-              .catch((error) => {
-                  console.error('Error saving image:', error);
-              });
+          .then((data) => {
+            // Data will contain the imageUrl returned by the server
+            console.log('Image saved successfully:', data.imageUrl);
+          })
+          .catch((error) => {
+            console.error('Error saving image:', error);
+          });
       } else {
-          console.warn('No image selected.');
+        console.warn('No image selected.');
       }
-
-
-  }
-</script>
-
-
-
-
+    }
+  </script>
 
 </body>
 

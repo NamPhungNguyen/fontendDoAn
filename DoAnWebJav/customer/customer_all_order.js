@@ -177,7 +177,6 @@ $(document).ready(function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
 
@@ -218,7 +217,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => {
             console.error("Error:", error);
-            // Xử lý lỗi nếu cần
         });
 
 
@@ -391,7 +389,6 @@ function displayAllHistory(results) {
 // }
 
 function createRate(orderId, driverId) {
-
     var storedUserInformation = localStorage.getItem('userInfo');
     var parsedUserInformation = JSON.parse(storedUserInformation);
     var customerId = parsedUserInformation.id;
@@ -587,9 +584,6 @@ function displayWaitedDeliveredOrder(results) {
         });
     }
 };
-
-
-
 
 
 function displayInitOrder(results) {

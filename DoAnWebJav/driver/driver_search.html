@@ -109,7 +109,8 @@
         </div>
 
     </div>
-    <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer"></div>
+    <div style="display: flex; flex-wrap: wrap;width:auto; gap: 50px; background-color: floralwhite;"
+        id="resultContainer"></div>
     </div>
 
 
@@ -297,21 +298,23 @@
                 // Thêm nội dung của mỗi item vào div con
                 var oVVId = document.getElementById("dynamicSelect").value;
                 resultDiv.innerHTML = `
-                <h3 align="center" style="color:white; background-color:gray">${result.order.orderName}</h3>
-                <p><strong>Ngày đi:</strong> ${result.order.orderedDate}</p>
-                <p><strong>Ngày đến:</strong> ${result.order.arrivedDate}</p>
-                <p><strong>Điểm đi:</strong> ${result.order.wardGo} - ${result.order.detailPositionGo}</p>
-                <p><strong>Điểm đến:</strong> ${result.order.wardCome} - ${result.order.detailPositionCome}</p>
-                <p><strong>Tiền công:</strong> ${result.order.totalAmount} USD</p>
+                <div style="margin-left:10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s; background-color:red; border: none; border-radius:5px;background-image: linear-gradient(90deg, #489be2, #0f629c);">
+                    <h3 align="center" style="color:black;background-color:#a9f6ff;text-transform: uppercase;font-family: 'Righteous', sans-serif;">${result.order.orderName}</h3>
+                    <p style="color:white;"><strong>Ngày đi:</strong> ${result.order.orderedDate}</p>
+                    <p style="color:white;"><strong>Ngày đến:</strong> ${result.order.arrivedDate}</p>
+                    <p style="color:white;"><strong>Điểm đi:</strong> ${result.order.wardGo} - ${result.order.detailPositionGo}</p>
+                    <p style="color:white;"><strong>Điểm đến:</strong> ${result.order.wardCome} - ${result.order.detailPositionCome}</p>
+                    <p style="color:white;"><strong>Tiền công:</strong> ${result.order.totalAmount} USD</p>
+                </div>
             `;
                 if (result.checkWAL == true) {
                     var XemChiTiet = document.createElement("div");
-                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button>Xem chi tiết<font color="red"> *Đã ứng tuyển</font></button></a>`;
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: red;cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: black;font-size: 17px;font-weight: 500;">Xem chi tiết<font color="red"> *Đã ứng tuyển</font></button></a>`;
                     resultDiv.appendChild(XemChiTiet);
                 }
                 else {
                     var XemChiTiet = document.createElement("div");
-                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button>Xem chi tiết</button></a>`;
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: red;cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: black;font-size: 17px;font-weight: 500;">Xem chi tiết</button></a>`;
                     resultDiv.appendChild(XemChiTiet);
                 }
 

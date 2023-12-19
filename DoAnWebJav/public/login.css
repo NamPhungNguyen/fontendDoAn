@@ -1,79 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'nunito', sans-serif;
     font-weight: 600;
 }
-body{
+
+body {
     background-size: cover;
 }
-.container{
+
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     position: relative;
+    background-image: url('../images/wp2861260.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
-.box{
+
+.box {
     width: 450px;
     height: 500px;
-    background: #fff;
+    background: #cfcfcf;
     backdrop-filter: blur(20px);
     border-radius: 30px;
     padding: 40px;
-    box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.1),
-                -2px -0px 15px 2px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.1),
+        -2px -0px 15px 2px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
-.wrapper{
+
+.wrapper {
     position: absolute;
     width: 455px;
     height: 500px;
     border-radius: 30px;
-    background: rgba(255,255,255,0.53);
-    box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.115),
-                -2px -0px 15px 2px rgba(0,0,0,0.054);
+    background: rgba(255, 255, 255, 0.53);
+    box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.115),
+        -2px -0px 15px 2px rgba(0, 0, 0, 0.054);
     transform: rotate(5deg);
 }
-.header{
+
+.header {
     margin-bottom: 50px;
 }
-.header header{
+
+.header header {
     display: flex;
     justify-content: right;
 }
-header img{
+
+header img {
     width: 25px;
 }
-.header p{
+
+.header p {
     font-size: 25px;
     font-weight: 800;
     margin-top: 10px;
 }
-.input-box{
+
+.input-box {
     display: flex;
     flex-direction: column;
     margin: 10px 0;
     position: relative;
 }
-i{
+
+i {
     font-size: 22px;
     position: absolute;
     top: 35px;
     right: 12px;
     color: #595b5e;
 }
-input{
+
+input {
     height: 40px;
-    border: 2px solid rgb(153,157,158);
+    border: 2px solid rgb(153, 157, 158);
     border-radius: 7px;
     margin: 7px 0;
     outline: none;
 }
-.input-field{
+
+.input-field {
     font-weight: 500;
     padding: 0 10px;
     font-size: 17px;
@@ -81,13 +96,16 @@ input{
     background: transparent;
     transition: all .3s ease-in-out;
 }
-.input-field:focus{
-    border:2px solid rgb(89,53,180);
+
+.input-field:focus {
+    border: 2px solid rgb(89, 53, 180);
 }
-.input-field:focus ~ i{
-    color: rgb(89,53,180);
+
+.input-field:focus~i {
+    color: rgb(89, 53, 180);
 }
-.input-submit{
+
+.input-submit {
     margin-top: 20px;
     background: #1e263a;
     border: none;
@@ -95,19 +113,23 @@ input{
     cursor: pointer;
     transition: all .3s ease-in-out;
 }
-.input-submit:hover{
+
+.input-submit:hover {
     background: #122b71;
 }
-.bottom{
+
+.bottom {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 25px;
 }
-.bottom span a{
+
+.bottom span a {
     color: #727374;
     text-decoration: none;
 }
-.bottom span a:hover{
+
+.bottom span a:hover {
     text-decoration: underline;
 }
