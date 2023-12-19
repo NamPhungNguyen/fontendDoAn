@@ -252,10 +252,10 @@
             alert("Vui lòng điền đầy đủ thông tin đơn hàng.");
             return;
         }
-        // else if ((new Date(startDate) < new Date()) || (new Date(endDate) < new Date()) || (new Date(endDate) < new Date(startDate))) {
-        //     alert("Thời gian không hợp lệ.");
-        //     return;
-        // }
+        else if ((new Date(startDate) < new Date()) || (new Date(endDate) < new Date()) || (new Date(endDate) < new Date(startDate))) {
+            alert("Thời gian không hợp lệ.");
+            return;
+        }
 
         var storedUserInformation = localStorage.getItem('userInfo');
         var parsedUserInformation = JSON.parse(storedUserInformation);
