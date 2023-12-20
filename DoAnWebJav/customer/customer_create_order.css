@@ -1,55 +1,149 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box ;
-    font-family: 'Spartan', sans-serif;
-}
-.container{
-    position: relative;
-    width: 1000 px;
-}
-.background{
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-
-}
-.create{
-    z-index: 0;
-    height: 100%;
-    width: 100%;   
-    color: #fff; 
-
+    box-sizing: border-box;
 }
 
-.create1 {
-   
-    
+.background {
+    background-image: url('../images/backgroud_create_order.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
-.create1 tr {
-     
-}
-
-.create1 td {
-    padding: 10px;
-   
-}
-
-
-.select1{
-    width: 170px;
-    
-}
-.button1 {
-    
-    color: #fff; padding: 10px 20px;background-color: blue ;
-    color: white;
+.select1 {
+    padding: 8px 22px;
+    background-color: #ccc;
     border: none;
     border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    margin: 3px 10px;
+    height: 40px;
+    width: 195px;
+}
+
+.title {
+    color: rgb(246 246 246);
+    margin-bottom: 25px;
+}
+
+.button1 {
+    padding: 10px;
+    width: 134px;
+    height: 49px;
+    margin-bottom: 10px;
+    background-color: #8ccef7;
+    border: none;
+    border-radius: 30px;
+    color: #000;
+    font-family: arial;
+    font-weight: bold;
     cursor: pointer;
+}
+
+.button1:hover {
+    color: #765c5c;
+    background-color: #8abfd5;
+}
+
+.text {
+    font-weight: bold;
+    font-size: 20px;
+    font-family: sans-serif;
+    text-align: right;
+    margin-right: 32px;
+    margin: 10px 11px;
+}
+
+
+.table_orderItem {
+
+    margin: 0;
+    font-family: sans-serif;
+    font-weight: 100;
+
+    table {
+        width: 800px;
+        border-collapse: collapse;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(45deg, #49a09d, #5f2c82);
+
+    }
+
+    .input_orderItem {
+        padding: 5px 6px;
+        border: none;
+        background-color: beige;
+        font-family: system-ui;
+        font-size: 13px;
+        color: #000;
+    }
+
+    .editButton,
+    .deleteButton {
+        background-color: red;
+        height: 24px;
+        width: 62px;
+        margin: 2px 0px;
+        padding: 3px 10px;
+        border: none;
+        border-radius: 5px;
+        color: #000;
+        font-family: ui-rounded;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+
+    .deleteButton:hover {
+        background-color: #f96363;
+        color: #5b4f4f;
+    }
+
+    .editButton:hover {
+        background-color: #f96363;
+        color: #5b4f4f;
+    }
+
+    th,
+    td {
+        padding: 15px;
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    thead {
+        th {
+            background-color: #55608f;
+        }
+    }
+
+    tbody {
+        tr {
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        td {
+            position: relative;
+
+            &:hover {
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: -9999px;
+                    bottom: -9999px;
+                    background-color: rgba(255, 255, 255, 0.2);
+                    z-index: -1;
+                }
+            }
+        }
+    }
 }

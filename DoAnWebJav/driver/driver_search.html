@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Navigation</title>
     <link rel="stylesheet" href="driver_search.css">
+    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
         /* CSS cho nút đăng xuất */
         #logoutButton {
@@ -30,14 +32,15 @@
 </head>
 
 <body>
-    <!-- header-->
     <script src="../javaScript/check_token.js"></script>
+    <!-- header-->
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
         <div>
             <ul id="navbar">
                 <li><a href="driver_home.html">Trang chủ</a></li>
                 <li><a class="active" href="driver_search.html">Tìm kiếm</a></li>
+                <li><a href="driver_chat.html">Tư vấn</a></li>
                 <li><a href="driver_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
             </ul>
@@ -45,80 +48,195 @@
     </section>
 
     <!-- Your page content goes here -->
-
-    <div align="center">
-        <form method="post">
-            <h1>Tìm kiếm đơn hàng</h1>
-            <table>
-                <tr>
-
-                    <td>Địa điểm đi : </td>
-                    <td>
-                        <select id="city">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="district">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
-
-                </tr>
-                <tr>
-
-                    <td>Địa điểm đến : </td>
-                    <td>
-                        <select id="cityCome">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="districtCome">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
-
-                </tr>
-                <tr>
-
-                    <td>Chọn xe : </td>
-                    <td>
-                        <select id="dynamicSelect">
-                            <option value="" selected>Chọn xe</option>
-                        </select>
-
-                    </td>
+    <div align="center" class="container">
+        <div class="background">
 
 
-                </tr>
-            </table>
-            <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px" />
-        </form>
+
+            <form method="post">
+                <h1 style="color: black;">Tìm kiếm đơn hàng</h1>
+                <br><br><br>
+                <table class="create1">
+                    <tr>
+                        <td>Địa điểm đi : </td>
+                        <td>
+                            <select id="city" class="select1">
+                                <option value="" selected>Chọn tỉnh thành</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="district" class="select1">
+                                <option value="" selected>Chọn quận huyện</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td>Địa điểm đến : </td>
+                        <td>
+                            <select id="cityCome" class="select1">
+                                <option value="" selected>Chọn tỉnh thành</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="districtCome" class="select1">
+                                <option value="" selected>Chọn quận huyện</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td>Chọn xe : </td>
+                        <td>
+                            <select id="dynamicSelect" class="select1">
+                                <option value="" selected>Chọn xe</option>
+                            </select>
+
+                        </td>
 
 
-        <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
+                    </tr>
+                </table>
+                <br><br><br>
+                <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px"
+                    class="button1" />
+            </form>
+
+
+
         </div>
+
+    </div>
+    <div style="display: flex; flex-wrap: wrap;width:auto; gap: 50px; background-color: floralwhite;"
+        id="resultContainer"></div>
     </div>
 
 
 
+    <div align="center" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+        <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
+        <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
+    </div>
 
+
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="../images/fast-delivery1.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> 562 Trần đại nghĩa, Hai Bà Trưng, Hà Nội</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Term & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="../public/images/pay/app.jpg" alt="">
+                <img src="../public/images/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="../public/images/pay/pay.png" alt="">
+        </div>
+
+        <div class="copyright">
+            <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
+        </div>
+    </footer>
 
 
 
     <script>
-        // Hàm để gọi API, gửi dữ liệu và hiển thị kết quả
+
+        //let intervalId;
+
+        let pageSize = 6;
+        let currentPagenumberItem = 1;
+        let originalArray = [];
+        let currentPage = 1;
+        let displayArray = [];
+        const itemsPerPage = 10;
+        const tableDOM = document.querySelector('.resultContainer');
+
+        const pagination = (currentPage, numberItem) => {
+            let pri = document.getElementById("Previous");
+            let next = document.getElementById("Next");
+            pri.style.display = "block";
+            next.style.display = "block";
+            if (currentPage == 1) pri.style.display = "none";
+
+            const startIndex = (currentPage - 1) * numberItem;
+            currentPagenumberItem = startIndex + 1;
+            displayArray = originalArray.slice(startIndex, startIndex + numberItem);
+
+            if ((originalArray.slice(currentPage * numberItem, currentPage * numberItem + numberItem)).length === 0) next.style.display = "none";
+            displayResults(displayArray);
+        }
+
+        const goPrevious = () => {
+            currentPage--;
+            if (currentPage < 0) {
+                currentPage == 0;
+            }
+            else
+                pagination(currentPage, pageSize);
+        }
+        const goNext = () => {
+            currentPage++;
+            pagination(currentPage, pageSize);
+        }
+
+
+
+
+
         function submitAndDisplay() {
             // Lấy giá trị từ trường select
             var selectedOviId = document.getElementById("dynamicSelect").value;
-
             var selectedProGo = document.getElementById("city").value;
             var selectedDisGo = document.getElementById("district").value;
             var selectedProCome = document.getElementById("cityCome").value;
             var selectedDisCome = document.getElementById("districtCome").value;
 
-            // Gửi dữ liệu lên API
+            // Kiểm tra xem interval cũ có tồn tại hay không
+
+            // if (intervalId) {
+            //     clearInterval(intervalId); // Clear interval cũ nếu tồn tại
+            // }
+
+            // Tạo mới interval
+            //intervalId = setInterval(function () {
             fetch("https://localhost:7156/api/Driver/FilteredOrdersList", {
                 method: 'POST',
                 headers: {
@@ -140,14 +258,29 @@
                 })
                 .then(data => {
                     console.log(data);
+
+                    originalArray = data;
+                    pagination(1, pageSize);
+
+
+
                     // Hiển thị kết quả trong div lớn
-                    displayResults(data);
+                    //displayResults(data);
                 })
                 .catch(error => {
                     console.error("Error:", error);
                     // Xử lý lỗi nếu cần
                 });
+            //}, 1000);
         }
+
+
+
+
+
+
+
+
 
         // Hàm để hiển thị kết quả trong div lớn
         function displayResults(results) {
@@ -165,21 +298,23 @@
                 // Thêm nội dung của mỗi item vào div con
                 var oVVId = document.getElementById("dynamicSelect").value;
                 resultDiv.innerHTML = `
-                <h3 align="center" style="color:white; background-color:gray">${result.order.orderName}</h3>
-                <p><strong>Ngày đi:</strong> ${result.order.orderedDate}</p>
-                <p><strong>Ngày đến:</strong> ${result.order.arrivedDate}</p>
-                <p><strong>Điểm đi:</strong> ${result.order.wardGo} - ${result.order.detailPositionGo}</p>
-                <p><strong>Điểm đến:</strong> ${result.order.wardCome} - ${result.order.detailPositionCome}</p>
-                <p><strong>Tiền công:</strong> ${result.order.totalAmount} USD</p>
+                <div style="margin-left:10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s; background-color:red; border: none; border-radius:5px;background-image: linear-gradient(90deg, #489be2, #0f629c);">
+                    <h3 align="center" style="color:black;background-color:#a9f6ff;text-transform: uppercase;font-family: 'Righteous', sans-serif;">${result.order.orderName}</h3>
+                    <p style="color:white;"><strong>Ngày đi:</strong> ${result.order.orderedDate}</p>
+                    <p style="color:white;"><strong>Ngày đến:</strong> ${result.order.arrivedDate}</p>
+                    <p style="color:white;"><strong>Điểm đi:</strong> ${result.order.wardGo} - ${result.order.detailPositionGo}</p>
+                    <p style="color:white;"><strong>Điểm đến:</strong> ${result.order.wardCome} - ${result.order.detailPositionCome}</p>
+                    <p style="color:white;"><strong>Tiền công:</strong> ${result.order.totalAmount} USD</p>
+                </div>
             `;
                 if (result.checkWAL == true) {
                     var XemChiTiet = document.createElement("div");
-                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button>Xem chi tiết<font color="red"> *Đã ứng tuyển</font></button></a>`;
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: red;cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: black;font-size: 17px;font-weight: 500;">Xem chi tiết<font color="red"> *Đã ứng tuyển</font></button></a>`;
                     resultDiv.appendChild(XemChiTiet);
                 }
                 else {
                     var XemChiTiet = document.createElement("div");
-                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button>Xem chi tiết</button></a>`;
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: red;cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: black;font-size: 17px;font-weight: 500;">Xem chi tiết</button></a>`;
                     resultDiv.appendChild(XemChiTiet);
                 }
 
@@ -328,13 +463,15 @@
         document.addEventListener("DOMContentLoaded", function () {
             var storedUserInformation = localStorage.getItem('userInfo');
             var parsedUserInformation = JSON.parse(storedUserInformation);
-
+            var id = parsedUserInformation.id;
             var userInfoContainer = document.getElementById('user-info');
 
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
 
-                var userInfoElement = document.createElement('span');
+                var userInfoElement = document.createElement('a');
+                userInfoElement.href = '../public/view_driver_infor.html?driverId=' + id;
+                userInfoElement.target = 'blank';
                 userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
 
                 userInfoContainer.appendChild(userInfoElement);
@@ -353,7 +490,6 @@
             }
         });
     </script>
-
 
 
 </body>

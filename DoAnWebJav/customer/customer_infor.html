@@ -71,58 +71,43 @@
                   <div class="media-body ml-4">
                     <label class="btn btn-outline-primary">
                       Upload new photo
-                      <input type="file" class="account-settings-fileinput" />
+                      <input type="file" class="account-settings-fileinput" id="fileInput" />
                     </label>
-                    &nbsp;
-                    <button type="button" class="btn btn-default md-btn-flat">
-                      Reset
-                    </button>
-                    <div class="text-light small mt-1">
-                      Allowed JPG, GIF or PNG. Max size of 800K
-                    </div>
                   </div>
                 </div>
                 <hr class="border-light m-0" />
                 <div class="card-body">
                   <div class="form-group">
                     <label class="form-label">Họ và Tên</label>
-                    <input type="text" class="form-control mb-1 username" value="nmaxwell" />
+                    <input type="text" class="form-control mb-1 username" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Mật khẩu</label>
-                    <input type="text" class="form-control password" value="Nelle Maxwell" />
+                    <input type="text" class="form-control password" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">E-mail</label>
-                    <input type="text" class="form-control mb-1 email" value="nmaxwell@mail.com" />
+                    <input type="text" class="form-control mb-1 email" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Địa chỉ</label>
-                    <input type="text" class="form-control address" value="Company Ltd." />
+                    <input type="text" class="form-control address" value="" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Số điện thoại</label>
-                    <input type="text" class="form-control phone" value="Company Ltd." />
+                    <input type="text" class="form-control phone" value="" />
                   </div>
                 </div>
                 <div class="text-right mt-3">
                   <button type="submit" class="btn btn-primary btn-submit">
                     Lưu</button>&nbsp;
-                  <button type="button" class="btn btn-default">Hủy</button>
+                  <button type="reset" class="btn btn-default">Hủy</button>
                 </div>
               </form>
-
-
             </div>
           </div>
         </div>
       </div>
-
-
-    </div>
-    </div>
-    </div>
-
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -144,7 +129,9 @@
         var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
         var customer_id = parsedUserInformation.id;
 
-        var userInfoElement = document.createElement("span");
+        var userInfoElement = document.createElement('a');
+        userInfoElement.href = '../public/view_customer_infor.html?customerId=' + customer_id;
+        userInfoElement.target = 'blank';
         userInfoElement.textContent = "Chào, " + username; // Thông tin về người dùng
 
         userInfoContainer.appendChild(userInfoElement);
@@ -190,9 +177,11 @@
           email.value = data.email;
           address.value = data.address;
           phone.value = data.phoneNumber;
-          imagecustomer.src = data.avatarImageLink
-            ? data.avatarImageLink
-            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
+          if (data.avatarImageLink !== null && data.avatarImageLink !== undefined) {
+            imagecustomer.src = "https://localhost:7156/image/customer/" + data.avatarImageLink;
+          } else {
+            imagecustomer.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
+          }
 
 
           var storedUserInformation = localStorage.getItem("userInfo");
@@ -205,7 +194,9 @@
             // Tạo một container để chứa cả thông tin người dùng và nút đăng xuất
             var userInfoContainer = document.getElementById("user-info");
 
-            var userGreeting = document.createElement("span");
+            var userInfoElement = document.createElement('a');
+            userInfoElement.href = '../public/view_customer_infor.html?customerId=' + customer_id;
+            userInfoElement.target = 'blank';
             userGreeting.textContent = "Chào, " + data.fullName; // Thông tin về người dùng
 
             var logoutButton = document.createElement("button");
@@ -233,6 +224,8 @@
         event.preventDefault();
         // console.log(123);
         // xử lý update dữ liệu
+        uploadImage(customer_id);
+
         const customerName = document.querySelector(".username").value;
         const passwordCustomer = document.querySelector(".password").value;
         const emailCustomer = document.querySelector(".email").value;
@@ -276,47 +269,42 @@
 
     userInfoContainer.appendChild(logoutButton);
 
-
-    // Lấy thông tin khách hàng
-
-    // Địa chỉ URL của API
-    const apiUrl = `https://localhost:7156/api/Driver/CustomerInfor?customerId=${customer_id}`;
-
-    // Gửi yêu cầu GET sử dụng Fetch API
-    fetch(apiUrl)
-      .then((response) => {
-        // Kiểm tra xem phản hồi có thành công không (status code 200)
-        if (!response.ok) {
-          throw new Error(`Lỗi mạng: ${response.status}`);
-        }
-
-        // Chuyển đổi phản hồi sang đối tượng JSON
-        return response.json();
-      })
-      .then((data) => {
-        // Xử lý dữ liệu từ phản hồi ở đây
-        console.log("Dữ liệu từ API:", data);
-        var username = document.querySelector(".username");
-        var imagecustomer = document.querySelector(".imagecustomer");
-        var password = document.querySelector(".password");
-        var email = document.querySelector(".email");
-        var address = document.querySelector(".address");
-        var phone = document.querySelector(".phone");
-        username.value = data.fullName;
-        password.value = data.password;
-        email.value = data.email;
-        address.value = data.address;
-        phone.value = data.phoneNumber;
-        imagecustomer.src = data.avatarImageLink
-          ? data.avatarImageLink
-          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
-      })
-      .catch((error) => {
-        // Xử lý lỗi ở đây
-        console.error("Đã xảy ra lỗi:", error);
-      });
-
   </script>
+
+
+
+  <script>
+    function uploadImage(customerId) {
+      var fileInput = document.getElementById('fileInput');
+      var file = fileInput.files[0];
+
+      if (file) {
+        var formData = new FormData();
+        formData.append('image', file);
+
+        fetch("https://localhost:7156/api/Customer/SaveImage?customerId=" + customerId, {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Network error: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Data will contain the imageUrl returned by the server
+            console.log('Image saved successfully:', data.imageUrl);
+          })
+          .catch((error) => {
+            console.error('Error saving image:', error);
+          });
+      } else {
+        console.warn('No image selected.');
+      }
+    }
+  </script>
+
 </body>
 
 </html>

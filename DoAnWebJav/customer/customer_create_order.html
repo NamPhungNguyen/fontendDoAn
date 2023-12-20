@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8.2.0/dist/polyfill.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="./customer_home.css">
+    <link rel="stylesheet" href="customer_create_order.css">
     <title>Trang chủ khách hàng</title>
     <style>
         /* CSS cho nút đăng xuất */
@@ -28,6 +29,25 @@
         /* Hover effect */
         #logoutButton:hover {
             background-color: #d32f2f;
+        }
+        table {
+      
+            border-collapse: collapse;
+      
+        }
+
+        th, td {
+     
+            text-align: left;
+            border-bottom: 1px solid #706f6f;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
         }
     </style>
 </head>
@@ -50,133 +70,124 @@
 
     <!-- Your page content goes here -->
 
-    <div align="center">
-        <main>
-            <h1>Tạo đơn hàng</h1>
-            <table id="Order">
-                <tr>
-                    <td>Tên đơn hàng</td>
-                    <td><input type="text" name="orderName" id="orderName" placeholder="Ví dụ: Hoa quả đi Hà Nội" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Ngày đi</td>
-                    <td><input type="date" name="startDate" id="startDate" /></td>
-                </tr>
-                <tr>
-                    <td>Ngày đến</td>
-                    <td><input type="date" name="endDate" id="endDate" /></td>
-                </tr>
-                <tr>
+    <div align="center" class="container">
+        <div class="background">
+            <main>
+                <br><br><br><br><br><br><br>
+                <div>
+                    <h1 class="title">Tạo đơn hàng</h1>
+                    <table id="Order" class="create1">
+                        <tr>
+                            <td class="text">Tên đơn hàng:</td>
+                            <td><input type="text" name="orderName" id="orderName" placeholder="Ví dụ:Hoa quả đi Hà Nội"
+                                    class="select1" />
+                            </td>
 
-                    <td>Địa điểm đi</td>
-                    <td>
-                        <select id="city">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="district">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="ward">
-                            <option value="" selected>Chọn xã</option>
-                        </select>
-                    </td>
-                    <td><input type="text" id="detailPositionGo" placeholder="địa chỉ cụ thể" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text">Ngày đi:</td>
+                            <td><input type="date" name="startDate" id="startDate" class="select1" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text">Ngày đến:</td>
+                            <td><input type="date" name="endDate" id="endDate" class="select1" /></td>
+                        </tr>
+                        <tr>
 
-                </tr>
-                <tr>
+                            <td class="text">Địa điểm đi:</td>
+                            <td>
+                                <select id="city" class="select1">
+                                    <option value="" selected>Chọn tỉnh thành</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="district" class="select1">
+                                    <option value="" selected>Chọn quận huyện</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="ward" class="select1">
+                                    <option value="" selected>Chọn xã</option>
+                                </select>
+                            </td>
+                            <td><input class="select1" type="text" id="detailPositionGo"
+                                    placeholder="Chi tiết địa chỉ" /></td>
 
-                    <td>Địa điểm đến</td>
-                    <td>
-                        <select id="cityCome">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="districtCome">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="wardCome">
-                            <option value="" selected>Chọn xã</option>
-                        </select>
-                    </td>
-                    <td><input type="text" id="detailPositionCome" placeholder="địa chỉ cụ thể" /></td>
+                        </tr>
+                        <tr>
 
-                </tr>
-            </table>
+                            <td class="text">Địa điểm đến:</td>
+                            <td>
+                                <select id="cityCome" class="select1">
+                                    <option value="" selected>Chọn tỉnh thành</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="districtCome" class="select1">
+                                    <option value="" selected>Chọn quận huyện</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="wardCome" class="select1">
+                                    <option value="" selected>Chọn xã</option>
+                                </select>
+                            </td>
+                            <td><input class="select1" type="text" id="detailPositionCome"
+                                    placeholder="Chi tiết địa chỉ" /></td>
 
-        </main>
+                        </tr>
+                    </table>
 
-        <main1>
-            <h1>Thêm mặt hàng</h1>
-            <table id="OrderItem" border="1">
-                <tr>
-                    <th>Tên mặt hàng</th>
-                    <th>Số lượng</th>
-                    <th>Khối lượng riêng</th>
-                    <th>Trọng lượng riêng</th>
-                    <th>Giá trị riêng</th>
-                    <th>Ghi chú</th>
-                    <th>Thao tác</th>
-                </tr>
-                <tr>
-                    <td><input type="text" id="input11" placeholder="tên mặt hàng"></td>
-                    <td><input type="number" id="input12" placeholder="số lượng"></td>
-                    <td><input type="number" step="0.01" id="input13" placeholder="khối lượng riêng (m)"></td>
-                    <td><input type="number" step="0.01" id="input14" placeholder="trọng lượng riêng (kg)"></td>
-                    <td><input type="number" step="0.01" id="input15" placeholder="giá trị riêng (USD)"></td>
-                    <td><input type="text" id="input16" placeholder="ghi chú"></td>
-                </tr>
-            </table>
-            <button onclick="addRow()">Add Row</button>
+                </div>
+                <br><br><br>
+                <div>
+                    <button onclick="createOrder()" class="button1">Tạo đơn hàng</button>
+                </div>
+            </main>
+            <div>
+                <main1>
+                    <h1 class="title">Thêm mặt hàng</h1>
+                    <br><br><br>
+                    <div class="table_orderItem">
+                        <table id="OrderItem" border="1" class="create2">
+                            <tr>
+                                <th>Tên mặt hàng</th>
+                                <th>Số lượng</th>
+                                <th>Khối lượng riêng</th>
+                                <th>Trọng lượng riêng</th>
+                                <th>Giá trị riêng</th>
+                                <th>Ghi chú</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr>
+                                <td><input class="input_orderItem" type="text" id="input11" placeholder="Tên mặt hàng">
+                                </td>
+                                <td><input class="input_orderItem" type="number" min=0 id="input12"
+                                        placeholder="Số lượng"></td>
+                                <td><input class="input_orderItem" type="number" min=0 step="0.01" id="input13"
+                                        placeholder="Khối lượng riêng(m)">
+                                </td>
+                                <td><input class="input_orderItem" type="number" min=0 step="0.01" id="input14"
+                                        placeholder="Trọng lượng riêng(kg)"></td>
+                                <td><input class="input_orderItem" type="number" min=0 step="0.01" id="input15"
+                                        placeholder="Giá trị riêng(USD)">
+                                </td>
+                                <td><input class="input_orderItem" type="text" id="input16" placeholder="Ghi chú"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br><br><br>
 
-        </main1>
-        <div>
-            <button onclick="createOrder()">Create Order</button>
+
+                    <button onclick="addRow()" class="button1">Thêm mặt hàng</button>
+
+                </main1>
+            </div>
         </div>
-
     </div>
-
-    <!-- dùng để hiện username và logout -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var storedUserInformation = localStorage.getItem('userInfo');
-            var parsedUserInformation = JSON.parse(storedUserInformation);
-
-            var userInfoContainer = document.getElementById('user-info');
-
-            if (parsedUserInformation) {
-                var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
-
-                var userInfoElement = document.createElement('span');
-                userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
-
-                userInfoContainer.appendChild(userInfoElement);
-
-
-                logoutButton.addEventListener('click', function () {
-                    // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
-                    localStorage.removeItem('userInfo');
-                    window.location.href = "../public/login.html";
-                });
-
-                userInfoContainer.appendChild(logoutButton);
-            } else {
-                // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
-                window.location.href = "../public/login.html";
-            }
-        });
-    </script>
 </body>
 
 </html>
-
 
 
 
@@ -199,6 +210,10 @@
         if (!orderName || !startDate || !endDate || !cityGo || !districtGo || !wardGo || !detailPositionGo ||
             !cityCome || !districtCome || !wardCome || !detailPositionCome) {
             alert("Vui lòng điền đầy đủ thông tin đơn hàng.");
+            return;
+        }
+        else if ((new Date(startDate) < new Date()) || (new Date(endDate) < new Date()) || (new Date(endDate) < new Date(startDate))) {
+            alert("Thời gian không hợp lệ.");
             return;
         }
 
@@ -276,7 +291,7 @@
                             'Authorization': 'Bearer ' + token,
                             'Content-Type': 'application/json',
                         },
-                    }).then(response => response.json()).then(data => { console.log('Success:', data); if (data == true) { alert("tạo đơn hàng thành công"); window.location.href = 'customer_all_order.html'; } }).catch((error) => { console.error('Error:', error); });
+                    }).then(response => response.json()).then(data => { console.log('Success:', data); if (data == true) { alert("Tạo đơn hàng thành công"); window.location.href = 'customer_all_order.html'; } }).catch((error) => { console.error('Error:', error); });
 
 
                 })
@@ -313,41 +328,51 @@
         // Thêm ô input vào mỗi cột
         var input0 = document.createElement("input");
         input0.type = "text";
+        input0.classList.add("input_orderItem");
         input0.id = "input" + rowcount + "1";
-        input0.placeholder = "tên mặt hàng";
+        input0.placeholder = "Tên mặt hàng";
         newRow.insertCell(0).appendChild(input0);
 
         var input1 = document.createElement("input");
         input1.type = "number";
+        input1.min = 0;
+        input1.classList.add("input_orderItem");
         input1.id = "input" + rowcount + "2";
-        input1.placeholder = "số lượng";
+        input1.placeholder = "Số lượng";
         newRow.insertCell(1).appendChild(input1);
 
         var input2 = document.createElement("input");
         input2.type = "number";
+        input2.min = 0;
+        input2.classList.add("input_orderItem");
         input2.id = "input" + rowcount + "3";
         input2.step = "0.01";
-        input2.placeholder = "khối lượng riêng (m)";
+        input2.placeholder = "Khối lượng riêng (m)";
         newRow.insertCell(2).appendChild(input2);
 
         var input3 = document.createElement("input");
         input3.type = "number";
+        input3.min = 0;
+        input3.classList.add("input_orderItem");
         input3.id = "input" + rowcount + "4";
         input3.step = "0.01";
-        input3.placeholder = "trọng lượng riêng (kg)";
+        input3.placeholder = "Trọng lượng riêng (kg)";
         newRow.insertCell(3).appendChild(input3);
 
         var input4 = document.createElement("input");
         input4.type = "number";
+        input4.min = 0;
+        input4.classList.add("input_orderItem");
         input4.id = "input" + rowcount + "5";
         input4.step = "0.01";
-        input4.placeholder = "giá trị riêng (USD)";
+        input4.placeholder = "Giá trị riêng (USD)";
         newRow.insertCell(4).appendChild(input4);
 
         var input5 = document.createElement("input");
         input5.type = "text";
+        input5.classList.add("input_orderItem");
         input5.id = "input" + rowcount + "6";
-        input5.placeholder = "ghi chú";
+        input5.placeholder = "Ghi chú";
         newRow.insertCell(5).appendChild(input5);
 
         var lastRow = table.rows[table.rows.length - 2];
@@ -360,19 +385,21 @@
         }
         var actionCell = lastRow.insertCell(table.rows[0].cells.length - 1);
         var editButton = document.createElement("button");
-        editButton.textContent = "Edit";
+        editButton.textContent = "Sửa";
+        editButton.classList.add("editButton");
         editButton.onclick = function () { editRow(this); };
         actionCell.appendChild(editButton);
 
         var deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
+        deleteButton.textContent = "Xóa";
+        deleteButton.classList.add("deleteButton");
         deleteButton.onclick = function () { deleteRow(this); };
         actionCell.appendChild(deleteButton);
     }
 
     function deleteRow(button) {
         var row = button.parentNode.parentNode;
-        var confirmation = confirm("Bạn muốn xóa mặt hàng không?");
+        var confirmation = confirm("Bạn muốn xóa mặt hàng này không?");
         if (confirmation) {
             row.parentNode.removeChild(row);
         }
@@ -390,12 +417,12 @@
             var placeholder = input.placeholder;
 
             // Kiểm tra nếu giá trị của input là trống
-            if (input.value.trim() === "" && placeholder !== "ghi chú") {
+            if (input.value.trim() === "" && placeholder !== "Ghi chú") {
                 isValid = false;
             }
 
             // Kiểm tra nếu là input number và giá trị không phải là số
-            if (input.type === "number" && isNaN(input.value) && placeholder !== "ghi chú") {
+            if (input.type === "number" && isNaN(input.value) && placeholder !== "Ghi chú") {
                 isValid = false;
             }
 
@@ -412,10 +439,10 @@
             title: 'Edit Row',
             html:
                 `<input id="swal-input1" class="swal2-input" placeholder="Tên mặt hàng" value="${formFields['tên mặt hàng']}">` +
-                `<input type="number" id="swal-input2" class="swal2-input" placeholder="Số lượng" value="${formFields['số lượng']}">` +
-                `<input type="number" id="swal-input3" class="swal2-input" placeholder="Khối lượng riêng (m)" value="${formFields['khối lượng riêng (m)']}">` +
-                `<input type="number" id="swal-input4" class="swal2-input" placeholder="Trọng lượng riêng (kg)" value="${formFields['trọng lượng riêng (kg)']}">` +
-                `<input type="number" id="swal-input5" class="swal2-input" placeholder="Giá trị riêng (USD)" value="${formFields['giá trị riêng (USD)']}">` +
+                `<input type="number" min=0 id="swal-input2" class="swal2-input" placeholder="Số lượng" value="${formFields['số lượng']}">` +
+                `<input type="number" min=0 id="swal-input3" class="swal2-input" placeholder="Khối lượng riêng (m)" value="${formFields['khối lượng riêng (m)']}">` +
+                `<input type="number" min=0 id="swal-input4" class="swal2-input" placeholder="Trọng lượng riêng (kg)" value="${formFields['trọng lượng riêng (kg)']}">` +
+                `<input type="number" min=0 id="swal-input5" class="swal2-input" placeholder="Giá trị riêng (USD)" value="${formFields['giá trị riêng (USD)']}">` +
                 `<input id="swal-input6" class="swal2-input" placeholder="Ghi chú" value="${formFields['ghi chú']}">`,
             focusConfirm: false,
             showCancelButton: true,
@@ -537,4 +564,37 @@
     $("#wardCome").change(() => {
 
     })
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var storedUserInformation = localStorage.getItem('userInfo');
+        var parsedUserInformation = JSON.parse(storedUserInformation);
+        var id = parsedUserInformation.id;
+        var userInfoContainer = document.getElementById('user-info');
+
+        if (parsedUserInformation) {
+            var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+            var userInfoElement = document.createElement('a');
+            userInfoElement.href = '../public/view_customer_infor.html?customerId=' + id;
+            userInfoElement.target = 'blank';
+            userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+            userInfoContainer.appendChild(userInfoElement);
+
+
+            logoutButton.addEventListener('click', function () {
+                // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                localStorage.removeItem('userInfo');
+                window.location.href = "../public/login.html";
+            });
+
+            userInfoContainer.appendChild(logoutButton);
+        } else {
+            // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+            window.location.href = "../public/login.html";
+        }
+    });
 </script>

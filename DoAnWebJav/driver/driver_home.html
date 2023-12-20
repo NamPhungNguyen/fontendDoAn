@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ tài xế</title>
     <link rel="stylesheet" href="./driver_home.css">
+    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
         /* CSS cho nút đăng xuất */
         #logoutButton {
@@ -26,40 +28,321 @@
         #logoutButton:hover {
             background-color: #d32f2f;
         }
+
+        table {
+            padding: 0;
+            padding: 0;
+            border-collapse: collapse;
+            /*width: 100%;*/
+            /* Bảng chiếm toàn bộ chiều rộng của container */
+        }
+
+        /* Định dạng các đường biên của bảng và ô */
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        /* Tô màu nền cho các ô header */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nội dung của các ô */
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* Màu nền cho các ô chẵn */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 
 <body>
     <!-- header-->
     <script src="../javaScript/check_token.js"></script>
+    <script src="driver_home.js"></script>
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
         <div>
             <ul id="navbar">
                 <li><a class="active" href="../driver/driver_home.html">Trang chủ</a></li>
                 <li><a href="driver_search.html">Tìm kiếm</a></li>
+                <li><a href="driver_chat.html">Tư vấn</a></li>
                 <li><a href="../driver/driver_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
             </ul>
         </div>
     </section>
+    <section id="hero">
+       
+        
+    </section>
+    <section id="feature" class="section-p1">
+        <div class="fe-box">
+            <img src="../images/features/f1.png" alt="">
+            <h6>Free Time</h6>
+        </div>
+        <div class="fe-box">
+            <img src="../images/features/f2.png" alt="">
+            <h6>Online Order</h6>
+        </div>
+        <div class="fe-box">
+            <img src="../images/features/f3.png" alt="">
+            <h6>Save Money</h6>
+        </div>
+        <div class="fe-box">
+            <img src="../images/features/f4.png" alt="">
+            <h6>Promotions</h6>
+        </div>
+        <div class="fe-box">
+            <img src="../images/features//f5.png" alt="">
+            <h6>Happy Sells</h6>
+        </div>
+        <div class="fe-box">
+            <img src="../images/features/f6.png" alt="">
+            <h6>24/7 Support</h6>
+        </div>
+    </section>
 
+    <section id="product1" class="section-p1">
+        <h2>List Order Item</h2>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+            <div class="pro">
+                <img src="../images/th.jpg" alt="">
+                <div class="des">
+                    <span>Ten order</span>
+                    <h5>mo ta</h5>
+                </div>
+                <h4>78$</h4>
+            </div>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="../images/fast-delivery1.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> 562 Trần đại nghĩa, Hai Bà Trưng, Hà Nội</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Term & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="../images/pay/app.jpg" alt="">
+                <img src="../images/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="../chưa_dùng/" alt="">
+        </div>
+
+        <div class="copyright">
+            <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
+        </div>
+    </footer>
     <!-- Your page content goes here -->
 
 
+    <section id="content">
+
+        <div align="center" id="isNotWorked">
+            <div style="padding-top: 20px;">
+                <h3 style="color: gray;">BẠN ĐANG KHÔNG LÀM VIỆC</h3>
+                <h3 style="color: black;">Danh sách các đơn hàng đã ứng tuyển</h3>
+            </div>
+            <div>
+                <table id="AppliedOrder">
+                </table>
+            </div>
+        </div>
+
+
+
+        <div align="center" id="isWorked">
+            <div style="padding-top: 20px;">
+                <h3 style="color: gray;">BẠN ĐANG VẬN CHUYỂN ĐƠN HÀNG</h3>
+                <h3 style="color: black;">Thông tin đơn hàng bạn đang vận chuyển</h3>
+            </div>
+            <div>
+                <table id="OnWorkedOrder">
+                </table>
+            </div>
+            <div>
+                <table id="OnWorkedOrderStatus">
+                </table>
+            </div>
+            <div>
+                <div id="UpdateStatus"></div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="../images/fast-delivery1.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> 562 Trần đại nghĩa, Hai Bà Trưng, Hà Nội</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Term & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="../public/images/pay/app.jpg" alt="">
+                <img src="../public/images/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="../public/images/pay/pay.png" alt="">
+        </div>
+
+        <div class="copyright">
+            <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
+        </div>
+    </footer>
 
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var storedUserInformation = localStorage.getItem('userInfo');
             var parsedUserInformation = JSON.parse(storedUserInformation);
-
+            var id = parsedUserInformation.id;
             var userInfoContainer = document.getElementById('user-info');
 
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
 
-                var userInfoElement = document.createElement('span');
+                var userInfoElement = document.createElement('a');
+                userInfoElement.href = '../public/view_driver_infor.html?driverId=' + id;
+                userInfoElement.target = 'blank';
                 userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
 
                 userInfoContainer.appendChild(userInfoElement);

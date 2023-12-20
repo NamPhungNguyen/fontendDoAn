@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./customer_home.css">
+    <link rel="stylesheet" href="../customer/customer_all_order.css">
     <title>Trang chủ khách hàng</title>
     <style>
         select {
@@ -93,6 +94,7 @@
 
 <body>
     <script src="../javaScript/check_token.js"></script>
+    
     <script src="customer_all_order.js"></script>
 
     <section id="header">
@@ -112,10 +114,10 @@
 
     <section style="padding-bottom: 20px;">
         <div id="navbar2" align="center" style="padding-top: 20px;">
-            <a href="#" data-page="page1"><button>Các đơn mới tạo</button></a>
-            <a href="#" data-page="page2"><button>Chờ xác nhận</button></a>
-            <a href="#" data-page="page3"><button>Đang giao</button></a>
-            <a href="#" data-page="page4"><button>Lịch sử</button></a>
+            <a href="#" data-page="page1"><button class="show_all_order">Các đơn mới tạo</button></a>
+            <a href="#" data-page="page2"><button class="show_all_order">Chờ xác nhận</button></a>
+            <a href="#" data-page="page3"><button class="show_all_order">Đang giao</button></a>
+            <a href="#" data-page="page4"><button class="show_all_order">Lịch sử</button></a>
         </div>
 
         <div id="content">
@@ -128,6 +130,12 @@
                     <table id="initOrder">
                     </table>
                 </div>
+                <div align="center"
+                    style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+                    <button id="Previous1" onclick="goPrevious1()" style="margin: auto; display: none;">TRANG
+                        TRƯỚC</button>
+                    <button id="Next1" onclick="goNext1()" style="margin: auto; display: none;">TRANG SAU</button>
+                </div>
             </div>
 
             <div id="page2" align="center">
@@ -138,6 +146,12 @@
                     <table id="waitedOrder">
                     </table>
                 </div>
+                <div align="center"
+                    style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+                    <button id="Previous2" onclick="goPrevious2()" style="margin: auto; display: none;">TRANG
+                        TRƯỚC</button>
+                    <button id="Next2" onclick="goNext2()" style="margin: auto; display: none;">TRANG SAU</button>
+                </div>
             </div>
 
 
@@ -146,33 +160,69 @@
                 <div style="padding-top: 20px;">
                     <h3>Danh sách đơn hàng đang trên đường đến</h3>
                 </div>
+                <div>
+                    <table id="onWorkedOrder">
+                    </table>
+                </div>
+                <div align="center"
+                    style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+                    <button id="Previous3" onclick="goPrevious3()" style="margin: auto; display: none;">TRANG
+                        TRƯỚC</button>
+                    <button id="Next3" onclick="goNext3()" style="margin: auto; display: none;">TRANG SAU</button>
+                </div>
             </div>
 
 
 
-            <div id="page4" align="center">
-                <div style="padding-top: 20px;">
-                    <h3>Danh sách đơn hàng đã hoàn thành</h3>
+                    <div id="page4" align="center">
+                        <div style="padding-top: 20px;">
+                            <h3>Danh sách đơn hàng đã hoàn thành</h3>
+                        </div>
+                        <div>
+                            <table id="history">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div align="center"
+                    style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+                    <button id="Previous4" onclick="goPrevious4()" style="margin: auto; display: none;">TRANG
+                        TRƯỚC</button>
+                    <button id="Next4" onclick="goNext4()" style="margin: auto; display: none;">TRANG SAU</button>
                 </div>
             </div>
         </div>
 
 
 
-
     </section>
+    <script>
+        function changeColor(element) {
+    // Lấy tất cả các phần tử a trong thanh navbar
+    var navItems = document.querySelectorAll('#navbar2 a');
 
+    // Xóa class 'active' từ tất cả các phần tử a
+    navItems.forEach(function (navItem) {
+      navItem.classList.remove('fix2');
+    });
+
+    // Thêm class 'active' vào phần tử được nhấp vào
+    element.classList.add('fix2');
+  }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var storedUserInformation = localStorage.getItem('userInfo');
             var parsedUserInformation = JSON.parse(storedUserInformation);
-
+            var id = parsedUserInformation.id;
             var userInfoContainer = document.getElementById('user-info');
 
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
 
-                var userInfoElement = document.createElement('span');
+                var userInfoElement = document.createElement('a');
+                userInfoElement.href = '../public/view_customer_infor.html?customerId=' + id;
+                userInfoElement.target = 'blank';
                 userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
 
                 userInfoContainer.appendChild(userInfoElement);

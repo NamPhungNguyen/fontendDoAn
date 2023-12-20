@@ -32,6 +32,7 @@
 </head>
 
 <body>
+  <script src="../javaScript/check_token.js"></script>
   <section id="header">
     <a href="#"><img src="../images/fast-delivery1.png" class="logo" /></a>
 
@@ -40,7 +41,8 @@
         <li>
           <a href="../driver/driver_home.html">Trang chủ</a>
         </li>
-        <li><a href="about.html">Tìm kiếm</a></li>
+        <li><a href="driver_search.html">Tìm kiếm</a></li>
+        <li><a href="driver_chat.html">Tư vấn</a></li>
         <li><a class="active" href="../driver/driver_infor.html">Thông tin</a></li>
         <li>
           <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
@@ -68,7 +70,7 @@
                   <div class="media-body ml-4">
                     <label class="btn btn-outline-primary">
                       Upload new photo
-                      <input type="file" class="account-settings-fileinput" />
+                      <input type="file" class="account-settings-fileinput" id="fileInput" />
                     </label>
                     &nbsp;
                     <button type="button" class="btn btn-default md-btn-flat">
@@ -141,12 +143,12 @@
                             </div>
                             <div class="form-group">
                               <label>Cargo</label>
-                              <input type="number" class="form-control cargo-vehicle" name="email" placeholder="" />
+                              <input type="number" class="form-control cargo-vehicle" name="email" placeholder="m³" />
                             </div>
                             <div class="form-group">
-                              <label>fuelEfficiency</label>
+                              <label>FuelEfficiency</label>
                               <input type="number" class="form-control fuelEfficiency-vehicle" name="age"
-                                placeholder="" />
+                                placeholder="lít/100km" />
                             </div>
                             <div class="form-group">
                               <label>Loại xe</label>
@@ -190,20 +192,22 @@
                             <div class="form-group">
                               <label>Cargo</label>
                               <input type="number" class="form-control cargoVehicle" name="cargoVehicle"
-                                placeholder="" />
+                                placeholder="m³" />
                             </div>
                             <div class="form-group">
-                              <label>fuelEfficiency</label>
+                              <label>FuelEfficiency</label>
                               <input type="number" class="form-control fuelEfficiencyVehicle"
-                                name="fuelEfficiencyVehicle" placeholder="" />
+                                name="fuelEfficiencyVehicle" placeholder="lít/100km" />
                             </div>
                             <div class="form-group">
                               <label>Loại xe</label>
-                              <select name="editTypeCar" id="">
-                                <option value="Container 8 bánh">Container 8 bánh</option>
-                                <option value="Container 6 bánh">Container 6 bánh</option>
-                                <option value="Truck">Truck</option>
-                                <option value="Mini Truck">Mini Truck</option>
+                              <select name="editTypeCar" class="">
+                                <div class="dropdown-content">
+                                  <option value="Container 8 bánh">Container 8 bánh</option>
+                                  <option value="Container 6 bánh">Container 6 bánh</option>
+                                  <option value="Truck">Truck</option>
+                                  <option value="Mini Truck">Mini Truck</option>
+                                </div>
                               </select>
                             </div>
                         </div>
@@ -240,8 +244,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript"></script>
   </section>
-
-  <!-- dùng để hiện username và logout -->
   <script src="./driver_infor.js">
 
   </script>

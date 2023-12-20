@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <!-- Add your CSS stylesheets or links here -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        nav {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        nav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        
+
+        /* Định dạng các đường biên của bảng và ô */
+        table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow-x: auto;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+    .customer{
+        background-color: rgb(6, 103, 238);
+        border-radius: 20px;
+    }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <script src="../javaScript/check_token.js"></script>
+
+    <nav>
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+        <a href="staff_response_driver.html">Trả lời tài xế</a>
+        <a href="staff_response_customer.html" class="customer">Trả lời khách hàng</a>
+        <a href="staff_get_contaction.html">Các liên hệ</a>
+        <a href="staff_infor.html">Tài khoản</a>
+        <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
+        <!-- Add more navigation links as needed -->
+    </nav>
+
+    <main>
+        <!-- Your page content goes here -->
+        <div align="center">
+            <h1>Tin nhắn khách hàng</h1>
+            <table id="response">
+            </table>
+        </div>
+        <div align="center" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+            <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
+            <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
+        </div>
+        <!-- Add more sections as needed -->
+    </main>
+
+</body>
+
+</html>
+
+
+<script>
+
+    var storedUserInformation = localStorage.getItem('userInfo');
+    var parsedUserInformation = JSON.parse(storedUserInformation);
+    const staffId = parsedUserInformation.id;
+
+
+    let pageSize = 5;
+    let originalArray = [];
+    let currentPage = 1;
+    let displayArray = [];
+    const itemsPerPage = 10;
+    const tableDOM = document.querySelector('.resultContainer');
+
+    const pagination = (currentPage, numberItem) => {
+        let pri = document.getElementById("Previous");
+        let next = document.getElementById("Next");
+        pri.style.display = "block";
+        next.style.display = "block";
+        if (currentPage == 1) pri.style.display = "none";
+
+        const startIndex = (currentPage - 1) * numberItem;
+        currentPagenumberItem = startIndex + 1;
+        displayArray = originalArray.slice(startIndex, startIndex + numberItem);
+
+        if ((originalArray.slice(currentPage * numberItem, currentPage * numberItem + numberItem)).length === 0) next.style.display = "none";
+        displayMessage(displayArray);
+    }
+
+    const goPrevious = () => {
+        currentPage--;
+        if (currentPage < 0) {
+            currentPage == 0;
+        }
+        else
+            pagination(currentPage, pageSize);
+    }
+    const goNext = () => {
+        currentPage++;
+        pagination(currentPage, pageSize);
+    }
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        //setInterval(function () {
+        fetch("https://localhost:7156/api/Staff/CustomerMessage?staffId=" + staffId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+
+                //displayMessage(data);
+                originalArray = data;
+                pagination(1, pageSize);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
+        //  }
+        //     , 1000);
+
+
+    });
+</script>
+
+
+
+
+<script>
+    function displayMessage(results) {
+        var contaction = document.getElementById("response");
+        contaction.innerHTML = " ";
+        if (results.length === 0) {
+            contaction.innerHTML = `
+        <tr>
+            <th>Mã khách hàng</th>
+            <th>Câu hỏi</th>
+            <th>Thời gian hỏi</th>
+            <th>Trả lời</th>
+        </tr>
+        <tr>
+        <td colspan="4">Chưa có liên hệ nào</td>
+        </tr>
+        `;
+        }
+        else {
+            var th = document.createElement("tr");
+            th.innerHTML = `
+    <th>Mã khách hàng</th>
+    <th>Câu hỏi</th>
+    <th>Thời gian hỏi</th>
+    <th>Trả lời</th>
+`;
+            contaction.appendChild(th);
+            results.forEach(result => {
+                var resultTr = document.createElement("tr");
+                if (result.answer == "" || result.answer == null || result.answer == "null") {
+                    resultTr.innerHTML = `
+                <td><a target='blank' href='../public/view_customer_infor.html?customerId=${result.userId}'>${result.userId}</a></td>
+                <td>${result.question}</td>
+                <td>${result.date}</td>
+                <td><textarea id="${result.messId}"></textarea></td>
+                <td><button onclick="updateMessage(${result.messId})">Trả lời</button></td>
+            `;
+
+
+                }
+                else resultTr.innerHTML = `
+                <td><font color="gray"><a target='blank' href='../public/view_customer_infor.html?customerId=${result.userId}'>${result.userId}</a> </font></td>
+                <td><font color="gray">${result.question} </font></td>
+                <td><font color="gray">${result.date}</font></td>
+                <td><font color="gray">${result.answer} </font></td>
+                
+            `;
+
+
+                contaction.appendChild(resultTr);
+            });
+        }
+    }
+
+
+
+
+    function updateMessage(messageId) {
+        var string = document.getElementById(messageId).value;
+        fetch('https://localhost:7156/api/Staff/Message/' + messageId + '/' + string, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("success:", data);
+                window.location.href = 'staff_response_customer.html';
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+</script>
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var storedUserInformation = localStorage.getItem('userInfo');
+        var parsedUserInformation = JSON.parse(storedUserInformation);
+        var id = parsedUserInformation.id;
+        var userInfoContainer = document.getElementById('user-info');
+
+        if (parsedUserInformation) {
+            var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+            var userInfoElement = document.createElement('a');
+            userInfoElement.href = '../public/view_staff_infor.html?staffId=' + id;
+            userInfoElement.target = 'blank';
+            userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+            userInfoContainer.appendChild(userInfoElement);
+
+
+            logoutButton.addEventListener('click', function () {
+                // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                localStorage.removeItem('userInfo');
+                window.location.href = "../public/login.html";
+            });
+
+            userInfoContainer.appendChild(logoutButton);
+        } else {
+            // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+            window.location.href = "../public/login.html";
+        }
+    });
+</script>

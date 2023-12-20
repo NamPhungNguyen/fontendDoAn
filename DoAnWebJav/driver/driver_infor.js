@@ -5,7 +5,10 @@ if (parsedUserInformation) {
   var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
   var driver_id = parsedUserInformation.id; // Giả sử tên người dùng được lưu trong userInfo
 
-  var userInfoElement = document.createElement("span");
+  //var userInfoElement = document.createElement("span");
+  var userInfoElement = document.createElement('a');
+  userInfoElement.href = '../public/view_driver_infor.html?driverId=' + driver_id;
+  userInfoElement.target = 'blank';
   userInfoElement.textContent = "Chào, " + username; // Thông tin về người dùng
 
   userInfoContainer.appendChild(userInfoElement);
@@ -68,8 +71,8 @@ fetch(apiInforDriver)
     email.value = dataDriver.email;
     address.value = dataDriver.address;
     phone.value = dataDriver.phoneNumber;
-    image_driver.src = dataDriver.avatarImageLink
-      ? dataDriver.avatarImageLink
+    image_driver.src = "https://localhost:7156/image/driver/" + dataDriver.avatarImageLink
+      ? "https://localhost:7156/image/driver/" + dataDriver.avatarImageLink
       : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht9-qZYmqErdGMhJVbRf7BfhLRGspNWaFnR8nddu3x7Da7nqh23vsG6VWtG_VE9G9kLU&usqp=CAU";
 
     var name_verhicle = document.querySelector(".name_verhicle");
@@ -89,6 +92,11 @@ fetch(apiInforDriver)
     } else {
       status_verhicle_false.checked = true;
     }
+
+
+
+
+
 
 
     var storedUserInformation = localStorage.getItem("userInfo");
@@ -140,6 +148,9 @@ const form = document.querySelector(".form-user");
 form.addEventListener("submit", function (event) {
   event.preventDefault(); // Ngăn chặn hành động mặc định của form
   // Xử lí update dữ liệu
+
+  uploadImage(driver_id);
+
   const driverName = document.querySelector(".driver_name").value;
   const password = document.querySelector(".password").value;
   const email = document.querySelector(".email").value;
@@ -183,6 +194,39 @@ form.addEventListener("submit", function (event) {
 
 
 
+function uploadImage(driverId) {
+  var fileInput = document.getElementById('fileInput');
+  var file = fileInput.files[0];
+
+  if (file) {
+    var formData = new FormData();
+    formData.append('image', file);
+
+    fetch("https://localhost:7156/api/Driver/SaveImage?driverId=" + driverId, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Network error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Data will contain the imageUrl returned by the server
+        console.log('Image saved successfully:', data.imageUrl);
+      })
+      .catch((error) => {
+        console.error('Error saving image:', error);
+      });
+  } else {
+    console.warn('No image selected.');
+  }
+
+
+}
+
+
 
 
 
@@ -196,10 +240,10 @@ fetch(apiInforDriver)
     return response.json();
   })
   .then((dataVehicles) => {
-    // console.log(dataVehicles.vehicle);
+    console.log(dataVehicles.vehicle);
     const datas = dataVehicles.vehicle;
     const table = document.getElementById("table-user");
-    // console.log(dataVehicles);
+    console.log(dataVehicles);
     // Lặp qua từng phần tử trong mảng xe
 
     datas.forEach((vehicle) => {
@@ -221,11 +265,6 @@ fetch(apiInforDriver)
 
 
       const actionCell = row.insertCell(4);
-
-      //   <button type="button" class="btn btn-primary btn-add" data-toggle="modal"
-      //   data-target="#exampleModalCenter">
-      //   Tạo xe
-      // </button>
 
 
       // Tạo nút Edit
@@ -261,11 +300,11 @@ fetch(apiInforDriver)
           const selectedEditType = document.querySelector('select[name="editTypeCar"]').value;
 
           // Sử dụng đối tượng ánh xạ để lấy vihcleId tương ứng với loại xe được chọn
-          const selectedEditVihcleId = vehicleIdMap[selectedEditType];
+          const selectedEditVehicleId = vehicleIdMap[selectedEditType];
 
           const updatedDataVehicle = {
             driverId: driver_id,
-            vehicleId: selectedEditVihcleId,
+            vehicleId: selectedEditVehicleId,
             description: descriptionVehicle,
             status: true,
             fuelEfficiency: parseFloat(fuelEfficiencyVehicle),
@@ -288,7 +327,6 @@ fetch(apiInforDriver)
               return response.json();
             })
             .then((data) => {
-              // Xử lý phản hồi từ server (nếu cần)
               console.log("Dữ liệu sau khi cập nhật:", data);
               window.location.reload();
             })
@@ -297,15 +335,10 @@ fetch(apiInforDriver)
               console.error("Đã xảy ra lỗi:", error);
             });
         })
-        // const vehicleName = document.querySelector(".vehicleName");
-        // const descriptionVehicle = document.querySelector('.descriptionVehicle');
-        // const cargoVehicle = document.querySelector('.cargoVehicle');
-        // const fuelEfficiencyVehicle = document.querySelector('.fuelEfficiencyVehicle');
-        // const statusVehicle = document.querySelector('.statusVehicle');
         const closeForm = document.querySelector('.close-form-edit');
         closeForm.addEventListener('click', () => {
           editModal.style.display = "none"; // Hiển thị modal
-          editModal.classList.remove("show"); // Thêm class "show" để hiển thị modal (phụ thuộc vào cách Bootstrap của bạn sử dụng class để điều khiển modal)
+          editModal.classList.remove("show");
 
         })
         // });
@@ -315,12 +348,7 @@ fetch(apiInforDriver)
         editButtonContainer.appendChild(editButton);
       });
 
-      // Thêm sự kiện click cho nút "Edit" (thêm xử lý tương ứng)
 
-      // editButton.addEventListener('click', ()=> {
-      //   const formEdit = document.querySelector('.form-edit');
-      //   formEdit.style.display = 'block';
-      // })
 
       // Tạo nút Delete
       const deleteButton = document.createElement("a");

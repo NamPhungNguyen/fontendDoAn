@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quan ly tai xe</title>
+    <!-- Add your CSS stylesheets or links here -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        nav {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        nav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        table {
+            padding: 0;
+            padding: 0;
+            border-collapse: collapse;
+            /*width: 100%;*/
+            /* Bảng chiếm toàn bộ chiều rộng của container */
+        }
+
+        /* Định dạng các đường biên của bảng và ô */
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        /* Tô màu nền cho các ô header */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nội dung của các ô */
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* Màu nền cho các ô chẵn */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* CSS cho nút đăng xuất */
+        #logoutButton {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button#logoutButton {
+            margin-left: 10px;
+        }
+
+
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <script src="../javaScript/check_token.js"></script>
+
+    <nav>
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+        <a href="admin_counting.html">Thống kê</a>
+        <a href="admin_control_driver.html">Quản lý tài xế</a>
+        <a href="admin_control_customer.html">Quản lý khách hàng</a>
+        <a href="admin_control_staff.html">Quản lý nhân viên</a>
+        <a href="admin_control_bussiness.html">Quản lý doanh nghiệp</a>
+        <a href="admin_control_infor.html">Tài khoản</a>
+        <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
+        <!-- Add more navigation links as needed -->
+    </nav>
+
+    <main>
+        <!-- Your page content goes here -->
+
+        <div align="center">
+            <h1>Quản lý tài khoản tài xế</h1>
+            <div><input type="text" id="search" placeholder="nhập email hoặc tên"/><button onclick="search()">Tìm kiếm</button><button
+                onclick="reload()">Làm mới</button></div>
+                <table id="user">
+                </table>
+            </div>
+            <div align="center"
+                style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+                <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
+                <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
+            </div>
+
+            <!-- Add more sections as needed -->
+    </main>
+
+</body>
+
+</html>
+
+
+
+
+
+<script>
+
+    var storedUserInformation = localStorage.getItem('userInfo');
+    var parsedUserInformation = JSON.parse(storedUserInformation);
+    const staffId = parsedUserInformation.id;
+
+
+    let pageSize = 5;
+    let savedArray = [];
+    let originalArray = [];
+    let currentPage = 1;
+    let displayArray = [];
+    const itemsPerPage = 10;
+    const tableDOM = document.querySelector('.resultContainer');
+
+    const pagination = (currentPage, numberItem) => {
+        let pri = document.getElementById("Previous");
+        let next = document.getElementById("Next");
+        pri.style.display = "block";
+        next.style.display = "block";
+        if (currentPage == 1) pri.style.display = "none";
+
+        const startIndex = (currentPage - 1) * numberItem;
+        currentPagenumberItem = startIndex + 1;
+        displayArray = originalArray.slice(startIndex, startIndex + numberItem);
+
+        if ((originalArray.slice(currentPage * numberItem, currentPage * numberItem + numberItem)).length === 0) next.style.display = "none";
+        displayUser(displayArray);
+    }
+
+    const goPrevious = () => {
+        currentPage--;
+        if (currentPage < 0) {
+            currentPage == 0;
+        }
+        else
+            pagination(currentPage, pageSize);
+    }
+    const goNext = () => {
+        currentPage++;
+        pagination(currentPage, pageSize);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        //setInterval(function () {
+        fetch("https://localhost:7156/getAllDrivers", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+
+                //displayUser(data);
+                savedArray = data.reverse();
+                originalArray = savedArray;
+                pagination(1, pageSize);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
+        //  }
+        //    , 1000);
+
+
+    });
+</script>
+
+
+
+
+<script>
+    function search() {
+        var search = document.getElementById("search").value;
+        originalArray = [];
+        savedArray.forEach(data => {
+            if (data.email.includes(search) || data.fullName.includes(search)) originalArray.push(data);
+        })
+        currentPage = 1;
+        pagination(1, pageSize);
+
+    }
+    function reload() {
+        originalArray = savedArray;
+        currentPage = 1;
+        pagination(1, pageSize);
+    }
+
+
+    function displayUser(results) {
+        var user = document.getElementById("user");
+        user.innerHTML = " ";
+        if (results.length === 0) {
+            user.innerHTML = `
+        <tr>
+            <th>Mã tài khoản</th>
+            <th>Tên người sở hữu</th>
+            <th>Email</th>
+            <th>Mật khẩu</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Chỉnh sửa thông tin</th>
+        </tr>
+        <tr>
+        <td colspan="7">Chưa tài khoản nào</td>
+        </tr>
+        `;
+        }
+        else {
+            var th = document.createElement("tr");
+            th.innerHTML = `
+            <th>Mã tài khoản</th>
+            <th>Tên người sở hữu</th>
+            <th>Email</th>
+            <th>Mật khẩu</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Chỉnh sửa mật khẩu</th>
+            `;
+            user.appendChild(th);
+            results.forEach(result => {
+                var resultTr = document.createElement("tr");
+                resultTr.innerHTML = `
+                <td><font>${result.userId} </font></td>
+                <td><a target="blank" href="../public/view_driver_infor.html?driverId=${result.userId}"><font>${result.fullName} </font></a></td>
+                <td><font>${result.email} </font></td>
+                <td><font>${result.password} </font></td>
+                <td><font>${result.address} </font></td>
+                <td><font>${result.phoneNumber} </font></td>
+                <td><input type="text" id="${result.userId}"/><button onclick="changePassword(${result.userId})">Chỉnh sửa mật khẩu</button></td>
+            `;
+                var checkStatus = document.createElement("td");
+                if (result.status == true) {
+                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})"><font color="red">Vô hiện hóa</font></button> `;
+                }
+                else {
+                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})"><font color="pink">Mở khóa</font></button> `;
+                }
+
+                resultTr.appendChild(checkStatus);
+                user.appendChild(resultTr);
+            });
+        }
+    }
+
+
+
+
+    function changePassword(userId) {
+
+        var pass = document.getElementById(userId).value;
+        if (pass == null || pass == "") {
+            alert("bạn phải nhập mật khẩu mới vào")
+        }
+        else {
+            var confirmation = confirm("Bạn chắc chắn muốn đổi mật khẩu tài khoản ?");
+            if (confirmation) {
+                fetch("https://localhost:7156/driver/password/" + userId, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        password: pass
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("success:", data);
+                        window.location.href = "admin_control_driver.html";
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            }
+        }
+    }
+
+
+    function updateUserStatus(userId) {
+        fetch("https://localhost:7156/driver/status/" + userId, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("success:", data);
+                window.location.href = "admin_control_driver.html";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+</script>
+
+
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var storedUserInformation = localStorage.getItem('userInfo');
+        var parsedUserInformation = JSON.parse(storedUserInformation);
+        var id = parsedUserInformation.id;
+        var userInfoContainer = document.getElementById('user-info');
+
+        if (parsedUserInformation) {
+
+            logoutButton.addEventListener('click', function () {
+                // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                localStorage.removeItem('userInfo');
+                window.location.href = "../public/login.html";
+            });
+
+            userInfoContainer.appendChild(logoutButton);
+        } else {
+            // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+            window.location.href = "../public/login.html";
+        }
+    });
+</script>

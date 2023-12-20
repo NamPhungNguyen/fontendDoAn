@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./customer_home.css">
+    <title>Trang chủ khách hàng</title>
+    <style>
+        select {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 10px rgba(102, 175, 233, 0.6);
+        }
+
+        table {
+            padding: 0;
+            padding: 0;
+            border-collapse: collapse;
+            /*width: 100%;*/
+            /* Bảng chiếm toàn bộ chiều rộng của container */
+        }
+
+        /* Định dạng các đường biên của bảng và ô */
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        /* Tô màu nền cho các ô header */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nội dung của các ô */
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* Màu nền cho các ô chẵn */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* CSS cho nút đăng xuất */
+        #logoutButton {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button#logoutButton {
+            padding-left: 10px;
+        }
+
+        /* Hover effect */
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+    <style>
+        /* CSS để ẩn tất cả các phần trừ phần đầu tiên */
+        #content>div:not(:first-child) {
+            display: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <script src="../javaScript/check_token.js"></script>
+    <script src="customer_all_order.js"></script>
+
+    <section id="header">
+        <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="customer_home.html">Trang chủ</a></li>
+                <li><a href="customer_create_order.html">Tạo đơn</a></li>
+                <li><a href="customer_all_order.html">Các đơn</a></li>
+                <li><a class="active" href="customer_chat.html">Tư vấn</a></li>
+                <li><a href="customer_infor.html">Thông tin</a></li>
+                <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <div align="center">
+            <h1>Trao đổi với nhân viên</h1>
+            <table>
+                <tr>
+                    <td>Nhập câu hỏi:</td>
+                    <td><textarea id="question" required></textarea></td>
+                </tr>
+            </table>
+            <button onclick="createContact()">Gửi</button>
+        </div>
+        <div align="center">
+            <table id="message">
+
+            </table>
+        </div>
+    </section>
+
+</body>
+
+</html>
+
+
+<script>
+
+    var storedUserInformation = localStorage.getItem('userInfo');
+    var parsedUserInformation = JSON.parse(storedUserInformation);
+    var customerId = parsedUserInformation.id;
+
+    function createContact() {
+        var question = document.getElementById("question").value;
+        if (question == "") {
+            alert("Bạn phải nhập câu hỏi");
+        }
+        else
+            fetch('https://localhost:7156/api/Customer/Message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "question": question,
+                    "answer": "",
+                    "userId": customerId,
+                    "roleId": 4,
+                    "checkRead": false,
+                    "status": true
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("success:", data);
+                    alert("bạn đã gửi thư thành công, chúng tôi sẽ sớm hồi đáp.");
+                    //window.location.href = "Customer_chat.html";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+    }
+
+
+    function updateMessage(messId) {
+        fetch('https://localhost:7156/api/Customer/Message/' + messId, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("success:", data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        setInterval(function () {
+            fetch("https://localhost:7156/api/Customer/Message?customerId=" + customerId, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+
+                    displayMessage(data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    // Xử lý lỗi nếu cần
+                });
+        }
+            , 1000);
+
+
+    });
+</script>
+
+
+
+
+<script>
+    function displayMessage(results) {
+        var message = document.getElementById("message");
+        message.innerHTML = " ";
+        var th = document.createElement("tr");
+        th.innerHTML = `
+    <th>Câu hỏi</th>
+    <th>Câu trả lời</th>
+`;
+        message.appendChild(th);
+        results.forEach(result => {
+            var resultTr = document.createElement("tr");
+            if (result.checkRead == false) {
+                resultTr.innerHTML = `
+                <td>${result.question} </td>
+                <td>${result.answer}</td>
+                
+            `;
+                if (result.answer != "") {
+                    var button = document.createElement("td");
+                    button.innerHTML = `
+                <button onclick="updateMessage(${result.messId})">Đã đọc</button>
+                `;
+                    resultTr.appendChild(button);
+                }
+            }
+            else resultTr.innerHTML = `
+                <td><font color="gray">${result.question} </font></td>
+                <td><font color="gray">${result.answer} </font></td>
+                
+            `;
+
+
+            message.appendChild(resultTr);
+        });
+    }
+</script>
+
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var storedUserInformation = localStorage.getItem('userInfo');
+        var parsedUserInformation = JSON.parse(storedUserInformation);
+        var id = parsedUserInformation.id;
+        var userInfoContainer = document.getElementById('user-info');
+
+        if (parsedUserInformation) {
+            var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
+
+            var userInfoElement = document.createElement('a');
+            userInfoElement.href = '../public/view_customer_infor.html?customerId=' + id;
+            userInfoElement.target = 'blank';
+            userInfoElement.textContent = 'Chào, ' + username; // Thông tin về người dùng
+
+            userInfoContainer.appendChild(userInfoElement);
+
+
+            logoutButton.addEventListener('click', function () {
+                // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
+                localStorage.removeItem('userInfo');
+                window.location.href = "../public/login.html";
+            });
+
+            userInfoContainer.appendChild(logoutButton);
+        } else {
+            // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
+            window.location.href = "../public/login.html";
+        }
+    });
+</script>

@@ -27,7 +27,7 @@
                 <label for="pass">Password</label>
                 <input type="password" class="input-field" id="password" required>
                 <i class="bx bx-lock"></i>
-                <span id="passwordError" class="error"></span> <!-- Error message for password -->
+                <span id="passwordError" class="error"></span>
                 <span id="loginError" class="error"></span>
             </div>
 
@@ -51,12 +51,11 @@
             var loginError = document.getElementById('loginError');
             var valid = true;
 
-            //reseset lại lỗi
             emailError.textContent = '';
             passwordError.textContent = '';
 
             // kiểm tra nếu email trống
-            if (!email) {
+            if (!email || !password) {
                 emailError.textContent = 'Vui lòng nhập email!';
                 valid = false;
             } else {
@@ -66,13 +65,11 @@
                     valid = false;
                 }
             }
-
             // check pass
             if (!password) {
                 passwordError.textContent = 'Vui lòng nhập mật khẩu!';
                 valid = false;
             }
-
             // nếu đầy đủ thì thực hiện login
             if (valid) {
                 login();
@@ -105,11 +102,10 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Kiểm tra message từ server
-                    if (data && data.message === '0') {
+                    // console.log(data.message);
+                    if (data.message === 0) {
                         // Hiển thị thông báo lỗi
-                        var errorBox = document.getElementById('loginError');
-                        errorBox.textContent = 'Tài khoản hoặc mật khẩu không chính xác';
+                        alert('Tài khoản hoặc mật khẩu không chính xác');
                     } else {
                         // Lưu token vào localStorage hoặc sessionStorage và xử lý đăng nhập thành công
                         localStorage.setItem('userInfo', JSON.stringify(data));
@@ -117,8 +113,15 @@
                         // Xử lý dữ liệu trả về từ API sau khi đăng nhập thành công và chuyển hướng trang
                         if (data.roleId === 3) {
                             window.location.href = '../driver/driver_home.html';
-                        } else if (data.roleId === 4) {
+                        }
+                        else if (data.roleId === 4) {
                             window.location.href = '../customer/customer_home.html';
+                        }
+                        else if (data.roleId === 2) {
+                            window.location.href = '../staff/staff_response_driver.html';
+                        }
+                        else if (data.roleId === 1) {
+                            window.location.href = '../admin/admin_control_customer.html';
                         }
                     }
                 })

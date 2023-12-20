@@ -7,12 +7,105 @@
     <title>Simple Navigation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        body {
+            width: 100%;
+            background-color: #b4bdc0;
+        }
+
+        .title h1 {
+            text-align: center;
+            padding-top: 50px;
+            font-size: 42px;
+        }
+
+        .title h1::after {
+            content: "";
+            height: 4px;
+            width: 230px;
+            background-color: #000;
+            display: block;
+            margin: auto;
+        }
+
+        .services {
+            width: 85%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 75px auto;
+            text-align: center;
+        }
+
+        .card {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            margin: 0px 20px;
+            padding: 20px 20px;
+            background-color: #efefef;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background-color: #b8d4de;
+            transition: 0.4s ease;
+        }
+
+        .card .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .card h2 {
+            font-size: 28px;
+            color: #c94f4f;
+            margin-bottom: 20px;
+        }
+
+        .card p {
+            font-size: 17px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            color: #5e5e5e;
+        }
+
+        .button {
+            font-size: 15px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #2c677c;
+            padding: 8px 12px;
+            border-radius: 5px;
+            letter-spacing: 1px;
+        }
+
+        .button:hover {
+            background-color: #c94f4f;
+            transition: 0.4s ease;
+        }
+
+        @media screen and (max-width:940px) {
+            .services {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .card {
+                width: 85%;
+                display: flex;
+                margin: 20px 0px;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
-
         <div>
             <ul id="navbar">
                 <li><a href="index.html">Home</a></li>
@@ -23,8 +116,46 @@
             </ul>
         </div>
     </section>
-
-    <!-- Your page content goes here -->
+    <div class="section">
+        <div class="services">
+            <div class="card">
+                <div class="icon">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <h2>Planning</h2>
+                <p>
+                    Chúng tôi tận tâm xây dựng kế hoạch vận chuyển thông minh và linh hoạt nhất để đảm bảo hàng hóa của
+                    bạn được giao đến đúng nơi, đúng thời điểm. Từ việc xác định lộ trình tối ưu đến việc quản lý tài
+                    nguyên và thời gian, chúng tôi cam kết cung cấp giải pháp vận chuyển hiệu quả, giảm thiểu rủi ro và
+                    tối ưu hóa hiệu suất.</p>
+                <a href="" class="button">Read More</a>
+            </div>
+            <div class="card">
+                <div class="icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h2>Logistics</h2>
+                <p>
+                    Với hệ thống quản lý logistics tiên tiến, chúng tôi không chỉ đảm bảo việc vận chuyển hàng hóa của
+                    bạn một cách an toàn mà còn tối ưu hóa quy trình lưu kho. Bằng cách sử dụng công nghệ và kiến thức
+                    chuyên môn, chúng tôi đảm bảo hàng hóa của bạn được bảo quản tốt nhất và giao đến đích hàng cùng với
+                    sự đảm bảo chất lượng.</p>
+                <a href="" class="button">Read More</a>
+            </div>
+            <div class="card">
+                <div class="icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h2>Customer Satisfaction</h2>
+                <p>
+                    Chúng tôi không chỉ vận chuyển hàng hóa một cách đáng tin cậy mà còn đặt sự hài lòng của khách hàng
+                    là ưu tiên hàng đầu. Bằng việc đáp ứng mọi yêu cầu và mong muốn của khách hàng, chúng tôi mong muốn
+                    tạo ra trải nghiệm vận chuyển tốt nhất và giúp khách hàng cảm thấy hài lòng và tin tưởng khi sử dụng
+                    dịch vụ của chúng tôi.</p>
+                <a href="" class="button">Read More</a>
+            </div>
+        </div>
+    </div>
 
 </body>
 
