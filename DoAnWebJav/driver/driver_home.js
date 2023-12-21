@@ -1,8 +1,4 @@
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
-
     const storedUserInformation = localStorage.getItem('userInfo');
     const parsedUserInformation = JSON.parse(storedUserInformation);
     const driverId = parsedUserInformation.id;
@@ -30,8 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     isNotWorked.style.display = "block";
                     isWorked.style.display = "none";
 
-
-
                     fetch("https://localhost:7156/api/Driver/GetAllAppliedOrders/" + driverId, {
                         method: 'GET',
                         headers: {
@@ -53,21 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             console.error("Error:", error);
                             // Xử lý lỗi nếu cần
                         });
-
-
-
-
-
-
-
-
-
                 } else {
                     isNotWorked.style.display = "none";
                     isWorked.style.display = "block";
-
-
-
 
                     fetch("https://localhost:7156/api/Driver/GetOnWorkedOrder/" + driverId, {
                         method: 'GET',
@@ -90,14 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             console.error("Error:", error);
                             // Xử lý lỗi nếu cần
                         });
-
-
-
-
-
-
-
-
                 }
             })
             .catch(error => {
@@ -110,15 +84,10 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 
-
-
-
-
-
-
 function displayOnWorkedOrder(results) {
     var orderId = results.order.orderId;
     var OnWorkedOrder = document.getElementById("OnWorkedOrder");
+    OnWorkedOrder.classList.add('custom-table');
     OnWorkedOrder.innerHTML = " ";
     OnWorkedOrder.innerHTML = `
                     <tr>
@@ -159,12 +128,13 @@ function displayOnWorkedOrder(results) {
                     </tr>
                 `;
     var OnWorkedOrderStatus = document.getElementById("OnWorkedOrderStatus");
+    OnWorkedOrderStatus.classList.add('custom-table');
     OnWorkedOrderStatus.innerHTML = `
-    <tr>
-    <th>Mã trạng thái</th>
-    <th>Trạng thái</th>
-    <th>Thời gian cập nhật</th>
-    </tr>
+        <tr>
+        <th>Mã trạng thái</th>
+        <th>Trạng thái</th>
+        <th>Thời gian cập nhật</th>
+        </tr>
     `;
     results.status.forEach(result => {
         var tr = document.createElement("tr");
@@ -179,51 +149,47 @@ function displayOnWorkedOrder(results) {
     var UpdateStatus = document.getElementById("UpdateStatus");
     switch (results.newStatus) {
         case 3:
-            UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
-            `;
-            break;
         case 4:
             UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
+            <button onclick="updateStatus(5,${orderId})" class="custom-button-green">Chuyển hàng đến khách</button>
             `;
             break;
         case 5:
             UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(6,${orderId})">Hàng đã đến nơi</button>
-            <button onclick="updateStatus(13,${orderId})">Đang gặp trục trặc</button>
+            <button onclick="updateStatus(6,${orderId})" class="custom-button-green">Hàng đã đến nơi</button>
+            <button onclick="updateStatus(13,${orderId})" class="custom-button-green">Đang gặp trục trặc</button>
             `;
             break;
         case 6:
             UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(11,${orderId})">Xác nhận đã được thanh toán</button>
-            <button onclick="updateStatus(9,${orderId})">Chuyển hàng đến kho gần nhất</button>
+            <button onclick="updateStatus(11,${orderId})" class="custom-button-green">Xác nhận đã được thanh toán</button>
+            <button onclick="updateStatus(9,${orderId})" class="custom-button-green">Chuyển hàng đến kho gần nhất</button>
             `;
             break;
         case 8:
             UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(9,${orderId})">Chuyển hàng đến kho gần nhất</button>
+            <button onclick="updateStatus(9,${orderId})" class="custom-button-green">Chuyển hàng đến kho gần nhất</button>
             `;
             break;
         case 9:
             UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(14,${orderId})">Hàng đã đến kho</button>
-            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
+            <button onclick="updateStatus(14,${orderId})" class="custom-button-green">Hàng đã đến kho</button>
+            <button onclick="updateStatus(5,${orderId})" class="custom-button-green">Chuyển hàng đến khách</button>
             `;
             break;
         case 13:
             UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(5,${orderId})">Chuyển hàng đến khách</button>
+            <button onclick="updateStatus(5,${orderId})" class="custom-button-green">Chuyển hàng đến khách</button>
             `;
             break;
         case 14:
             UpdateStatus.innerHTML = `
-            <button onclick="updateStatus(11,${orderId})">Xác nhận đã được thanh toán</button>
+            <button onclick="updateStatus(11,${orderId})" class="custom-button-green">Xác nhận đã được thanh toán</button>
             `;
             break;
         case 11:
             UpdateStatus.innerHTML = `
-            <p><font color="green">Hàng đã được thanh toán và chờ khách hàng xác nhận</font></p>
+            <p><font color="red">Hàng đã được thanh toán và chờ khách hàng xác nhận</font></p>
             `;
             break;
 
@@ -234,7 +200,7 @@ function displayOnWorkedOrder(results) {
 
         case 15:
             UpdateStatus.innerHTML = `
-            <p><font color="green">Hàng đã được thanh toán và chờ khách hàng xác nhận</font></p>
+            <p><font color="red">Hàng đã được thanh toán và chờ khách hàng xác nhận</font></p>
             `;
             break;
     }
@@ -290,54 +256,73 @@ function updateStatus(statusId, driverId) {
 
 
 function displayAppliedOrder(results) {
-
     var AppliedOrder = document.getElementById("AppliedOrder");
     AppliedOrder.innerHTML = " ";
 
     if (results.length === 0) {
         AppliedOrder.innerHTML = `
-        <tr>
-        <th>Mã đơn hàng</th>
-        <th>Tên đơn hàng</th>
-        <th>Xe ứng tuyển</th>
-        <th>Được chọn</th>
-        </tr>
-        <tr>
-        <td colspan="4">Bạn chưa ứng tuyển đơn hàng nào</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <th>Tên đơn hàng</th>
+                <th>Xe ứng tuyển</th>
+                <th>Được chọn</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4">Bạn chưa ứng tuyển đơn hàng nào</td>
+            </tr>
+        </tbody>
+
         `;
     }
-else{
-    var th = document.createElement("tr");
-    th.innerHTML = `
-    <th>Mã đơn hàng</th>
-    <th>Tên đơn hàng</th>
-    <th>Xe ứng tuyển</th>
-    <th>Được chọn</th>
-`;
-    AppliedOrder.appendChild(th);
+    else {
+        var th = document.createElement("tr");
+        th.innerHTML = `
+        <thead>
+            <th>Mã đơn hàng</th>
+            <th>Tên đơn hàng</th>
+            <th>Xe ứng tuyển</th>
+            <th>Được chọn</th>
+        </thead>
 
-    results.forEach(result => {
-        var resultTr = document.createElement("tr");
-        resultTr.innerHTML = `
-    <td>${result.order.orderId} </td>
-    <td><a href="detail_order.html?orderId=${result.order.orderId}&oVIId=${result.oVI.oviId}">${result.order.orderName} </a></td>
-    <td>${result.oVI.vehicle.vehicleName} - ${result.oVI.description}</td>
-    <input type="hidden" id="${result.order.orderId}" value= "${result.order.orderId}"/>
-`;
-        var td = document.createElement("td");
-        if (result.isChoosen == true) {
-            td.innerHTML = `<button onclick="xoaDonKhiDaDuocChon(${result.order.orderId})"><font color="red">Xóa ứng tuyển</font></button>
-                <button onclick="nhanDon(${result.order.orderId})"><font color="green">Nhận đơn</font></button>
-                `;
-        }
-        else {
-            td.innerHTML = `<button onclick="xoaDonKhiChuaDuocChon(${result.oVI.oviId},${result.order.orderId})"><font color="red">Xóa ứng tuyển</font></button>
+        `;
+        AppliedOrder.appendChild(th);
+
+        results.forEach(result => {
+            var resultTr = document.createElement("tr");
+            resultTr.innerHTML = `
+                <td>${result.order.orderId} </td>
+                <td><a href="detail_order.html?orderId=${result.order.orderId}&oVIId=${result.oVI.oviId}">${result.order.orderName} </a></td>
+                <td>${result.oVI.vehicle.vehicleName} - ${result.oVI.description}</td>
+                <input type="hidden" id="${result.order.orderId}" value= "${result.order.orderId}"/>
             `;
-        }
-        resultTr.appendChild(td);
-        AppliedOrder.appendChild(resultTr);
-    });}
+            var td = document.createElement("td");
+            if (result.isChoosen == true) {
+                var deleteButton = document.createElement("button");
+                deleteButton.innerHTML = '<font color="white">Xóa ứng tuyển</font>';
+                deleteButton.setAttribute('onclick', `xoaDonKhiDaDuocChon(${result.order.orderId})`);
+                deleteButton.classList.add('custom-button'); // Áp dụng lớp CSS cho button
+                td.appendChild(deleteButton);
+
+                var receiveButton = document.createElement("button");
+                receiveButton.innerHTML = '<font color="black">Nhận đơn</font>';
+                receiveButton.setAttribute('onclick', `nhanDon(${result.order.orderId})`);
+                receiveButton.classList.add('custom-button', 'custom-button-green'); // Áp dụng lớp CSS cho button
+                td.appendChild(receiveButton);
+            } else {
+                var deleteButton = document.createElement("button");
+                deleteButton.innerHTML = '<font color="white">Xóa ứng tuyển</font>';
+                deleteButton.setAttribute('onclick', `xoaDonKhiChuaDuocChon(${result.oVI.oviId},${result.order.orderId})`);
+                deleteButton.classList.add('custom-button'); // Áp dụng lớp CSS cho button
+                td.appendChild(deleteButton);
+            }
+
+            resultTr.appendChild(td);
+            AppliedOrder.appendChild(resultTr);
+        });
+    }
 
 };
 

@@ -1,0 +1,165 @@
+:root {
+    --primary-color: #009879;
+    --secondary-color: #f44336;
+    --text-color: #333;
+}
+
+/* CSS cho nút đăng xuất */
+#logoutButton {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button#logoutButton {
+    margin-left: 10px;
+}
+
+/* Hover effect */
+#logoutButton:hover {
+    background-color: #d32f2f;
+}
+
+section {
+    padding: 20px;
+}
+
+.title_chat {
+    --tw-text-opacity: 1;
+    color: rgb(18 85 152/var(--tw-text-opacity));
+    margin: auto;
+    text-align: center;
+}
+
+
+table,
+#messageTable {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 800px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+thead>tr>th,
+#messageTable {
+    background-color: #009879;
+    color: #ffffff;
+}
+
+th,
+td,
+#messageTable {
+    text-align: center;
+    padding: 12px 15px;
+}
+
+tr>th {
+    background-color: #009879;
+    color: #ffffff;
+}
+
+tbody tr,
+#messageTable {
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody,
+#messageTable tr:nth-of-type(even) {
+    background-color: #fff;
+}
+
+tbody,
+#messageTable tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+tbody,
+#messageTable tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #007d6f;
+}
+
+#Previous,
+#Next {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: none;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+}
+
+.icon i {
+    margin: 0 10px;
+    font-size: 24px;
+    color: white;
+}
+
+.copy-right {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.background {
+    height: 400px;
+    width: 100%;
+    background-image: url('../images/avhaoem.jpeg');
+}
+
+#question {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 10px;
+    max-width: 100%;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+    width: 463px;
+}
+
+.text-subtitle {
+    font-size: 20px;
+    line-height: 30px;
+    box-sizing: border-box;
+    border: 0 solid;
+    text-align: center;
+
+    span {
+        font-weight: bold;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: inherit;
+    }
+}
