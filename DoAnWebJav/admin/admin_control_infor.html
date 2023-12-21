@@ -136,10 +136,6 @@
                                 <div class="card-body media align-items-center">
                                     <img src="" alt class="d-block ui-w-80 imagecustomer" />
                                     <div class="media-body ml-4">
-                                        <label class="btn btn-outline-primary">
-                                            Upload new photo
-                                            <input type="file" class="account-settings-fileinput" id="fileInput" />
-                                        </label>
                                     </div>
                                 </div>
                                 <hr class="border-light m-0" />
@@ -176,17 +172,10 @@
 
             var userInfoContainer = document.getElementById("user-info");
 
-
             if (parsedUserInformation) {
                 var username = parsedUserInformation.username; // Giả sử tên người dùng được lưu trong userInfo
                 var admin_id = parsedUserInformation.id;
 
-                var userInfoElement = document.createElement('a');
-                userInfoElement.href = '../public/view_customer_infor.html?customerId=' + admin_id;
-                userInfoElement.target = 'blank';
-                userInfoElement.textContent = "Chào, " + username; // Thông tin về người dùng
-
-                userInfoContainer.appendChild(userInfoElement);
 
                 logoutButton.addEventListener("click", function () {
                     // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
@@ -202,9 +191,9 @@
             // Lấy thông tin khách hàng
 
             // Địa chỉ URL của API
-            const apiUrl = `${admin_id}`;
+            const apiUrl = `https://localhost:7156/admin/${admin_id}`;
             // api update customer
-            const apiUpdateAdmin = `${admin_id}`;
+            const apiUpdateAdmin = `https://localhost:7156/admin/${admin_id}`;
             // Gửi yêu cầu GET sử dụng Fetch API
             fetch(apiUrl)
                 .then((response) => {
@@ -232,11 +221,7 @@
                         // Tạo một container để chứa cả thông tin người dùng và nút đăng xuất
                         var userInfoContainer = document.getElementById("user-info");
 
-                        var userInfoElement = document.createElement('a');
-                        userInfoElement.href = '../public/view_customer_infor.html?customerId=' + admin_id;
-                        userInfoElement.target = 'blank';
-                        userGreeting.textContent = "Chào, " + data.fullName; // Thông tin về người dùng
-
+            
                         var logoutButton = document.createElement("button");
                         logoutButton.id = "logoutButton";
                         logoutButton.textContent = "Đăng xuất";
@@ -247,7 +232,7 @@
                         });
 
                         userInfoContainer.innerHTML = ''; // Xóa nội dung hiện tại của userInfoContainer
-                        userInfoContainer.appendChild(userGreeting);
+                        
                         userInfoContainer.appendChild(logoutButton);
                     }
                 })
@@ -260,9 +245,6 @@
             console.log(form);
             form.addEventListener("submit", function (event) {
                 event.preventDefault();
-                // console.log(123);
-                // xử lý update dữ liệu
-                uploadImage(customer_id);
 
                 const passwordCustomer = document.querySelector(".password").value;
                 const emailCustomer = document.querySelector(".email").value;
@@ -275,7 +257,7 @@
                     status: true,
                 };
                 console.log(updatedData);
-                fetch(apiUpdateCustomer, {
+                fetch(apiUpdateAdmin, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
