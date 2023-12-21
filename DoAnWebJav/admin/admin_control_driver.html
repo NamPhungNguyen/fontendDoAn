@@ -43,9 +43,14 @@
         }
 
         table {
-            padding: 0;
-            padding: 0;
             border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            font-size: larger;
+            background-color: #dddddd;
             /*width: 100%;*/
             /* Bảng chiếm toàn bộ chiều rộng của container */
         }
@@ -59,7 +64,7 @@
 
         /* Tô màu nền cho các ô header */
         th {
-            background-color: #f2f2f2;
+            background-color: #a4a4a4;
         }
 
         /* Căn giữa nội dung của các ô */
@@ -102,7 +107,67 @@
             background-color: #0f01cd;
             border-radius: 20px;
         }
+        .button1{
+            color: #fff;
+            padding: 10px 20px;
+            background-color: rgb(17, 136, 210);
+            margin-bottom: 25px;
+            border: none;
+            border-radius: 5px;
+            text-align: right;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #search{
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            font-size: larger;
+            background-color: #dddddd;
+        }
         
+        .disable{
+            background-color: #f0020e; /* Màu nền */
+            color: #fff; /* Màu chữ */
+            padding: 10px 20px; /* Kích thước nút */
+            border: none; /* Loại bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Đổi con trỏ khi rê chuột */
+            font-size: 16px;
+        }
+        .open{
+            background-color: #4CAF50; /* Màu nền */
+            color: #fff; /* Màu chữ */
+            padding: 10px 20px; /* Kích thước nút */
+            border: none; /* Loại bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Đổi con trỏ khi rê chuột */
+            font-size: 16px;
+        }
+        .changepw{
+            background-color: #4CAF50; /* Màu nền */
+            color: #fff; /* Màu chữ */
+            padding: 5px ; /* Kích thước nút */
+            border: none; /* Loại bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Đổi con trỏ khi rê chuột */
+            font-size: 16px;
+        }
+        .button2{
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            font-size: larger;
+            background-color: #dddddd;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
@@ -127,8 +192,8 @@
 
         <div align="center">
             <h1>Quản lý tài khoản tài xế</h1>
-            <div><input type="text" id="search" placeholder="nhập email hoặc tên"/><button onclick="search()">Tìm kiếm</button><button
-                onclick="reload()">Làm mới</button></div>
+            <div><input type="text" id="search" placeholder="nhập email hoặc tên"   style="width: 50px; padding: 10px;"/><button onclick="search()" class="button1">Tìm kiếm</button><button
+                onclick="reload()" class="button1">Làm mới</button></div>
                 <table id="user">
                 </table>
             </div>
@@ -286,14 +351,14 @@
                 <td><font>${result.password} </font></td>
                 <td><font>${result.address} </font></td>
                 <td><font>${result.phoneNumber} </font></td>
-                <td><input type="text" id="${result.userId}"/><button onclick="changePassword(${result.userId})">Chỉnh sửa mật khẩu</button></td>
+                <td><input type="text" id="${result.userId}"class="button2"/><button onclick="changePassword(${result.userId})"class="changepw">Chỉnh sửa mật khẩu</button></td>
             `;
                 var checkStatus = document.createElement("td");
                 if (result.status == true) {
-                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})"><font color="red" >Vô hiện hóa</font></button> `;
+                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})" class="disable">Vô hiện hóa</button> `;
                 }
                 else {
-                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})"><font color="pink">Mở khóa</font></button> `;
+                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})" class="open">Mở khóa</button> `;
                 }
 
                 resultTr.appendChild(checkStatus);
