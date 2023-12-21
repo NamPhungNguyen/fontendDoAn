@@ -43,9 +43,14 @@
         }
 
         table {
-            padding: 0;
-            padding: 0;
             border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            font-size: larger;
+            background-color: #dddddd;
             /*width: 100%;*/
             /* Bảng chiếm toàn bộ chiều rộng của container */
         }
@@ -59,7 +64,7 @@
 
         /* Tô màu nền cho các ô header */
         th {
-            background-color: #f2f2f2;
+            background-color: #a4a4a4;
         }
 
         /* Căn giữa nội dung của các ô */
@@ -98,6 +103,143 @@
         #logoutButton:hover {
             background-color: #d32f2f;
         }
+        .staff{
+            background-color: #0f01cd;
+            border-radius: 20px;
+        }
+        .button1{
+            color: #fff;
+            padding: 10px 20px;
+            background-color: rgb(17, 136, 210);
+            margin-bottom: 25px;
+            border: none;
+            border-radius: 5px;
+            text-align: right;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #search{
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            font-size: larger;
+            background-color: #dddddd;
+        }
+        
+        .disable{
+            background-color: #f0020e; /* Màu nền */
+            color: #fff; /* Màu chữ */
+            padding: 10px 20px; /* Kích thước nút */
+            border: none; /* Loại bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Đổi con trỏ khi rê chuột */
+            font-size: 16px;
+        }
+        .open{
+            background-color: #4CAF50; /* Màu nền */
+            color: #fff; /* Màu chữ */
+            padding: 10px 20px; /* Kích thước nút */
+            border: none; /* Loại bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Đổi con trỏ khi rê chuột */
+            font-size: 16px;
+        }
+        .changepw{
+            background-color: #4CAF50; /* Màu nền */
+            color: #fff; /* Màu chữ */
+            padding: 5px ; /* Kích thước nút */
+            border: none; /* Loại bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Đổi con trỏ khi rê chuột */
+            font-size: 16px;
+        }
+        .button2{
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            font-size: larger;
+            background-color: #dddddd;
+        }
+        .create-staff-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            text-align: center;
+        }
+        
+        .form-input {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        .background {
+            background: url('your-background-image.jpg') center/cover fixed; /* Đặt hình nền và thuộc tính */
+            height: 80vh; /* Chiều cao theo chiều cao của cửa sổ trình duyệt */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .createstaff {
+            width: 350px;
+            background-color: rgba(255, 255, 255, 0.9); /* Màu nền với độ trong suốt */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+            text-align: center;
+        }
+       
+        .createstaff h3 {
+            color: #333;
+        }
+
+        .form-input {
+            margin-bottom: 15px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+
+        
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
@@ -110,7 +252,7 @@
         <a href="admin_counting.html">Thống kê</a>
         <a href="admin_control_driver.html">Quản lý tài xế</a>
         <a href="admin_control_customer.html">Quản lý khách hàng</a>
-        <a href="admin_control_staff.html">Quản lý nhân viên</a>
+        <a href="admin_control_staff.html" class="staff">Quản lý nhân viên</a>
         <a href="admin_control_bussiness.html">Quản lý doanh nghiệp</a>
         <a href="admin_control_infor.html">Tài khoản</a>
         <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
@@ -122,8 +264,8 @@
 
         <div align="center">
             <h1>Quản lý tài khoản nhân viên</h1>
-            <div><input type="text" id="search" placeholder="nhập email hoặc tên" /><button onclick="search()">Tìm
-                    kiếm</button><button onclick="reload()">Làm mới</button><button onclick="createStaff()">tạo mới tài
+            <div><input type="text" id="search" placeholder="nhập email hoặc tên" /><button onclick="search()" class="button1">Tìm
+                    kiếm</button><button onclick="reload()" class="button1">Làm mới</button><button onclick="createStaff()"class="button1">tạo mới tài
                     khoản</button></div>
             <table id="user">
             </table>
@@ -132,35 +274,37 @@
             <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
             <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
         </div>
-        <div id="createStaff"  style="display: none;">
-            <h3>Tạo tài khoản nhân viên mới</h3>
-            <div class="form-input">
-                <label for="">Họ và Tên</label>
-                <input type="text" placeholder="Nhập họ tên" name="fullName" id="fullName">
-            </div>
-            <div class="form-input">
-                <label for="">Email</label>
-                <input type="email" placeholder="Nhập email" name="email" id="email">
-            </div>
-            <div class="form-input">
-                <label for="">Số điện thoại</label>
-                <input type="text" placeholder="Nhập số điện thoại" name="phoneNumber" id="phoneNumber">
-            </div>
-            <div class="form-input">
-                <label for="">Ngày sinh</label>
-                <input type="date" placeholder="Nhập ngày sinh" name="date_of_birth" id="birthday">
-            </div>
+        <div class="background">
+            <div id="createStaff" style="display: none;"  class="createstaff">
+                <h3>Tạo tài khoản nhân viên mới</h3>
+                <div class="form-input">
+                    <label for="">Họ và Tên</label>
+                    <input type="text" placeholder="Nhập họ tên" name="fullName" id="fullName" >
+                </div>
+                <div class="form-input">
+                    <label for="">Email</label>
+                    <input type="email" placeholder="Nhập email" name="email" id="email">
+                </div>
+                <div class="form-input">
+                    <label for="">Số điện thoại</label>
+                    <input type="text" placeholder="Nhập số điện thoại" name="phoneNumber" id="phoneNumber">
+                </div>
+                <div class="form-input">
+                    <label for="">Ngày sinh</label>
+                    <input type="date" placeholder="Nhập ngày sinh" name="date_of_birth" id="birthday" style="width: 146px; padding: 5px;">
+                </div>
 
-            <div class="form-input">
-                <label for="">Mật khẩu</label>
-                <input type="password" placeholder="Enter password" name="password" id="password">
-            </div>
-            <div class="form-input">
-                <label for="">Xác nhận mật khẩu</label>
-                <input type="password" placeholder="Xác nhận mật khẩu" name="password_cofirm" id="password_cofirm">
-            </div>
-            <div class="form-input">
-                <button type="button" onclick="signupStaff()">Đăng ký</button>
+                <div class="form-input">
+                    <label for="">Mật khẩu</label>
+                    <input type="password" placeholder="Enter password" name="password" id="password">
+                </div>
+                <div class="form-input">
+                    <label for="">Xác nhận mật khẩu</label>
+                    <input type="password" placeholder="Xác nhận mật khẩu" name="password_cofirm" id="password_cofirm">
+                </div>
+                <div class="form-input">
+                    <button type="button" onclick="signupStaff()">Đăng ký</button>
+                </div>
             </div>
         </div>
         <!-- Add more sections as needed -->
@@ -380,14 +524,14 @@
                 <td><font>${result.password} </font></td>
                 <td><font>${result.address} </font></td>
                 <td><font>${result.phoneNumber} </font></td>
-                <td><input type="text" id="${result.userId}"/><button onclick="changePassword(${result.userId})">Chỉnh sửa mật khẩu</button></td>
+                <td><input type="text" id="${result.userId}" class="button2"/><button onclick="changePassword(${result.userId})" class="changepw">Chỉnh sửa mật khẩu</button></td>
             `;
                 var checkStatus = document.createElement("td");
                 if (result.status == true) {
-                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})"><font color="red">Vô hiện hóa</font></button> `;
+                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})" class="disable">Vô hiện hóa</button> `;
                 }
                 else {
-                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})"><font color="pink">Mở khóa</font></button> `;
+                    checkStatus.innerHTML = ` <button onclick="updateUserStatus(${result.userId})" class="open">Mở khóa</button> `;
                 }
 
                 resultTr.appendChild(checkStatus);
