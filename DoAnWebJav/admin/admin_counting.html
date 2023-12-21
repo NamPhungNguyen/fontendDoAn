@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quan ly khach hang</title>
+    <title>Quan ly tai xe</title>
     <!-- Add your CSS stylesheets or links here -->
     <style>
         body {
@@ -113,7 +113,7 @@
         <a href="admin_control_staff.html">Quản lý nhân viên</a>
         <a href="admin_control_bussiness.html">Quản lý doanh nghiệp</a>
         <a href="admin_control_infor.html">Tài khoản</a>
-        <a id="user-info"><button id="logoutButton">Đăng xuất</button></a>
+        <a id="data-info"><button id="logoutButton">Đăng xuất</button></a>
         <!-- Add more navigation links as needed -->
     </nav>
 
@@ -121,7 +121,9 @@
         <!-- Your page content goes here -->
 
         <div align="center">
-            <h1 style="color: red;">CHỨC NĂNG ĐANG HOÀN THIỆN</h1>
+            <h1>Thống kê</h1>
+            <table id="data">
+            </table>
         </div>
 
         <!-- Add more sections as needed -->
@@ -136,21 +138,121 @@
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var storedUserInformation = localStorage.getItem('userInfo');
-        var parsedUserInformation = JSON.parse(storedUserInformation);
-        var id = parsedUserInformation.id;
-        var userInfoContainer = document.getElementById('user-info');
 
-        if (parsedUserInformation) {
+    var storedDataInformation = localStorage.getItem('dataInfo');
+    var parsedDataInformation = JSON.parse(storedDataInformation);
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        //setInterval(function () {
+        fetch("https://localhost:7156/counting", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+
+                displayData(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
+        //  }
+        //    , 1000);
+
+
+    });
+</script>
+
+
+
+
+<script>
+
+
+    function displayData(results) {
+        var data = document.getElementById("data");
+        data.innerHTML = " ";
+        data.innerHTML = `
+        <tr>
+            <td><b>Tài khoản tài xế hoạt động: </b></td>
+            <td>${results.driverAble}</td>
+            <td><b>Tài khoản tài xế không hoạt động: </b></td>
+            <td>${results.driverDisable}</td>
+            <td><b>Số lượng phương tiện: </b></td>
+            <td>${results.vehicle}</td>
+        </tr>
+        <tr>
+            <td><b>Tài khoản khách hàng hoạt động: </b></td>
+            <td>${results.customerAble}</td>
+            <td><b>Tài khoản khách hàng không hoạt động: </b></td>
+            <td>${results.customerDisable}</td>
+            <td><b>Tổng tiền giao dịch: </b></td>
+            <td>${results.sumMoney}</td>
+        </tr>
+        <tr>
+            <td><b>Đơn hàng đã hoàn thành: </b></td>
+            <td>${results.orderSuccess}</td>
+            <td><b>Đơn hàng thất bại: </b></td>
+            <td>${results.orderFail}</td>
+            <td><b>Đơn hàng đang hoạt động: </b></td>
+            <td>${results.orderOnwork}</td>
+        </tr>
+        <tr>
+            <td><b>Tài khoản nhân viên hoạt động: </b></td>
+            <td>${results.staffAble}</td>
+            <td><b>Tài khoản nhân viên không hoạt động: </b></td>
+            <td>${results.staffDisable}</td>
+        </tr>
+        <tr>
+            <td><b>Tài khoản doanh nghiệp hoạt động: </b></td>
+            <td>${results.bussnessAble}</td>
+            <td><b>Tài khoản doanh nghiệp không hoạt động: </b></td>
+            <td>${results.bussinessDisable}</td>
+        </tr>
+        `;
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var storedDataInformation = localStorage.getItem('dataInfo');
+        var parsedDataInformation = JSON.parse(storedDataInformation);
+        var id = parsedDataInformation.id;
+        var dataInfoContainer = document.getElementById('data-info');
+
+        if (parsedDataInformation) {
 
             logoutButton.addEventListener('click', function () {
                 // Xóa thông tin người dùng từ localStorage và chuyển hướng về trang đăng nhập
-                localStorage.removeItem('userInfo');
+                localStorage.removeItem('dataInfo');
                 window.location.href = "../public/login.html";
             });
 
-            userInfoContainer.appendChild(logoutButton);
+            dataInfoContainer.appendChild(logoutButton);
         } else {
             // Chuyển hướng về trang đăng nhập nếu thông tin người dùng không được tìm thấy
             window.location.href = "../public/login.html";

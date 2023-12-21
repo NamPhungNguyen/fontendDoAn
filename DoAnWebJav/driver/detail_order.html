@@ -57,9 +57,11 @@
                     allowfullscreen>
                 </iframe> -->
 
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d7860777.144213524!2d101.80536068141087!3d15.842395703888247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2zSOG7kyBDaMOtIE1pbmgsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!3m2!1d10.8230989!2d106.62966379999999!4m5!1s0x3135ab9bd9861ca1%3A0xe7887f7b72ca17a9!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!3m2!1d21.0277644!2d105.8341598!5e0!3m2!1svi!2s!4v1700824498463!5m2!1svi!2s&q=Binh%20Dinh%20to%20Ho%20Chi%20Minh%20City"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                <iframe src="https://www.google.com/maps/embed/v1/directions
+                    ?key=AIzaSyACln56B3Yzjjs7H4oQo-9wL_0SUvqqjto
+                    &origin=Oslo+Norway
+                    &destination=Telemark+Norway
+                    &avoid=tolls|highways" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
@@ -138,6 +140,61 @@
 
 
 <script>
+
+
+
+
+
+    const url = 'https://distanceto.p.rapidapi.com/distance/route';
+
+    try {
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'X-RapidAPI-Key': '49642dbb7bmsha2b6d42a94b11a4p194beejsn74abc5615dd1',
+                'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
+            },
+            body: {
+                route: [
+                    {
+                        country: 'DEU',
+                        name: 'Berlin'
+                    },
+                    {
+                        country: 'DEU',
+                        name: 'Hamburg'
+                    }
+                ]
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const result = data.text();
+                console.log(result);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu cần
+            });
+
+    } catch (error) {
+        console.error(error);
+    }
+
+
+
+
+
+
+
+
     var storedUserInformation = localStorage.getItem('userInfo');
     var parsedUserInformation = JSON.parse(storedUserInformation);
     var driverId = parsedUserInformation.id;
