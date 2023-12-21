@@ -5,31 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin người dùng</title>
-    <link rel="stylesheet" href="driver_infor.css">
-    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="./detail_order.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* CSS cho nút đăng xuất */
-        #logoutButton {
-            padding: 8px 16px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+    <link rel="stylesheet" href="../public/style.css">
 
-        button#logoutButton {
-            margin-left: 10px;
-        }
-
-        /* Hover effect */
-        #logoutButton:hover {
-            background-color: #d32f2f;
-        }
-    </style>
 </head>
 
 <body>
@@ -48,15 +28,10 @@
         </div>
     </section>
 
-    <div align="center" style="padding-top: 20px;padding-left: 20px;">
+    <div align="center" style="padding-top: 20px;padding-left: 20px;background-color: aliceblue;">
+        <h1 class="title_item">Chi tiết đơn hàng</h1>
         <div style="display: flex;" width="600" height="450">
             <div style="float: left;">
-
-                <!-- <iframe width="600" height="450" frameborder="0" style="border:0"
-                    src="https://www.google.com/maps/dir/Hồ+Chí+Minh,+Thành+phố+Hồ+Chí+Minh,+Việt+Nam/Hà+Nội,+Việt+Nam"
-                    allowfullscreen>
-                </iframe> -->
-
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d7860777.144213524!2d101.80536068141087!3d15.842395703888247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2zSOG7kyBDaMOtIE1pbmgsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!3m2!1d10.8230989!2d106.62966379999999!4m5!1s0x3135ab9bd9861ca1%3A0xe7887f7b72ca17a9!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!3m2!1d21.0277644!2d105.8341598!5e0!3m2!1svi!2s!4v1700824498463!5m2!1svi!2s&q=Binh%20Dinh%20to%20Ho%20Chi%20Minh%20City"
                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
@@ -71,13 +46,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div>
-            <div style="margin-top: 20px;display: flex; flex-wrap: wrap;width:auto; gap: 50px" id="resultContainer">
-            </div>
-        </div> -->
-        <!-- <div>
-            <input type="submit" value="Ứng tuyển">
-        </div> -->
     </div>
 
     <footer class="section-p1">
@@ -121,17 +89,18 @@
             <h4>Install App</h4>
             <p>From App Store or Google Play</p>
             <div class="row">
-                <img src="../public/images/pay/app.jpg" alt="">
-                <img src="../public/images/pay/play.jpg" alt="">
+                <img src="images/pay/app.jpg" alt="">
+                <img src="images/pay/play.jpg" alt="">
             </div>
             <p>Secured Payment Gateways</p>
-            <img src="../public/images/pay/pay.png" alt="">
+            <img src="images/pay/pay.png" alt="">
         </div>
 
         <div class="copyright">
             <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
         </div>
     </footer>
+
 </body>
 
 </html>
@@ -266,17 +235,17 @@
                                 if (data.order.oviId == oVIId && (checkStatus == 2 || checkStatus == 4)) {
                                     var XemChiTiet = document.createElement("tr");
                                     XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input style="color:orange" type="button" onclick="xoaDonKhiDaDuocChon()" value="Xóa ứng tuyển (Bạn đã được chọn)"><div></td>`;
+                        <td><div align="right"><input style="color:orange;" type="button" onclick="xoaDonKhiDaDuocChon()" value="Xóa ứng tuyển (Bạn đã được chọn)"><div></td>`;
                                     resultDiv.appendChild(XemChiTiet);
                                 }
                                 else if (data.order.oviId == oVIId && (checkStatus == 12 || checkStatus == 129)) {
                                     var XemChiTiet = document.createElement("tr");
                                     XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"> <font color="blue">ĐƠN HÀNG ĐÃ HOÀN THÀNH</font></div></td>`;
+                        <td><div align="right"> <font color="blue">Đơn hàng đã hoàn thành</font></div></td>`;
                                     resultDiv.appendChild(XemChiTiet);
                                 }
                                 else {
-                                    alert("đơn hàng không tồn tại")
+                                    alert("Đơn hàng không tồn tại")
                                     window.location.href = "driver_search.html"
                                 }
                             }
@@ -285,7 +254,7 @@
 
                                     var XemChiTiet = document.createElement("tr");
                                     XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"> <font color="red">* Không thể ứng tuyển khi đang làm việc</font></div></td>`;
+                        <td><div align="right"> <font color="red">Không thể ứng tuyển khi đang làm việc!</font></div></td>`;
                                     resultDiv.appendChild(XemChiTiet);
 
                                 }
@@ -301,7 +270,7 @@
                                         else {
                                             var XemChiTiet = document.createElement("tr");
                                             XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input style="color:red" type="button" onclick="XoaUngTuyen()" value="Xóa ứng tuyển"><div></td>`;
+                        <td><div align="right"><input style="color:white; border:none; background-color:red;padding:5px 5px;border-radius:7px;font-weight:600;" type="button" onclick="XoaUngTuyen()" value="Xóa ứng tuyển"><div></td>`;
                                             resultDiv.appendChild(XemChiTiet);
                                         }
 
@@ -309,7 +278,7 @@
                                     else {
                                         var XemChiTiet = document.createElement("tr");
                                         XemChiTiet.innerHTML = `<td></td>
-                        <td><div align="right"><input type="button" onclick="UngTuyen()" value="Ứng tuyển"><div></td>`;
+                        <td><div align="right"><input class="btn_ungtuyen" type="button" onclick="UngTuyen()" value="Ứng tuyển ngay"><div></td>`;
                                         resultDiv.appendChild(XemChiTiet);
                                     }
                                 }
@@ -319,17 +288,7 @@
                         })
                         .catch(error => {
                             console.error("Error:", error);
-                            // Xử lý lỗi nếu cần
                         });
-
-
-
-
-
-
-
-
-
 
 
 

@@ -8,27 +8,7 @@
     <link rel="stylesheet" href="driver_search.css">
     <link rel="stylesheet" href="../public/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <style>
-        /* CSS cho nút đăng xuất */
-        #logoutButton {
-            padding: 8px 16px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
 
-        button#logoutButton {
-            margin-left: 10px;
-        }
-
-        /* Hover effect */
-        #logoutButton:hover {
-            background-color: #d32f2f;
-        }
-    </style>
 </head>
 
 <body>
@@ -50,15 +30,14 @@
     <!-- Your page content goes here -->
     <div align="center" class="container">
         <div class="background">
-
-
-
             <form method="post">
-                <h1 style="color: black;">Tìm kiếm đơn hàng</h1>
+                <div class="title_search">
+                    <h1 style="color: black;">Tìm kiếm đơn hàng</h1>
+                </div>
                 <br><br><br>
                 <table class="create1">
                     <tr>
-                        <td>Địa điểm đi : </td>
+                        <td>Địa điểm đi: </td>
                         <td>
                             <select id="city" class="select1">
                                 <option value="" selected>Chọn tỉnh thành</option>
@@ -69,11 +48,9 @@
                                 <option value="" selected>Chọn quận huyện</option>
                             </select>
                         </td>
-
                     </tr>
                     <tr>
-
-                        <td>Địa điểm đến : </td>
+                        <td>Địa điểm đến: </td>
                         <td>
                             <select id="cityCome" class="select1">
                                 <option value="" selected>Chọn tỉnh thành</option>
@@ -84,38 +61,30 @@
                                 <option value="" selected>Chọn quận huyện</option>
                             </select>
                         </td>
-
                     </tr>
                     <tr>
-
-                        <td>Chọn xe : </td>
+                        <td>Chọn xe: </td>
                         <td>
                             <select id="dynamicSelect" class="select1">
                                 <option value="" selected>Chọn xe</option>
                             </select>
 
                         </td>
-
-
                     </tr>
                 </table>
                 <br><br><br>
-                <input type="button" value="tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px"
+                <input type="button" value="Tìm kiếm" onclick="submitAndDisplay()" style="margin-top: 5px"
                     class="button1" />
             </form>
-
-
-
         </div>
-
     </div>
-    <div style="display: flex; flex-wrap: wrap;width:auto; gap: 50px; background-color: floralwhite;"
+    <div style="display: flex; flex-wrap: wrap;width:auto; gap: 50px; background-color: floralwhite;padding: 10px;"
         id="resultContainer"></div>
     </div>
 
 
 
-    <div align="center" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+    <div align="center" style=" display: flex; justify-content: center;">
         <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
         <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
     </div>
@@ -275,13 +244,6 @@
         }
 
 
-
-
-
-
-
-
-
         // Hàm để hiển thị kết quả trong div lớn
         function displayResults(results) {
             // Lấy phần tử div lớn để chứa các div con
@@ -298,32 +260,34 @@
                 // Thêm nội dung của mỗi item vào div con
                 var oVVId = document.getElementById("dynamicSelect").value;
                 resultDiv.innerHTML = `
-                <div style="margin-left:10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s; background-color:red; border: none; border-radius:5px;background-image: linear-gradient(90deg, #489be2, #0f629c);">
-                    <h3 align="center" style="color:black;background-color:#a9f6ff;text-transform: uppercase;font-family: 'Righteous', sans-serif;">${result.order.orderName}</h3>
-                    <p style="color:white;"><strong>Ngày đi:</strong> ${result.order.orderedDate}</p>
-                    <p style="color:white;"><strong>Ngày đến:</strong> ${result.order.arrivedDate}</p>
-                    <p style="color:white;"><strong>Điểm đi:</strong> ${result.order.wardGo} - ${result.order.detailPositionGo}</p>
-                    <p style="color:white;"><strong>Điểm đến:</strong> ${result.order.wardCome} - ${result.order.detailPositionCome}</p>
-                    <p style="color:white;"><strong>Tiền công:</strong> ${result.order.totalAmount} USD</p>
+                <div class="result-content">
+                    <div class="result-heading">
+                        <h3 >${result.order.orderName}</h3>
+                    </div>
+                    <div class="result-body">
+                        <p class="result-text"><strong class="t">Ngày đi:</strong> ${result.order.orderedDate}</p>
+                        <p class="result-text"><strong class="t">Ngày đến:</strong> ${result.order.arrivedDate}</p>
+                        <p class="result-text"><strong class="t">Điểm đi:</strong> ${result.order.wardGo} - ${result.order.detailPositionGo}</p>
+                        <p class="result-text"><strong class="t">Điểm đến:</strong> ${result.order.wardCome} - ${result.order.detailPositionCome}</p>
+                        <p class="result-text"><strong class="t">Tiền công:</strong> ${result.order.totalAmount} USD</p>
+                    </div>
                 </div>
             `;
                 if (result.checkWAL == true) {
                     var XemChiTiet = document.createElement("div");
-                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: red;cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: black;font-size: 17px;font-weight: 500;">Xem chi tiết<font color="red"> *Đã ứng tuyển</font></button></a>`;
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: rgba(29, 161, 242, 1);cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: white;font-size: 17px;font-weight: 500;">Xem chi tiết<font color="red" style="font-weight:700">|Đã ứng tuyển</font></button></a>`;
                     resultDiv.appendChild(XemChiTiet);
                 }
                 else {
                     var XemChiTiet = document.createElement("div");
-                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: red;cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: black;font-size: 17px;font-weight: 500;">Xem chi tiết</button></a>`;
+                    XemChiTiet.innerHTML = `<a target="_blank" href='detail_order.html?orderId=${result.order.orderId}&oVIId=${oVVId}' ><button style="background-color: rgba(29, 161, 242, 1);cursor: pointer;border: none;padding: 13px 13px;border-radius: 22px;color: white;font-size: 17px;font-weight: 500;">Xem chi tiết</button></a>`;
                     resultDiv.appendChild(XemChiTiet);
                 }
 
-                //resultDiv.style.backgroundColor = "gray";
                 resultDiv.style.boxShadow = "5px 5px 10px rgba(0, 0, 0, 0.4)";
-                resultDiv.style.paddingLeft = "10px";
-                resultDiv.style.paddingRight = "10px";
                 resultDiv.style.paddingBottom = "15px";
                 resultDiv.align = "center";
+                resultDiv.style.borderRadius = "7px"
                 // Thêm thuộc tính data-attribute với giá trị là oviId
                 resultDiv.setAttribute("data-oviId", result.oviId);
                 // Thêm div con vào div lớn

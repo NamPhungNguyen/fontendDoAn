@@ -1,0 +1,45 @@
+/* CSS cho nút đăng xuất */
+#logoutButton {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button#logoutButton {
+    margin-left: 10px;
+}
+
+/* Hover effect */
+#logoutButton:hover {
+    background-color: #d32f2f;
+}
+
+td {
+    padding-left: 30px;
+}
+
+.btn_ungtuyen {
+    background-color: #40f9ff;
+    border: none;
+    padding: 10px 13px;
+    text-align: center;
+    color: black;
+    font-family: unset;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.title_item {
+    font-size: 42px;
+    line-height: 60px;
+    --tw-text-opacity: 1;
+    color: rgb(18 85 152/var(--tw-text-opacity));
+    font-weight: 700;
+    --font-gilroy: "__gilroy_c0d34b", "__gilroy_Fallback_c0d34b", sans-serif, system-ui, arial;
+    font-family: var(--font-gilroy);
+    margin: 24px 20px;
+}
