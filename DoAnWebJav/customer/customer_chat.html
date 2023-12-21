@@ -4,105 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./customer_home.css">
-    <title>Trang chủ khách hàng</title>
-    <style>
-        select {
-            width: 200px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        select {
-            font-family: 'Arial', sans-serif;
-            font-size: 16px;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #66afe9;
-            box-shadow: 0 0 10px rgba(102, 175, 233, 0.6);
-        }
-
-        table {
-            padding: 0;
-            padding: 0;
-            border-collapse: collapse;
-            /*width: 100%;*/
-            /* Bảng chiếm toàn bộ chiều rộng của container */
-        }
-
-        /* Định dạng các đường biên của bảng và ô */
-        table,
-        th,
-        td {
-            border: 1px solid #ddd;
-        }
-
-        /* Tô màu nền cho các ô header */
-        th {
-            background-color: #f2f2f2;
-        }
-
-        /* Căn giữa nội dung của các ô */
-        th,
-        td {
-            text-align: center;
-            padding: 8px;
-        }
-
-        /* Màu nền cho các ô chẵn */
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        /* Hover effect */
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        /* CSS cho nút đăng xuất */
-        #logoutButton {
-            padding: 8px 16px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        button#logoutButton {
-            padding-left: 10px;
-        }
-
-        /* Hover effect */
-        #logoutButton:hover {
-            background-color: #d32f2f;
-        }
-    </style>
-    <style>
-        /* CSS để ẩn tất cả các phần trừ phần đầu tiên */
-        #content>div:not(:first-child) {
-            display: none;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Thông tin người dùng</title>
+    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="../driver/driver_chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
 <body>
     <script src="../javaScript/check_token.js"></script>
-    <script src="customer_all_order.js"></script>
 
     <section id="header">
         <a href="#"><img src="../images/fast-delivery1.png" class="logo"></a>
 
         <div>
             <ul id="navbar">
-                <li><a href="customer_home.html">Trang chủ</a></li>
+                <li><a href="customer_all_order.html">Trang chủ</a></li>
                 <li><a href="customer_create_order.html">Tạo đơn</a></li>
-                <li><a href="customer_all_order.html">Các đơn</a></li>
+                <!--<li><a href="customer_all_order.html">Các đơn</a></li>-->
                 <li><a class="active" href="customer_chat.html">Tư vấn</a></li>
                 <li><a href="customer_infor.html">Thông tin</a></li>
                 <li><a id="user-info"><button id="logoutButton">Đăng xuất</button></a></li>
@@ -111,8 +29,23 @@
     </section>
 
     <section>
+        <div class="background">
+            <h1 class="title_chat">Liên hệ với nhân viên</h1>
+            <p class="text-subtitle">
+                <span>Email:</span>
+                <a href="">support@website.com</a>
+            </p>
+            <p class="text-subtitle">
+                <span>Phone:</span>
+                <a href="">+84 66668888</a>
+            </p>
+            <p class="text-subtitle">
+                <span>Thời gian hoạt động:</span>
+                <a href="">8:00 - 21:30</a>
+            </p>
+
+        </div>
         <div align="center">
-            <h1>Trao đổi với nhân viên</h1>
             <table>
                 <tr>
                     <td>Nhập câu hỏi:</td>
@@ -123,11 +56,67 @@
         </div>
         <div align="center">
             <table id="message">
-
             </table>
         </div>
-    </section>
 
+        <div align="center" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
+            <button id="Previous" onclick="goPrevious()" style="margin: auto; display: none;">TRANG TRƯỚC</button>
+            <button id="Next" onclick="goNext()" style="margin: auto; display: none;">TRANG SAU</button>
+        </div>
+
+    </section>
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="../images/fast-delivery1.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> 562 Trần đại nghĩa, Hai Bà Trưng, Hà Nội</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Term & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="../public/images/pay/app.jpg" alt="">
+                <img src="../public/images/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="../public/images/pay/pay.png" alt="">
+        </div>
+
+        <div class="copyright">
+            <p>@ 2023, Tech etc - HTML CSS Ecomerce Template</p>
+        </div>
+    </footer>
 </body>
 
 </html>
@@ -139,10 +128,49 @@
     var parsedUserInformation = JSON.parse(storedUserInformation);
     var customerId = parsedUserInformation.id;
 
+
+
+    let pageSize = 5;
+    let originalArray = [];
+    let currentPage = 1;
+    let displayArray = [];
+    const itemsPerPage = 10;
+    const tableDOM = document.querySelector('.resultContainer');
+
+    const pagination = (currentPage, numberItem) => {
+        let pri = document.getElementById("Previous");
+        let next = document.getElementById("Next");
+        pri.style.display = "block";
+        next.style.display = "block";
+        if (currentPage == 1) pri.style.display = "none";
+
+        const startIndex = (currentPage - 1) * numberItem;
+        currentPagenumberItem = startIndex + 1;
+        displayArray = originalArray.slice(startIndex, startIndex + numberItem);
+
+        if ((originalArray.slice(currentPage * numberItem, currentPage * numberItem + numberItem)).length === 0) next.style.display = "none";
+        displayMessage(displayArray);
+    }
+
+    const goPrevious = () => {
+        currentPage--;
+        if (currentPage < 0) {
+            currentPage == 0;
+        }
+        else
+            pagination(currentPage, pageSize);
+    }
+    const goNext = () => {
+        currentPage++;
+        pagination(currentPage, pageSize);
+    }
+
+
+
     function createContact() {
         var question = document.getElementById("question").value;
         if (question == "") {
-            alert("Bạn phải nhập câu hỏi");
+            alert("Vui lòng nhập câu hỏi của bạn!");
         }
         else
             fetch('https://localhost:7156/api/Customer/Message', {
@@ -162,110 +190,84 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log("success:", data);
-                    alert("bạn đã gửi thư thành công, chúng tôi sẽ sớm hồi đáp.");
-                    //window.location.href = "Customer_chat.html";
+                    alert("Bạn đã gửi thư thành công, chúng tôi sẽ sớm hồi đáp!");
+                    window.location.href = "customer_chat.html";
                 })
                 .catch(error => {
                     console.error("Error:", error);
                 });
-    }
-
-
-    function updateMessage(messId) {
-        fetch('https://localhost:7156/api/Customer/Message/' + messId, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log("success:", data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
     }
 </script>
 
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        setInterval(function () {
-            fetch("https://localhost:7156/api/Customer/Message?customerId=" + customerId, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+
+        fetch("https://localhost:7156/api/Customer/Message?customerId=" + customerId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-
-                    displayMessage(data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    // Xử lý lỗi nếu cần
-                });
-        }
-            , 1000);
-
-
+            .then(data => {
+                console.log(data);
+                originalArray = data;
+                pagination(1, pageSize);
+                //displayMessage(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
     });
 </script>
-
-
-
 
 <script>
     function displayMessage(results) {
         var message = document.getElementById("message");
         message.innerHTML = " ";
-        var th = document.createElement("tr");
-        th.innerHTML = `
-    <th>Câu hỏi</th>
-    <th>Câu trả lời</th>
-`;
-        message.appendChild(th);
-        results.forEach(result => {
-            var resultTr = document.createElement("tr");
-            if (result.checkRead == false) {
+        if (results.length === 0) {
+            message.innerHTML = `
+        <thead>
+            <tr>
+                <th>Câu hỏi</th>
+                <th>Câu trả lời</th>
+            </tr>
+            <tr>
+                <td colspan="2">Bạn chưa có câu hỏi nào</td>
+            </tr>
+        </thead>
+
+        `;
+        }
+        else {
+            var th = document.createElement("tr");
+            th.innerHTML = `
+            <thead>
+                <th>Câu hỏi</th>
+                <th>Câu trả lời</th>
+            </thead>
+            `;
+            message.appendChild(th);
+            results.forEach(result => {
+                var resultTr = document.createElement("tr");
                 resultTr.innerHTML = `
-                <td>${result.question} </td>
-                <td>${result.answer}</td>
-                
-            `;
-                if (result.answer != "") {
-                    var button = document.createElement("td");
-                    button.innerHTML = `
-                <button onclick="updateMessage(${result.messId})">Đã đọc</button>
+                <tbody>
+                    <td>${result.question} </td>
+                    <td>${result.answer}</td>
+                </tbody>
+                    
                 `;
-                    resultTr.appendChild(button);
-                }
-            }
-            else resultTr.innerHTML = `
-                <td><font color="gray">${result.question} </font></td>
-                <td><font color="gray">${result.answer} </font></td>
-                
-            `;
-
-
-            message.appendChild(resultTr);
-        });
+                message.appendChild(resultTr);
+            });
+        }
     }
 </script>
-
-
-
-
 
 
 
