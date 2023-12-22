@@ -55,7 +55,8 @@
                     style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: center;">
                     <button id="Previous1" onclick="goPrevious1()" style="margin: auto; display: none;">TRANG
                         TRƯỚC</button>
-                    <button id="Next1" onclick="goNext1()" style="margin: auto; display: none;">TRANG SAU</button>
+                    <button style="padding: 7px 10px;border: none;background-color: rgb(82, 222, 222);border-radius: 7px;color: #fff;font-weight: 600;" id="Next1" onclick="goNext1()"
+                        style="margin: auto; display: none;">TRANG SAU</button>
                 </div>
             </div>
 
@@ -172,14 +173,14 @@
         </div>
     </footer>
 
-            // Xóa class 'active' từ tất cả các phần tử a
-            navItems.forEach(function (navItem) {
-                navItem.classList.remove('fix2');
-            });
+    // Xóa class 'active' từ tất cả các phần tử a
+    navItems.forEach(function (navItem) {
+    navItem.classList.remove('fix2');
+    });
 
-            // Thêm class 'active' vào phần tử được nhấp vào
-            element.classList.add('fix2');
-        }
+    // Thêm class 'active' vào phần tử được nhấp vào
+    element.classList.add('fix2');
+    }
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
